@@ -210,7 +210,6 @@ button.reset:hover:not(:has(> *)) {
   min-width: fit-content;
 }
 
-
 /*
 * --------------------------------------------------
 * components/Footer
@@ -346,6 +345,37 @@ button.reset:hover:not(:has(> *)) {
 * routes/__index
 * --------------------------------------------------
 */
+.featured-artist-container {
+  text-align: center;
+}
+.featured-artist-homepage-section {
+  display: flex;
+  height: calc(100vh - var(--header-height));
+}
+.featured-artist-homepage-section > div {
+  flex: 1;
+}
+.models-container,
+.shop-the-collection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shop-the-collection {
+  flex-direction: column;
+  gap: 1rem;
+}
+.shop-the-collection > * {
+  transform: translateY(calc(var(--header-height) * -1));
+}
+.artist-title {
+  font-size: 36px;
+  margin-bottom: 0.5rem;
+}
+.shop-the-collection > a {
+  border: 1px solid black;
+  padding: 1rem;
+}
 .featured-collection {
   display: block;
   margin-bottom: 2rem;
@@ -365,12 +395,17 @@ button.reset:hover:not(:has(> *)) {
   object-fit: cover;
 }
 
+.recommended-products {
+  text-align: center;
+}
+
 .recommended-products-grid {
   display: grid;
   grid-gap: 1.5rem;
+  padding-inline: 5vw;
   grid-template-columns: repeat(2, 1fr);
   @media (min-width: 45em) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
