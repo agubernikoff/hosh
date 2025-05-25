@@ -413,6 +413,17 @@ button.reset:hover:not(:has(> *)) {
   height: auto;
 }
 
+.home > .carousel-wrapper {
+  width: 100vw;
+  margin-left: -1rem;
+}
+
+.carousel-wrapper > button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 /*
 * --------------------------------------------------
 * routes/collections._index.tsx

@@ -4,6 +4,10 @@ import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 import model1 from '~/assets/model1.png';
 import model2 from '~/assets/model2.png';
+import InfiniteCarousel from '~/components/Carousel';
+import car1 from 'app/assets/car1.png';
+import car2 from 'app/assets/car2.png';
+import car3 from 'app/assets/car3.png';
 /**
  * @type {MetaFunction}
  */
@@ -68,7 +72,9 @@ export default function Homepage() {
   return (
     <div className="home">
       <FeaturedCollection collection={data.featuredCollection} />
+      <InfiniteCarousel images={[car1, car2, car3]} />
       <RecommendedProducts products={data.recommendedProducts} />
+      <InfiniteCarousel images={[car1, car2, car3]} />
     </div>
   );
 }
