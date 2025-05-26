@@ -6,6 +6,8 @@ export default function InfiniteCarousel({images, interval = 5000}) {
   const timeoutRef = useRef(null);
   const isTransitioningRef = useRef(false);
   const isAnimatingRef = useRef(false);
+  const [progress, setProgress] = useState(0);
+  const progressRef = useRef(null);
 
   const extendedImages = [
     images[images.length - 1], // clone last
@@ -15,8 +17,23 @@ export default function InfiniteCarousel({images, interval = 5000}) {
 
   const resetTimer = () => {
     clearTimeout(timeoutRef.current);
+
+    // Reset progress stroke instantly
+    if (progressRef.current) {
+      progressRef.current.style.transition = 'none';
+      progressRef.current.style.strokeDashoffset = 100;
+    }
+
+    // Animate progress after slight delay
+    setTimeout(() => {
+      if (progressRef.current) {
+        progressRef.current.style.transition = `stroke-dashoffset ${interval}ms linear`;
+        progressRef.current.style.strokeDashoffset = 0;
+      }
+    }, 20);
+
     timeoutRef.current = setTimeout(() => {
-      if (index <= images.length) {
+      if (index <= images.length && !isAnimatingRef.current) {
         handleNext(true);
       }
     }, interval);
@@ -125,8 +142,42 @@ export default function InfiniteCarousel({images, interval = 5000}) {
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 10,
+          width: 40,
+          height: 40,
+          borderRadius: '50%',
+          background: 'white',
+          padding: 0,
+          border: 'none',
         }}
       >
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 36 36"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{position: 'absolute', top: 0, left: 0}}
+        >
+          <circle
+            cx="18"
+            cy="18"
+            r="16"
+            stroke="#ddd"
+            strokeWidth="3"
+            fill="none"
+          />
+          <circle
+            ref={progressRef}
+            cx="18"
+            cy="18"
+            r="16"
+            stroke="black"
+            strokeWidth="3"
+            fill="none"
+            strokeDasharray={100}
+            strokeDashoffset={100}
+            strokeLinecap="round"
+          />
+        </svg>
         <Right />
       </button>
     </div>
