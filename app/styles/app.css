@@ -497,13 +497,6 @@ button.reset:hover:not(:has(> *)) {
   position: relative;
 }
 
-.featured-collection-image {
-  aspect-ratio: 1 / 1;
-  @media (min-width: 45em) {
-    aspect-ratio: 16 / 9;
-  }
-}
-
 .featured-collection img {
   height: auto;
   max-height: 100%;
@@ -680,4 +673,30 @@ button.reset:hover:not(:has(> *)) {
 
 .account-logout {
   display: inline-block;
+}
+
+@media (max-width: 499px) {
+  .featured-artist-homepage-section {
+    display: block;
+    height: auto;
+  }
+  .models-container img {
+    max-height: 400px;
+  }
+  .shop-the-collection > * {
+    transform: none;
+  }
+  .featured-collection {
+    margin: 0;
+    margin-top: 2rem;
+    margin-left: -1rem;
+    width: 100vw;
+  }
+  .featured-collection img {
+    width: 200vw !important;
+    transform: translate(-45%, 0);
+  }
+  .recommended-products-grid a:last-of-type {
+    display: none;
+  }
 }

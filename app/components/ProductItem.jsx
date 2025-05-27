@@ -24,13 +24,13 @@ export function ProductItem({product, loading}) {
       {image && (
         <Image
           alt={image.altText || product.title}
-          aspectRatio="1/1"
+          // aspectRatio="1/1"
           data={image}
           loading={loading}
           sizes="(min-width: 45em) 400px, 100vw"
         />
       )}
-      <h4>{product.title}</h4>
+      <p>{product.title}</p>
       <small>
         <Money data={product.priceRange.minVariantPrice} />
       </small>
