@@ -168,38 +168,106 @@ function RecommendedProducts({products}) {
   );
 }
 
-const PRODUCT_ITEM_FRAGMENT = `#graphql
-  fragment ProductItem on Product {
-    id
-    title
-    handle
-    priceRange {
-      minVariantPrice {
-        amount
-        currencyCode
-      }
+const PRODUCT_VARIANT_FRAGMENT = `#graphql
+  fragment ProductVariant on ProductVariant {
+    availableForSale
+    compareAtPrice {
+      amount
+      currencyCode
     }
-    featuredImage {
+    id
+    image {
+      __typename
       id
-      altText
       url
+      altText
       width
       height
     }
-    images(first: 2) {
-      nodes {
-        id
-        url
-        altText
-        width
-        height
-      }
+    price {
+      amount
+      currencyCode
+    }
+    product {
+      title
+      handle
+    }
+    selectedOptions {
+      name
+      value
+    }
+    sku
+    title
+    unitPrice {
+      amount
+      currencyCode
     }
   }
 `;
 
+const PRODUCT_FRAGMENT = `#graphql
+  fragment Product on Product {
+    id
+    title
+    vendor
+    handle
+    descriptionHtml
+    description
+    encodedVariantExistence
+    encodedVariantAvailability
+    images(first: 10) {
+      edges {
+        node {
+          id
+          url
+          altText
+          width
+          height
+        }
+      }
+    }
+    options {
+      name
+      optionValues {
+        name
+        firstSelectableVariant {
+          ...ProductVariant
+        }
+        swatch {
+          color
+          image {
+            previewImage {
+              url
+            }
+          }
+        }
+      }
+    }
+    selectedOrFirstAvailableVariant(
+      ignoreUnknownOptions: true
+      caseInsensitiveMatch: true
+    ) {
+      ...ProductVariant
+    }
+    adjacentVariants {
+      ...ProductVariant
+    }
+    priceRange{
+      minVariantPrice{
+        amount
+        currencyCode
+      }
+    }
+    seo {
+      description
+      title
+    }
+  }
+  ${PRODUCT_VARIANT_FRAGMENT}
+`;
+
 const NEW_ARRIVALS_QUERY = `#graphql
-  ${PRODUCT_ITEM_FRAGMENT}
+  ${PRODUCT_FRAGMENT}
   query Collection(
     $country: CountryCode
     $language: LanguageCode
@@ -236,7 +304,7 @@ const NEW_ARRIVALS_QUERY = `#graphql
           }
         }
         nodes {
-          ...ProductItem
+          ...Product
         }
         pageInfo {
           hasPreviousPage
@@ -254,11 +322,11 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
     @inContext(country: $country, language: $language) {
     products(first: 9, sortKey: BEST_SELLING, reverse: true) {
       nodes {
-        ...ProductItem
+        ...Product
       }
     }
   }
-  ${PRODUCT_ITEM_FRAGMENT}
+  ${PRODUCT_FRAGMENT}
 `;
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
