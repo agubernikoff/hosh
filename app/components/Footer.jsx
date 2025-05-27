@@ -1,5 +1,7 @@
 import {Suspense} from 'react';
 import {Await, NavLink} from '@remix-run/react';
+import logo from '../assets/Group 196.png';
+import gila from '../assets/Gila-Black.png';
 
 /**
  * @param {FooterProps}
@@ -10,20 +12,82 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
       <Await resolve={footerPromise}>
         {(footer) => (
           <footer className="footer">
-            {footer?.menu && header.shop.primaryDomain?.url && (
-              <FooterMenu
-                menu={footer.menu}
-                primaryDomainUrl={header.shop.primaryDomain.url}
-                publicStoreDomain={publicStoreDomain}
-              />
-            )}
+            <div className="footer-grid">
+              <div className="footer-left">
+                <img
+                  src={logo}
+                  style={{width: '35%'}}
+                  className="footer-logo"
+                />
+                <select className="footer-locale">
+                  <option>United States (USD $)</option>
+                  {/* Add more if needed */}
+                </select>
+              </div>
+              <div className="footer-center">
+                {[0, 1, 2].map((colIndex) => (
+                  <div className="footer-menu-column" key={colIndex}>
+                    {footer?.menu &&
+                      header.shop.primaryDomain?.url &&
+                      footer.menu.items
+                        .slice(
+                          Math.floor((colIndex * footer.menu.items.length) / 3),
+                          Math.floor(
+                            ((colIndex + 1) * footer.menu.items.length) / 3,
+                          ),
+                        )
+                        .map((item) => {
+                          if (!item.url) return null;
+
+                          const url =
+                            item.url.includes('myshopify.com') ||
+                            item.url.includes(publicStoreDomain) ||
+                            item.url.includes(header.shop.primaryDomain.url)
+                              ? new URL(item.url).pathname
+                              : item.url;
+
+                          const isExternal = !url.startsWith('/');
+
+                          return isExternal ? (
+                            <a
+                              href={url}
+                              key={item.id}
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                              {item.title}
+                            </a>
+                          ) : (
+                            <NavLink
+                              end
+                              key={item.id}
+                              prefetch="intent"
+                              to={url}
+                            >
+                              {item.title}
+                            </NavLink>
+                          );
+                        })}
+                  </div>
+                ))}
+              </div>
+
+              <div className="footer-right">
+                <form className="footer-newsletter">
+                  <label>Sign up for our newsletter</label>
+                  <input type="email" placeholder="Email address" />
+                  <button type="submit">Submit</button>
+                </form>
+                <img src={gila} alt="Penguin" className="footer-icon" />
+                <div className="footer-copyright">© 2024 HOSH</div>
+              </div>
+            </div>
           </footer>
         )}
       </Await>
     </Suspense>
   );
 }
-
 /**
  * @param {{
  *   menu: FooterQuery['menu'];
@@ -49,13 +113,7 @@ function FooterMenu({menu, primaryDomainUrl, publicStoreDomain}) {
             {item.title}
           </a>
         ) : (
-          <NavLink
-            end
-            key={item.id}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={url}
-          >
+          <NavLink end key={item.id} prefetch="intent" to={url}>
             {item.title}
           </NavLink>
         );

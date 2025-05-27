@@ -2,24 +2,31 @@ import {Suspense} from 'react';
 import {Await, NavLink, useAsyncValue} from '@remix-run/react';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
+import logo from '../assets/Group 196.png';
+import search from '../assets/search.png';
+import bag from '../assets/bag.png';
+import acct from '../assets/acct.png';
 
 /**
  * @param {HeaderProps}
  */
 export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
+
   return (
     <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
-      </NavLink>
-      <HeaderMenu
-        menu={menu}
-        viewport="desktop"
-        primaryDomainUrl={header.shop.primaryDomain.url}
-        publicStoreDomain={publicStoreDomain}
-      />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      <div className="header-inner">
+        <HeaderMenu
+          menu={menu}
+          viewport="desktop"
+          primaryDomainUrl={header.shop.primaryDomain.url}
+          publicStoreDomain={publicStoreDomain}
+        />
+        <NavLink prefetch="intent" to="/" className="header-logo">
+          <img src={logo} alt={`${shop.name} logo`} />
+        </NavLink>
+        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      </div>
     </header>
   );
 }
@@ -89,14 +96,20 @@ function HeaderCtas({isLoggedIn, cart}) {
   return (
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
+      <SearchToggle />
+      <NavLink
+        prefetch="intent"
+        to="/account"
+        style={activeLinkStyle}
+        style={{display: 'flex'}}
+      >
         <Suspense fallback="Sign in">
           <Await resolve={isLoggedIn} errorElement="Sign in">
-            {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
+            <img src={acct} alt="Cart" className="header-icon" />
           </Await>
         </Suspense>
       </NavLink>
-      <SearchToggle />
+
       <CartToggle cart={cart} />
     </nav>
   );
@@ -117,8 +130,12 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
   const {open} = useAside();
   return (
-    <button className="reset" onClick={() => open('search')}>
-      Search
+    <button
+      style={{display: 'flex', padding: '0'}}
+      className="reset"
+      onClick={() => open('search')}
+    >
+      <img src={search} className="header-icon" />
     </button>
   );
 }
@@ -132,6 +149,7 @@ function CartBadge({count}) {
 
   return (
     <a
+      style={{display: 'flex'}}
       href="/cart"
       onClick={(e) => {
         e.preventDefault();
@@ -144,7 +162,7 @@ function CartBadge({count}) {
         });
       }}
     >
-      Cart {count === null ? <span>&nbsp;</span> : count}
+      <img src={bag} alt="Cart" className="header-icon" />
     </a>
   );
 }
