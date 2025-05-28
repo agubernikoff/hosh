@@ -169,11 +169,13 @@ function QuickShop({product, closePopUp}) {
   const itemStyle = (selected, available, isColorOption) => {
     return {
       opacity: available ? 1 : 0.3,
+      color: selected ? 'white' : 'black',
+      background: selected ? 'black' : 'white',
       padding: isColorOption ? 0 : null,
     };
   };
 
-  const navigate = useNavigate();
+  console.log(product);
   const {open} = useAside();
   return (
     <motion.div
@@ -204,7 +206,7 @@ function QuickShop({product, closePopUp}) {
         <motion.div
           layoutId={`${product.id}`}
           className="quick-shop-images-container"
-          style={{width: '50%'}}
+          style={{width: '55%'}}
         >
           <div
             ref={imagesDiv}
@@ -226,12 +228,22 @@ function QuickShop({product, closePopUp}) {
           </div>
           <div className="mapped-indicators">{mappedIndicators}</div>
         </motion.div>
-        <div>
-          <h1>{title}</h1>
-          <ProductPrice
-            price={selectedVariant?.price}
-            compareAtPrice={selectedVariant?.compareAtPrice}
-          />
+        <div className="quick-shop-popup-right">
+          <div>
+            <p>
+              <strong>{title}</strong>
+            </p>
+            <p>
+              <strong>{product.artist.value}</strong>
+            </p>
+          </div>
+          <p>{product.description2.value}</p>
+          <div>
+            <ProductPrice
+              price={selectedVariant?.price}
+              compareAtPrice={selectedVariant?.compareAtPrice}
+            />
+          </div>
           {productOptions.map((option) => {
             if (option.optionValues.length === 0) return null;
 
@@ -249,7 +261,7 @@ function QuickShop({product, closePopUp}) {
                       initial={{opacity: 1}}
                       animate={{opacity: 1}}
                       exit={{opacity: 0}}
-                      style={{display: 'inline-block', width: '10rem'}}
+                      style={{display: 'inline-block', width: '5rem'}}
                       transition={{ease: 'easeInOut', duration: 0.15}}
                     >
                       {option.optionValues.find((v) => v.selected)?.name || ''}
@@ -328,10 +340,10 @@ function QuickShop({product, closePopUp}) {
               </div>
             );
           })}
-          <p>
+          {/* <p>
             <strong>Description</strong>
           </p>
-          <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+          <div dangerouslySetInnerHTML={{__html: descriptionHtml}} /> */}
 
           <AddToCartButton
             disabled={!selectedVariant || !selectedVariant.availableForSale}
@@ -353,6 +365,7 @@ function QuickShop({product, closePopUp}) {
           >
             {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
           </AddToCartButton>
+          <p>Free standard shipping and easy returns.</p>
         </div>
       </div>
     </motion.div>

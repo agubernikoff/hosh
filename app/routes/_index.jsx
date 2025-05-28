@@ -262,6 +262,12 @@ const PRODUCT_FRAGMENT = `#graphql
       description
       title
     }
+    artist:metafield(namespace:"custom",key:"artist_name"){
+      value
+    }
+    description2:metafield(namespace:"custom",key:"product_description"){
+      value
+    }
   }
   ${PRODUCT_VARIANT_FRAGMENT}
 `;

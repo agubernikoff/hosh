@@ -19,6 +19,20 @@ body {
   font-family: 'Roboto Mono', sans-serif;
 }
 
+.add-to-cart-btn {
+  width: 100%;
+  border-radius: 4px;
+  padding: 1rem;
+  transition: all 150ms ease-in-out;
+  background: white;
+  cursor: pointer;
+  border: 1px solid black;
+  font-family: 'Roboto Mono';
+}
+.add-to-cart-btn:hover {
+  background: black;
+  color: white;
+}
 /*
 * --------------------------------------------------
 * Non anchor links
@@ -617,7 +631,7 @@ button.reset:hover:not(:has(> *)) {
   box-sizing: border-box;
   padding: 2rem;
   display: flex;
-  gap: 2rem;
+  gap: 6rem;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -671,6 +685,14 @@ button.reset:hover:not(:has(> *)) {
   overflow: hidden;
 }
 
+.quick-shop-popup-right {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+}
+
 /*
 * --------------------------------------------------
 * routes/products.$handle.tsx
@@ -716,10 +738,15 @@ button.reset:hover:not(:has(> *)) {
 
 .product-options-item,
 .product-options-item:disabled {
-  padding: 0.25rem 0.5rem;
+  padding: auto;
+  width: 70px;
+  height: 60px;
   background-color: transparent;
   font-size: 1rem;
   font-family: inherit;
+  transition: all 150ms ease-in-out;
+  border: 1px solid grey;
+  border-radius: 4px;
 }
 
 .product-option-label-swatch {
