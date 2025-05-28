@@ -147,6 +147,27 @@ export default function Product() {
   );
 }
 
+function ProductOptionSwatch({swatch, name, isColorOption, productImage}) {
+  if (isColorOption) {
+    const image = productImage || swatch?.image?.previewImage;
+    return (
+      <div
+        aria-label={name}
+        className="product-option-label-swatch"
+        style={{
+          backgroundColor: image
+            ? 'transparent'
+            : swatch?.color || 'transparent',
+        }}
+      >
+        <Image data={productImage} alt={name} aspectRatio="1/1" width="75px" />
+      </div>
+    );
+  }
+
+  return <div className="product-option-label-text">{name}</div>;
+}
+
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {
     availableForSale

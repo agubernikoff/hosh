@@ -1,8 +1,20 @@
-import {Link} from '@remix-run/react';
+import {Link, useNavigate} from '@remix-run/react';
 import {Image, Money} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
 import {motion, AnimatePresence} from 'motion/react';
 import {useState, useEffect, useRef} from 'react';
+import {
+  getSelectedProductOptions,
+  Analytics,
+  useOptimisticVariant,
+  getProductOptions,
+  getAdjacentAndFirstAvailableVariants,
+  useSelectedOptionInUrlParam,
+} from '@shopify/hydrogen';
+import {ProductPrice} from '~/components/ProductPrice';
+import {ProductForm} from '~/components/ProductForm';
+import {AddToCartButton} from './AddToCartButton';
+import {useAside} from './Aside';
 
 /**
  * @param {{
@@ -136,6 +148,33 @@ function QuickShop({product, closePopUp}) {
     } else closePopUp();
   }
 
+  const [selectedVariant, setSelectedVariant] = useState();
+
+  useEffect(
+    () => setSelectedVariant(product?.selectedOrFirstAvailableVariant),
+    [product],
+  );
+
+  const productOptions = getProductOptions({
+    ...product,
+    selectedOrFirstAvailableVariant: selectedVariant,
+  });
+
+  function handleClick(variant) {
+    setSelectedVariant(variant);
+  }
+
+  const {title, descriptionHtml} = product;
+
+  const itemStyle = (selected, available, isColorOption) => {
+    return {
+      opacity: available ? 1 : 0.3,
+      padding: isColorOption ? 0 : null,
+    };
+  };
+
+  const navigate = useNavigate();
+  const {open} = useAside();
   return (
     <motion.div
       initial={{opacity: 0}}
@@ -187,8 +226,156 @@ function QuickShop({product, closePopUp}) {
           </div>
           <div className="mapped-indicators">{mappedIndicators}</div>
         </motion.div>
-        {/* <ProductForm /> */}
+        <div>
+          <h1>{title}</h1>
+          <ProductPrice
+            price={selectedVariant?.price}
+            compareAtPrice={selectedVariant?.compareAtPrice}
+          />
+          {productOptions.map((option) => {
+            if (option.optionValues.length === 0) return null;
+
+            const isColorOption =
+              option.name.toLowerCase() === 'material' ||
+              option.name.toLowerCase() === 'color';
+
+            return (
+              <div className="product-options" key={option.name}>
+                <p>
+                  <span>Select {option.name}:</span>{' '}
+                  <AnimatePresence mode="popLayout">
+                    <motion.span
+                      key={`${option.optionValues.find((v) => v.selected)?.name}`}
+                      initial={{opacity: 1}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0}}
+                      style={{display: 'inline-block', width: '10rem'}}
+                      transition={{ease: 'easeInOut', duration: 0.15}}
+                    >
+                      {option.optionValues.find((v) => v.selected)?.name || ''}
+                    </motion.span>
+                  </AnimatePresence>
+                </p>
+                <div className="product-options-grid">
+                  {option.optionValues.map((value) => {
+                    const {
+                      name,
+                      handle,
+                      variantUriQuery,
+                      selected,
+                      available,
+                      exists,
+                      isDifferentProduct,
+                      swatch,
+                      variant,
+                    } = value;
+                    const variantImage = isColorOption ? variant?.image : null;
+                    const styles = itemStyle(
+                      selected,
+                      available,
+                      isColorOption,
+                    );
+
+                    if (isDifferentProduct) {
+                      return (
+                        <button className="product-options-item" style={styles}>
+                          <ProductOptionSwatch
+                            swatch={swatch}
+                            name={name}
+                            isColorOption={isColorOption}
+                            productImage={variantImage}
+                          />
+                        </button>
+                      );
+                    } else {
+                      return (
+                        <button
+                          type="button"
+                          className={`product-options-item${
+                            exists && !selected ? ' link' : ''
+                          }`}
+                          key={option.name + name}
+                          style={styles}
+                          disabled={!exists}
+                          onClick={() => handleClick(variant, name)}
+                        >
+                          <ProductOptionSwatch
+                            swatch={swatch}
+                            name={name}
+                            isColorOption={isColorOption}
+                            productImage={variantImage}
+                          />
+                          {selected && (
+                            <motion.div
+                              layoutId={`${option.name}-${product.handle}`}
+                              id={`${option.name}`}
+                              transition={{ease: 'easeInOut', duration: 0.15}}
+                              style={{
+                                position: 'absolute',
+                                bottom: 0,
+                                left: '-1px',
+                                right: '-1px',
+                                height: '2px',
+                                background: 'black',
+                              }}
+                            />
+                          )}
+                        </button>
+                      );
+                    }
+                  })}
+                </div>
+              </div>
+            );
+          })}
+          <p>
+            <strong>Description</strong>
+          </p>
+          <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+
+          <AddToCartButton
+            disabled={!selectedVariant || !selectedVariant.availableForSale}
+            onClick={() => {
+              setTimeout(() => open('cart'), 250);
+              closePopUp();
+            }}
+            lines={
+              selectedVariant
+                ? [
+                    {
+                      merchandiseId: selectedVariant.id,
+                      quantity: 1,
+                      selectedVariant,
+                    },
+                  ]
+                : []
+            }
+          >
+            {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
+          </AddToCartButton>
+        </div>
       </div>
     </motion.div>
   );
+}
+
+function ProductOptionSwatch({swatch, name, isColorOption, productImage}) {
+  if (isColorOption) {
+    const image = productImage || swatch?.image?.previewImage;
+    return (
+      <div
+        aria-label={name}
+        className="product-option-label-swatch"
+        style={{
+          backgroundColor: image
+            ? 'transparent'
+            : swatch?.color || 'transparent',
+        }}
+      >
+        <Image data={productImage} alt={name} aspectRatio="1/1" width="75px" />
+      </div>
+    );
+  }
+
+  return <div className="product-option-label-text">{name}</div>;
 }
