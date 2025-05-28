@@ -122,13 +122,18 @@ function QuickShop({product, closePopUp}) {
 
   const imagesDiv = useRef(null);
   function handleClose() {
-    // if (index !== 0)
-    //   imagesDiv.current?.scrollTo({
-    //     left: 0,
-    //     behavior: 'smooth', // optional for smooth scrolling
-    //   });
-
-    closePopUp();
+    if (imageIndex !== 0) {
+      imagesDiv.current?.scrollTo({
+        left: 0,
+        behavior: 'smooth', // optional for smooth scrolling
+      });
+      setTimeout(
+        () => {
+          closePopUp();
+        },
+        330 * (imageIndex - 0.7 * (imageIndex - 1)),
+      );
+    } else closePopUp();
   }
 
   return (
