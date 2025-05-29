@@ -104,36 +104,113 @@ export default function Collection() {
   );
 }
 
-const PRODUCT_ITEM_FRAGMENT = `#graphql
-  fragment MoneyProductItem on MoneyV2 {
-    amount
-    currencyCode
-  }
-  fragment ProductItem on Product {
+const PRODUCT_VARIANT_FRAGMENT = `#graphql
+  fragment ProductVariant on ProductVariant {
+    availableForSale
+    compareAtPrice {
+      amount
+      currencyCode
+    }
     id
-    handle
-    title
-    featuredImage {
+    image {
+      __typename
       id
-      altText
       url
+      altText
       width
       height
     }
-    priceRange {
-      minVariantPrice {
-        ...MoneyProductItem
-      }
-      maxVariantPrice {
-        ...MoneyProductItem
-      }
+    price {
+      amount
+      currencyCode
+    }
+    product {
+      title
+      handle
+    }
+    selectedOptions {
+      name
+      value
+    }
+    sku
+    title
+    unitPrice {
+      amount
+      currencyCode
     }
   }
 `;
 
+const PRODUCT_FRAGMENT = `#graphql
+  fragment Product on Product {
+    id
+    title
+    vendor
+    handle
+    descriptionHtml
+    description
+    encodedVariantExistence
+    encodedVariantAvailability
+    images(first: 10) {
+      edges {
+        node {
+          id
+          url
+          altText
+          width
+          height
+        }
+      }
+    }
+    options {
+      name
+      optionValues {
+        name
+        firstSelectableVariant {
+          ...ProductVariant
+        }
+        swatch {
+          color
+          image {
+            previewImage {
+              url
+            }
+          }
+        }
+      }
+    }
+    selectedOrFirstAvailableVariant(
+      ignoreUnknownOptions: true
+      caseInsensitiveMatch: true
+    ) {
+      ...ProductVariant
+    }
+    adjacentVariants {
+      ...ProductVariant
+    }
+    priceRange{
+      minVariantPrice{
+        amount
+        currencyCode
+      }
+    }
+    seo {
+      description
+      title
+    }
+    artist:metafield(namespace:"custom",key:"artist_name"){
+      value
+    }
+    description2:metafield(namespace:"custom",key:"product_description"){
+      value
+    }
+  }
+  ${PRODUCT_VARIANT_FRAGMENT}
+`;
+
 // NOTE: https://shopify.dev/docs/api/storefront/2022-04/objects/collection
 const COLLECTION_QUERY = `#graphql
-  ${PRODUCT_ITEM_FRAGMENT}
+  ${PRODUCT_FRAGMENT}
   query Collection(
     $handle: String!
     $country: CountryCode
@@ -155,7 +232,7 @@ const COLLECTION_QUERY = `#graphql
         after: $endCursor
       ) {
         nodes {
-          ...ProductItem
+          ...Product
         }
         pageInfo {
           hasPreviousPage

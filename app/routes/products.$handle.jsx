@@ -1,4 +1,5 @@
-import {useLoaderData} from '@remix-run/react';
+import {useState, useRef, useEffect, useMemo} from 'react';
+import {useLoaderData, useFetcher} from '@remix-run/react';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -11,6 +12,17 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import Expandable from '~/components/Expandable';
+import mapRichText from '~/helpers/MapRichText';
+import {ProductItem} from '~/components/ProductItem';
+
+function useIsFirstRender() {
+  const isFirst = useRef(true);
+  useEffect(() => {
+    isFirst.current = false;
+  }, []);
+  return isFirst.current;
+}
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -83,7 +95,15 @@ function loadDeferredData({context, params}) {
   return {};
 }
 
-export default function Product() {
+export default function PDP() {
+  return (
+    <>
+      <Product />
+      <Recs />
+    </>
+  );
+}
+function Product() {
   /** @type {LoaderReturnData} */
   const {product} = useLoaderData();
 
@@ -105,28 +125,70 @@ export default function Product() {
 
   const {title, descriptionHtml} = product;
 
+  const [openSection, setOpenSection] = useState(null);
+
+  const toggleSection = (section) => {
+    setOpenSection(openSection === section ? null : section);
+  };
+
+  const isFirstRender = useIsFirstRender();
+
+  const productImage = product.images.edges.map((edge) => (
+    <ProductImage key={edge.node.id} image={edge.node} />
+  ));
+
   return (
     <div className="product">
-      <ProductImage image={selectedVariant?.image} />
+      <div className="product-left">
+        <div>
+          <p>{title}</p>
+          <p>{product.artist.value}</p>
+        </div>
+        <div>
+          <p>{product.description2.value}</p>
+          <ProductPrice
+            price={selectedVariant?.price}
+            compareAtPrice={selectedVariant?.compareAtPrice}
+          />
+        </div>
+        {[
+          {
+            title: 'Artwork',
+            details: product.artwork.value,
+          },
+          {
+            title: 'Artist',
+            details: product.artist_note.value,
+          },
+          {
+            title: 'Craftsmanship & Details',
+            details: product.craftsmanship_details.value,
+          },
+          {
+            title: 'Size & Fit',
+            details: mapRichText(JSON.parse(product.size_and_fit.value)),
+          },
+          {
+            title: 'Care',
+            details: product.care_guide.value,
+          },
+        ].map((section) => (
+          <Expandable
+            key={section.title}
+            openSection={openSection}
+            toggleSection={toggleSection}
+            title={section.title}
+            details={section.details}
+            isFirstRender={isFirstRender}
+          />
+        ))}
+      </div>
+      <div>{productImage}</div>
       <div className="product-main">
-        <h1>{title}</h1>
-        <ProductPrice
-          price={selectedVariant?.price}
-          compareAtPrice={selectedVariant?.compareAtPrice}
-        />
-        <br />
         <ProductForm
           productOptions={productOptions}
           selectedVariant={selectedVariant}
         />
-        <br />
-        <br />
-        <p>
-          <strong>Description</strong>
-        </p>
-        <br />
-        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
-        <br />
       </div>
       <Analytics.ProductView
         data={{
@@ -143,6 +205,66 @@ export default function Product() {
           ],
         }}
       />
+    </div>
+  );
+}
+
+function Recs() {
+  const {product} = useLoaderData();
+  const collectionFetcher = useFetcher();
+
+  useEffect(() => {
+    const collectionHandle = product.artist.value
+      .toLowerCase()
+      .split(' ')
+      .join('-');
+    console.log('Fetching collection:', collectionHandle);
+    if (collectionHandle) {
+      collectionFetcher.load(`/collections/${collectionHandle}`);
+    }
+  }, [product.id]);
+
+  console.log('Fetcher state:', collectionFetcher.state);
+  console.log('Fetcher data:', collectionFetcher.data);
+
+  // Filter out current product and limit results
+  const recommendedProducts = useMemo(() => {
+    // The key change: access .collection from fetcher data
+    if (!collectionFetcher.data?.collection.products.nodes) {
+      console.log('No collection products found');
+      return [];
+    }
+
+    const filtered = collectionFetcher.data?.collection.products.nodes
+      .filter((node) => {
+        console.log(node);
+        return node.id !== product.id;
+      }) // exclude current product
+      .slice(0, 6); // limit to 4 products
+
+    console.log('Filtered products:', filtered.length);
+    return filtered;
+  }, [collectionFetcher.data, product.id]);
+
+  console.log('Recommended products:', recommendedProducts);
+
+  return (
+    <div>
+      {collectionFetcher.state === 'loading' && (
+        <p>Loading recommendations...</p>
+      )}
+      {recommendedProducts.length > 0 && (
+        <>
+          <p style={{marginBlock: '3rem', textAlign: 'center'}}>
+            {product.artist.value}
+          </p>
+          <div className="recommended-products-grid">
+            {recommendedProducts.map((node) => (
+              <ProductItem key={node.id} product={node} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -252,6 +374,27 @@ const PRODUCT_FRAGMENT = `#graphql
     seo {
       description
       title
+    }
+    artist:metafield(namespace:"custom",key:"artist_name"){
+      value
+    }
+    description2:metafield(namespace:"custom",key:"product_description"){
+      value
+    }
+    craftsmanship_details:metafield(namespace:"custom",key:"craftsmanship_details"){
+      value
+    }
+    artwork:metafield(namespace:"custom",key:"artwork"){
+      value
+    }
+    size_and_fit:metafield(namespace:"custom",key:"size_and_fit"){
+      value
+    }
+    care_guide:metafield(namespace:"descriptors",key:"care_guide"){
+      value
+    }
+    artist_note:metafield(namespace:"custom",key:"artist_note"){
+      value
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}

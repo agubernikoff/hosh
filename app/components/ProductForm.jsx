@@ -1,6 +1,7 @@
 import {Link, useNavigate} from '@remix-run/react';
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
+import {motion, AnimatePresence} from 'motion/react';
 
 /**
  * @param {{
@@ -19,7 +20,21 @@ export function ProductForm({productOptions, selectedVariant}) {
 
         return (
           <div className="product-options" key={option.name}>
-            <h5>{option.name}</h5>
+            <p>
+              <span>Select {option.name}:</span>{' '}
+              <AnimatePresence mode="popLayout">
+                <motion.span
+                  key={`${option.optionValues.find((v) => v.selected)?.name}`}
+                  initial={{opacity: 1}}
+                  animate={{opacity: 1}}
+                  exit={{opacity: 0}}
+                  style={{display: 'inline-block', width: '5rem'}}
+                  transition={{ease: 'easeInOut', duration: 0.15}}
+                >
+                  {option.optionValues.find((v) => v.selected)?.name || ''}
+                </motion.span>
+              </AnimatePresence>
+            </p>
             <div className="product-options-grid">
               {option.optionValues.map((value) => {
                 const {
@@ -70,10 +85,9 @@ export function ProductForm({productOptions, selectedVariant}) {
                       }`}
                       key={option.name + name}
                       style={{
-                        border: selected
-                          ? '1px solid black'
-                          : '1px solid transparent',
                         opacity: available ? 1 : 0.3,
+                        color: selected ? 'white' : 'black',
+                        background: selected ? 'black' : 'white',
                       }}
                       disabled={!exists}
                       onClick={() => {
