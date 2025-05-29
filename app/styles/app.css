@@ -843,6 +843,31 @@ button.reset:hover:not(:has(> *)) {
   display: inline-block;
 }
 
+/* 
+----------------------------------------------------
+routes/pages/artist
+----------------------------------------------------
+*/
+
+.artist-page {
+  text-align: center;
+  padding-top: 2rem;
+}
+.artist-page img {
+  height: auto;
+}
+.artist-expandables-div {
+  width: 80%;
+  text-align: left;
+  margin: auto;
+}
+
+/* 
+----------------------------------------------------
+media queries
+----------------------------------------------------
+*/
+
 @media (max-width: 499px) {
   .featured-artist-homepage-section {
     display: block;

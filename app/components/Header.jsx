@@ -100,8 +100,8 @@ function HeaderCtas({isLoggedIn, cart}) {
       <NavLink
         prefetch="intent"
         to="/account"
-        style={activeLinkStyle}
-        style={{display: 'flex'}}
+        style={(activeLinkStyle, {display: 'flex'})}
+        // style={}
       >
         <Suspense fallback="Sign in">
           <Await resolve={isLoggedIn} errorElement="Sign in">
