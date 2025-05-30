@@ -1,6 +1,10 @@
 import {useEffect, useRef, useState} from 'react';
 
-export default function InfiniteCarousel({images, interval = 5000}) {
+export default function InfiniteCarousel({
+  images,
+  interval = 5000,
+  width = 100,
+}) {
   const [index, setIndex] = useState(1); // Start at real first slide
   const trackRef = useRef(null);
   const timeoutRef = useRef(null);
@@ -49,7 +53,7 @@ export default function InfiniteCarousel({images, interval = 5000}) {
     track.style.transition = isTransitioningRef.current
       ? 'transform 0.5s ease'
       : 'none';
-    track.style.transform = `translateX(-${index * 100}vw)`;
+    track.style.transform = `translateX(-${index * width}vw)`;
   }, [index]);
 
   useEffect(() => {
@@ -97,14 +101,19 @@ export default function InfiniteCarousel({images, interval = 5000}) {
   return (
     <div
       className="carousel-wrapper"
-      style={{overflow: 'hidden', position: 'relative'}}
+      style={{
+        overflow: 'hidden',
+        position: 'relative',
+        width: `${width}vw`,
+        margin: 'auto',
+      }}
     >
       <div
         ref={trackRef}
         className="carousel-track"
         style={{
           display: 'flex',
-          width: `${extendedImages.length * 100}vw`,
+          width: `${extendedImages.length * width}vw`,
         }}
       >
         {extendedImages.map((src, i) => (
@@ -113,7 +122,7 @@ export default function InfiniteCarousel({images, interval = 5000}) {
             src={src}
             alt={`Slide ${i}`}
             style={{
-              width: '100vw',
+              width: `${width}vw`,
               flexShrink: 0,
               objectFit: 'cover',
             }}

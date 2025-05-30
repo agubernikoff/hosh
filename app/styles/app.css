@@ -589,6 +589,9 @@ button.reset:hover:not(:has(> *)) {
   margin-bottom: 2rem;
 }
 
+.product-item {
+  text-align: center;
+}
 .product-item-img-container {
   position: relative;
   margin-bottom: 1rem;
@@ -802,6 +805,10 @@ button.reset:hover:not(:has(> *)) {
   margin-top: 0.5rem;
 }
 
+.rich-text-div p {
+  margin-bottom: 1rem;
+}
+
 /*
 * --------------------------------------------------
 * routes/blog._index.tsx
@@ -852,6 +859,10 @@ routes/pages/artist
 .artist-page {
   text-align: center;
   padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  align-items: center;
 }
 .artist-page img {
   height: auto;

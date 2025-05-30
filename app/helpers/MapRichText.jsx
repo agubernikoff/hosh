@@ -5,11 +5,11 @@ export default function mapRichText(richTextObject, index = 0) {
   switch (richTextObject.type) {
     case 'root':
       return (
-        <React.Fragment key={index}>
+        <div key={index} className="rich-text-div">
           {richTextObject.children.map((child, childIndex) =>
             mapRichText(child, `${index}-${childIndex}`),
           )}
-        </React.Fragment>
+        </div>
       );
     case 'paragraph':
       return (

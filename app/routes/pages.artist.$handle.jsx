@@ -1,9 +1,12 @@
-import {useLoaderData} from '@remix-run/react';
+import {useLoaderData, NavLink} from '@remix-run/react';
 import InfiniteCarousel from '~/components/Carousel';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {Image} from '@shopify/hydrogen';
 import Expandable from '~/components/Expandable';
 import {useState, useEffect, useRef} from 'react';
+import mapRichText from '~/helpers/MapRichText';
+import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import {ProductItem} from '~/components/ProductItem';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -75,10 +78,13 @@ export default function Page() {
   /** @type {LoaderReturnData} */
   const {metaobject} = useLoaderData();
   console.log(metaobject);
-  const artist = metaobject?.fields.reduce((acc, {key, value, reference}) => {
-    acc[key] = reference || value;
-    return acc;
-  }, {});
+  const artist = metaobject?.fields.reduce(
+    (acc, {key, value, reference, references}) => {
+      acc[key] = references || reference || value;
+      return acc;
+    },
+    {},
+  );
 
   console.log(artist);
 
@@ -92,30 +98,48 @@ export default function Page() {
 
   return (
     <div className="artist-page">
-      <p>{artist.name}</p>
-      <p>
-        <span>{artist.tribe}</span>
-        {' • '}
-        <span>{artist.discipline}</span>
-      </p>
-      {artist.banner_images && <InfiniteCarousel />}
+      <div>
+        <p>{artist.name}</p>
+        <p>
+          <span>{artist.tribe}</span>
+          {' • '}
+          <span>{artist.discipline}</span>
+        </p>
+      </div>
+      {artist.images.nodes && (
+        <InfiniteCarousel
+          images={artist.images.nodes.map((n) => n.image.url)}
+          width={70}
+        />
+      )}
       <Image
         data={artist.featured_image.image}
         sizes="(min-width: 45em) 50vw, 100vw"
         alt={artist.featured_image.alt}
-        width={'50vw'}
+        width={'30vw'}
       />
-      {/* insert product modal here */}
+      <NavLink to={`/products/${artist.featured_product.handle}`}>
+        <Image
+          data={artist.featured_product.featuredImage}
+          sizes="(min-width: 45em) 50vw, 100vw"
+          alt={artist.featured_product.featuredImage.alt}
+          width={'30vw'}
+        />
+        <p style={{marginTop: '2rem'}}>
+          {`${artist.featured_product.title} by ${artist.name}  |  `}
+          <strong>SHOP</strong>
+        </p>
+      </NavLink>
       <div className="artist-expandables-div">
         {[
           {
             title: 'Artist Bio',
-            details: artist.biography,
+            details: mapRichText(JSON.parse(artist.biography)),
           },
           {
             title: 'Awards & Exhibitions',
             details: JSON.parse(artist.awards).map((award) => (
-              <p key={award.split(' ')[0]}>{award}</p>
+              <p key={award}>{award}</p>
             )),
           },
         ].map((section) => (
@@ -129,9 +153,127 @@ export default function Page() {
           />
         ))}
       </div>
+      <div style={{width: '100%'}}>
+        <PaginatedResourceSection
+          connection={artist.collection.products}
+          resourcesClassName="products-grid"
+        >
+          {({node: product, index}) => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              loading={index < 8 ? 'eager' : undefined}
+            />
+          )}
+        </PaginatedResourceSection>
+      </div>
     </div>
   );
 }
+
+const PRODUCT_VARIANT_FRAGMENT = `#graphql
+  fragment ProductVariant on ProductVariant {
+    availableForSale
+    compareAtPrice {
+      amount
+      currencyCode
+    }
+    id
+    image {
+      __typename
+      id
+      url
+      altText
+      width
+      height
+    }
+    price {
+      amount
+      currencyCode
+    }
+    product {
+      title
+      handle
+    }
+    selectedOptions {
+      name
+      value
+    }
+    sku
+    title
+    unitPrice {
+      amount
+      currencyCode
+    }
+  }
+`;
+
+const PRODUCT_FRAGMENT = `#graphql
+  fragment Product on Product {
+    id
+    title
+    vendor
+    handle
+    descriptionHtml
+    description
+    encodedVariantExistence
+    encodedVariantAvailability
+    images(first: 10) {
+      edges {
+        node {
+          id
+          url
+          altText
+          width
+          height
+        }
+      }
+    }
+    options {
+      name
+      optionValues {
+        name
+        firstSelectableVariant {
+          ...ProductVariant
+        }
+        swatch {
+          color
+          image {
+            previewImage {
+              url
+            }
+          }
+        }
+      }
+    }
+    selectedOrFirstAvailableVariant(
+      ignoreUnknownOptions: true
+      caseInsensitiveMatch: true
+    ) {
+      ...ProductVariant
+    }
+    adjacentVariants {
+      ...ProductVariant
+    }
+    priceRange{
+      minVariantPrice{
+        amount
+        currencyCode
+      }
+    }
+    seo {
+      description
+      title
+    }
+    artist:metafield(namespace:"custom",key:"artist_name"){
+      value
+    }
+    description2:metafield(namespace:"custom",key:"product_description"){
+      value
+    }
+  }
+  ${PRODUCT_VARIANT_FRAGMENT}
+`;
 
 const ARTIST_QUERY = `#graphql
   query Artist(
@@ -147,11 +289,31 @@ const ARTIST_QUERY = `#graphql
           key
           value
           type
+          references(first:10) {
+            nodes {
+              ... on MediaImage {
+                alt
+                id
+                image {
+                  url
+                  height
+                  id
+                  width
+                }
+              }
+            }
+          }
           reference{
             ...on Collection{
               products(first: 12){
                 nodes{
-                  handle
+                  ...Product
+                }
+                pageInfo {
+                  hasPreviousPage
+                  hasNextPage
+                  endCursor
+                  startCursor
                 }
                 filters{
                   id
@@ -177,10 +339,22 @@ const ARTIST_QUERY = `#graphql
                 width
               }
             }
+            ...on Product{
+              handle
+              title
+              featuredImage{
+                altText
+                url
+                id
+                width
+                height
+              }
+            }
           }
         }
       }
     }
+  ${PRODUCT_FRAGMENT}
 `;
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */

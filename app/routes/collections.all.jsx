@@ -76,31 +76,108 @@ export default function Collection() {
   );
 }
 
-const COLLECTION_ITEM_FRAGMENT = `#graphql
-  fragment MoneyCollectionItem on MoneyV2 {
-    amount
-    currencyCode
-  }
-  fragment CollectionItem on Product {
+const PRODUCT_VARIANT_FRAGMENT = `#graphql
+  fragment ProductVariant on ProductVariant {
+    availableForSale
+    compareAtPrice {
+      amount
+      currencyCode
+    }
     id
-    handle
-    title
-    featuredImage {
+    image {
+      __typename
       id
-      altText
       url
+      altText
       width
       height
     }
-    priceRange {
-      minVariantPrice {
-        ...MoneyCollectionItem
-      }
-      maxVariantPrice {
-        ...MoneyCollectionItem
-      }
+    price {
+      amount
+      currencyCode
+    }
+    product {
+      title
+      handle
+    }
+    selectedOptions {
+      name
+      value
+    }
+    sku
+    title
+    unitPrice {
+      amount
+      currencyCode
     }
   }
+`;
+
+const PRODUCT_FRAGMENT = `#graphql
+  fragment Product on Product {
+    id
+    title
+    vendor
+    handle
+    descriptionHtml
+    description
+    encodedVariantExistence
+    encodedVariantAvailability
+    images(first: 10) {
+      edges {
+        node {
+          id
+          url
+          altText
+          width
+          height
+        }
+      }
+    }
+    options {
+      name
+      optionValues {
+        name
+        firstSelectableVariant {
+          ...ProductVariant
+        }
+        swatch {
+          color
+          image {
+            previewImage {
+              url
+            }
+          }
+        }
+      }
+    }
+    selectedOrFirstAvailableVariant(
+      ignoreUnknownOptions: true
+      caseInsensitiveMatch: true
+    ) {
+      ...ProductVariant
+    }
+    adjacentVariants {
+      ...ProductVariant
+    }
+    priceRange{
+      minVariantPrice{
+        amount
+        currencyCode
+      }
+    }
+    seo {
+      description
+      title
+    }
+    artist:metafield(namespace:"custom",key:"artist_name"){
+      value
+    }
+    description2:metafield(namespace:"custom",key:"product_description"){
+      value
+    }
+  }
+  ${PRODUCT_VARIANT_FRAGMENT}
 `;
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/objects/product
@@ -115,7 +192,7 @@ const CATALOG_QUERY = `#graphql
   ) @inContext(country: $country, language: $language) {
     products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
       nodes {
-        ...CollectionItem
+        ...Product
       }
       pageInfo {
         hasPreviousPage
@@ -125,7 +202,7 @@ const CATALOG_QUERY = `#graphql
       }
     }
   }
-  ${COLLECTION_ITEM_FRAGMENT}
+  ${PRODUCT_FRAGMENT}
 `;
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */

@@ -1,4 +1,4 @@
-import {Link, useNavigate} from '@remix-run/react';
+import {Link, useLocation} from '@remix-run/react';
 import {Image, Money} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
 import {motion, AnimatePresence} from 'motion/react';
@@ -32,6 +32,7 @@ export function ProductItem({product, loading}) {
   function closePopUp() {
     setQuickShop();
   }
+  const {pathname} = useLocation();
   return (
     <>
       <Link
@@ -42,7 +43,7 @@ export function ProductItem({product, loading}) {
       >
         {image && (
           <div className="product-item-img-container">
-            <motion.div layoutId={`${product.id}`}>
+            <motion.div layoutId={`${product.id}-${pathname}`}>
               <Image
                 alt={image.altText || product.title}
                 // aspectRatio="1/1"
@@ -70,7 +71,11 @@ export function ProductItem({product, loading}) {
       </Link>
       <AnimatePresence mode="popLayout">
         {quickShop === product && (
-          <QuickShop product={quickShop} closePopUp={closePopUp} />
+          <QuickShop
+            product={quickShop}
+            closePopUp={closePopUp}
+            pathname={pathname}
+          />
         )}
       </AnimatePresence>
     </>
@@ -81,7 +86,7 @@ export function ProductItem({product, loading}) {
 /** @typedef {import('storefrontapi.generated').CollectionItemFragment} CollectionItemFragment */
 /** @typedef {import('storefrontapi.generated').RecommendedProductFragment} RecommendedProductFragment */
 
-function QuickShop({product, closePopUp}) {
+function QuickShop({product, closePopUp, pathname}) {
   const images = product?.images?.edges;
   useEffect(() => {
     // Lock scroll
@@ -204,7 +209,7 @@ function QuickShop({product, closePopUp}) {
           </svg>
         </button>
         <motion.div
-          layoutId={`${product.id}`}
+          layoutId={`${product.id}-${pathname}`}
           className="quick-shop-images-container"
           style={{width: '55%'}}
         >
@@ -317,7 +322,7 @@ function QuickShop({product, closePopUp}) {
                             isColorOption={isColorOption}
                             productImage={variantImage}
                           />
-                          {selected && (
+                          {/* {selected && (
                             <motion.div
                               layoutId={`${option.name}-${product.handle}`}
                               id={`${option.name}`}
@@ -331,7 +336,7 @@ function QuickShop({product, closePopUp}) {
                                 background: 'black',
                               }}
                             />
-                          )}
+                          )} */}
                         </button>
                       );
                     }
