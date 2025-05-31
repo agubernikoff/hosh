@@ -7,6 +7,7 @@ import {useState, useEffect, useRef} from 'react';
 import mapRichText from '~/helpers/MapRichText';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {ProductItem} from '~/components/ProductItem';
+import {Filter} from './collections.$handle';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -34,6 +35,26 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context, request, params}) {
+  const {handle} = params;
+  const {storefront} = context;
+  const url = new URL(request.url);
+  const searchParams = new URLSearchParams(url.search);
+
+  const filters = [];
+  let reverse = false;
+  let sortKey = null;
+
+  if (!handle) {
+    throw redirect('/collections');
+  }
+
+  if (searchParams.has('filter')) {
+    filters.push(...searchParams.getAll('filter').map((x) => JSON.parse(x)));
+  }
+  if (searchParams.has('sortKey')) sortKey = searchParams.get('sortKey');
+  if (searchParams.has('reverse'))
+    reverse = searchParams.get('reverse') === 'true';
+
   if (!params.handle) {
     throw new Error('Missing page handle');
   }
@@ -42,6 +63,9 @@ async function loadCriticalData({context, request, params}) {
     context.storefront.query(ARTIST_QUERY, {
       variables: {
         handle: params.handle,
+        filters,
+        reverse,
+        sortKey,
       },
     }),
     // Add other queries here, so that they are loaded in parallel
@@ -86,7 +110,7 @@ export default function Page() {
     {},
   );
 
-  console.log(artist);
+  console.log(artist.collection.products.filters);
 
   const [openSection, setOpenSection] = useState(null);
 
@@ -154,6 +178,7 @@ export default function Page() {
         ))}
       </div>
       <div style={{width: '100%'}}>
+        <Filter filters={artist.collection.products.filters} />
         <PaginatedResourceSection
           connection={artist.collection.products}
           resourcesClassName="products-grid"
@@ -280,6 +305,9 @@ const ARTIST_QUERY = `#graphql
     $language: LanguageCode,
     $country: CountryCode,
     $handle: String!
+    $filters: [ProductFilter!]
+    $reverse: Boolean
+    $sortKey: ProductCollectionSortKeys
   )
   @inContext(language: $language, country: $country) {
     metaobject(handle:{
@@ -305,7 +333,11 @@ const ARTIST_QUERY = `#graphql
           }
           reference{
             ...on Collection{
-              products(first: 12){
+              products(
+                first: 12
+                filters: $filters,
+                reverse: $reverse,
+                sortKey: $sortKey){
                 nodes{
                   ...Product
                 }

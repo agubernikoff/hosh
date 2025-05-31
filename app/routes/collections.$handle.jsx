@@ -119,7 +119,7 @@ export default function Collection() {
   );
 }
 
-export function Filter({title, filters, shopAll, term}) {
+export function Filter({filters, shopAll, term}) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function addFilter(input) {
@@ -196,7 +196,7 @@ export function Filter({title, filters, shopAll, term}) {
       searchParams.get('sortKey') === parsed.sortKey
     );
   }
-
+  console.log(filters);
   return (
     <div className="filter-container">
       <Sort
@@ -303,7 +303,7 @@ function Sort({addSort, removeSort, isChecked, term, shopAll}) {
                   isSort={true}
                 />
                 <FilterInput
-                  label={'Alphabetically, A-Z'}
+                  label={'Alphabetically, Z-A'}
                   value={JSON.stringify({reverse: true, sortKey: 'TITLE'})}
                   addFilter={addSort}
                   isChecked={isChecked}
