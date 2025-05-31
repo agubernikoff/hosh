@@ -696,6 +696,45 @@ button.reset:hover:not(:has(> *)) {
   padding-bottom: 1rem;
 }
 
+.filter-container {
+  display: flex;
+}
+.filter-container > * {
+  position: relative;
+}
+.filter-container button {
+  background: transparent;
+  border: none;
+  text-align: left;
+}
+.mobile-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 5rem;
+}
+.sort-overflow-hidden-container {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: -1px;
+  width: calc(100% + 2px);
+  overflow: hidden;
+  height: 50vh;
+  z-index: 2;
+}
+.sort-container {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-block: 0.5rem;
+}
+.sort-by-button {
+  width: 10rem;
+}
+.sort-overflow-hidden-container button {
+  text-align: left;
+}
 /*
 * --------------------------------------------------
 * routes/products.$handle.tsx

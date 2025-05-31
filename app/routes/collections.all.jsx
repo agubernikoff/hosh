@@ -2,6 +2,7 @@ import {useLoaderData} from '@remix-run/react';
 import {getPaginationVariables} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {ProductItem} from '~/components/ProductItem';
+import {Filter} from './collections.$handle';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -30,17 +31,38 @@ export async function loader(args) {
  */
 async function loadCriticalData({context, request}) {
   const {storefront} = context;
+  const url = new URL(request.url);
+  const searchParams = new URLSearchParams(url.search);
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 8,
+    pageBy: 24,
   });
+  let query = null;
+  let reverse = false;
+  let sortKey = null;
 
-  const [{products}] = await Promise.all([
+  if (searchParams.has('filter')) {
+    query = `tag:${JSON.parse(searchParams.get('filter')).tag}`;
+  }
+  if (searchParams.has('sortKey')) sortKey = searchParams.get('sortKey');
+  if (searchParams.has('reverse'))
+    reverse = searchParams.get('reverse') === 'true';
+
+  const [{products}, {search}] = await Promise.all([
     storefront.query(CATALOG_QUERY, {
-      variables: {...paginationVariables},
+      variables: {
+        ...paginationVariables,
+        query,
+        reverse,
+        sortKey,
+      },
     }),
+    storefront.query(SEARCH_QUERY_FOR_FILTERS),
     // Add other queries here, so that they are loaded in parallel
   ]);
-  return {products};
+  return {
+    products,
+    filters: search?.productFilters,
+  };
 }
 
 /**
@@ -55,11 +77,12 @@ function loadDeferredData({context}) {
 
 export default function Collection() {
   /** @type {LoaderReturnData} */
-  const {products} = useLoaderData();
+  const {products, filters} = useLoaderData();
 
   return (
     <div className="collection">
       <h1>Products</h1>
+      <Filter filters={filters} shopAll={true} />
       <PaginatedResourceSection
         connection={products}
         resourcesClassName="products-grid"
@@ -200,9 +223,40 @@ const CATALOG_QUERY = `#graphql
         startCursor
         endCursor
       }
+      filters{
+        id
+        label
+        presentation
+        type
+        values{
+          count
+          id
+          input
+          label
+        }
+      }
     }
   }
   ${PRODUCT_FRAGMENT}
+`;
+
+const SEARCH_QUERY_FOR_FILTERS = `#graphql
+query SEARCH {
+  search(first: 1, query: "") {
+    productFilters {
+      id
+      label
+      presentation
+      type
+      values {
+        id
+        count
+        input
+        label
+      }
+    }
+  }
+}
 `;
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
