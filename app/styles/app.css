@@ -594,7 +594,7 @@ button.reset:hover:not(:has(> *)) {
 }
 .product-item-img-container {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 4rem;
 }
 .quick-shop {
   position: absolute;
@@ -603,7 +603,7 @@ button.reset:hover:not(:has(> *)) {
   transform: translate(-50%, 40%);
   background: white;
   border: 1px solid black;
-  padding: 0.5rem;
+  padding: 1rem;
   cursor: pointer;
 }
 .quick-shop:hover {
