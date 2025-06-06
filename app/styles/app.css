@@ -273,7 +273,7 @@ button.reset:hover:not(:has(> *)) {
 */
 .footer {
   padding: 2rem;
-  font-family: sans-serif;
+  font-family: 'Roboto Mono';
 }
 
 .footer-grid {
@@ -914,6 +914,22 @@ routes/pages/artist
 
 /* 
 ----------------------------------------------------
+pages
+----------------------------------------------------
+*/
+
+.page {
+  margin: auto;
+  width: 50%;
+  margin-bottom: 4rem;
+}
+.page p,
+.page > div > span,
+.page#text {
+  font-size: 14px !important;
+}
+/* 
+----------------------------------------------------
 media queries
 ----------------------------------------------------
 */
@@ -941,5 +957,36 @@ media queries
   }
   .recommended-products-grid a:last-of-type {
     display: none;
+  }
+  .page {
+    width: initial;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .footer-center {
+    flex-direction: column;
+    gap: 2rem;
+    order: 3;
+  }
+  .footer-grid {
+    flex-direction: column;
+    gap: 4rem;
+  }
+  .footer-newsletter {
+    align-items: flex-start;
+  }
+  .footer-right {
+    align-items: flex-start;
+    order: 2;
+  }
+  .footer-right > img,
+  .footer-right div {
+    display: none;
+  }
+  .footer-icon {
+    width: 40px;
+    height: 40px;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
   }
 }

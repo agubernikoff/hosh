@@ -68,7 +68,11 @@ export default function Page() {
   return (
     <div className="page">
       <header>
-        <h1>{page.title}</h1>
+        <p
+          style={{textAlign: 'center', marginTop: '4rem', marginBottom: '5rem'}}
+        >
+          {page.title}
+        </p>
       </header>
       <main dangerouslySetInnerHTML={{__html: page.body}} />
     </div>
