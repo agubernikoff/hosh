@@ -29,7 +29,8 @@ body {
   border: 1px solid black;
   font-family: 'Roboto Mono';
 }
-.add-to-cart-btn:hover {
+.add-to-cart-btn:hover,
+button:hover {
   background: black;
   color: white;
 }
@@ -356,6 +357,9 @@ button.reset:hover:not(:has(> *)) {
   border: 1px solid #000;
   background: white;
 }
+.footer-newsletter button:hover {
+  background: black;
+}
 
 .footer-newsletter input[type='email']:focus {
   outline: none;
@@ -519,6 +523,11 @@ button.reset:hover:not(:has(> *)) {
 .shop-the-collection > a {
   border: 1px solid black;
   padding: 1rem;
+}
+.shop-the-collection > a:hover,
+.s-t-c:hover {
+  color: white;
+  background: black;
 }
 .featured-collection {
   display: block;

@@ -133,6 +133,7 @@ function FeaturedCollection({collection}) {
             border: '1px solid black',
             boxSizing: 'border-box',
           }}
+          className="s-t-c"
         >
           SHOP THE COLLECTION
         </NavLink>
