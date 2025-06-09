@@ -8,6 +8,8 @@ import bag from '../assets/bag.png';
 import acct from '../assets/acct.png';
 import {useState} from 'react';
 import {motion, AnimatePresence} from 'motion/react';
+import Expandable from './Expandable';
+import {useEffect} from 'react';
 
 /**
  * @param {HeaderProps}
@@ -51,6 +53,18 @@ export function HeaderMenu({
   const {close} = useAside();
 
   const [open, setOpen] = useState();
+  const toggleSection = (section) => {
+    setOpen(open === section ? null : section);
+  };
+
+  const [openNested, setOpenNested] = useState();
+  const toggleSectionNested = (section) => {
+    setOpenNested(openNested === section ? null : section);
+  };
+
+  useEffect(() => {
+    setOpenNested();
+  }, [open]);
   return (
     <nav className={className} role="navigation">
       {viewport === 'mobile' && (
@@ -76,22 +90,46 @@ export function HeaderMenu({
             ? new URL(item.url).pathname
             : item.url;
         return item.items.length > 0 ? (
-          <Dropdown label={item.title} key={item.id}>
-            {item.items.map((item) => {
-              if (!item.url) return null;
-              console.log(item);
+          <Dropdown
+            label={item.title}
+            key={item.id}
+            toggleIsOpen={toggleSection}
+            isOpen={open === item.title}
+          >
+            {item.items.map((item2) => {
+              if (!item2.url) return null;
+              console.log(item2);
 
               // if the url is internal, we strip the domain
               const url =
-                item.url.includes('myshopify.com') ||
-                item.url.includes(publicStoreDomain) ||
-                item.url.includes(primaryDomainUrl)
-                  ? new URL(item.url).pathname
-                  : item.url;
-              return item.items.length > 0 ? (
-                <Dropdown label={item.title} key={item.id} displaySVG={true}>
-                  x
-                </Dropdown>
+                item2.url.includes('myshopify.com') ||
+                item2.url.includes(publicStoreDomain) ||
+                item2.url.includes(primaryDomainUrl)
+                  ? new URL(item2.url).pathname
+                  : item2.url;
+
+              return item2.items.length > 0 ? (
+                <Expandable
+                  key={item2.id}
+                  title={item2.title}
+                  parent={item.title}
+                  openSection={openNested}
+                  toggleSection={toggleSectionNested}
+                  header={true}
+                  details={item2.items.map((item3) => (
+                    <NavLink
+                      className="header-menu-item"
+                      end
+                      key={item3.id}
+                      onClick={close}
+                      prefetch="intent"
+                      style={activeLinkStyle}
+                      to={url}
+                    >
+                      {item3.title}
+                    </NavLink>
+                  ))}
+                />
               ) : (
                 <NavLink
                   className="header-menu-item"
@@ -102,7 +140,7 @@ export function HeaderMenu({
                   style={activeLinkStyle}
                   to={url}
                 >
-                  {item.title}
+                  {item2.title}
                 </NavLink>
               );
             })}
@@ -125,19 +163,15 @@ export function HeaderMenu({
   );
 }
 
-function Dropdown({children, label, displaySVG, isOpen}) {
-  const [isOpenNested, setIsOpenNested] = useState(false);
-  function toggleIsOpen() {
-    setIsOpenNested(!isOpenNested);
-  }
+function Dropdown({children, label, displaySVG, toggleIsOpen, isOpen}) {
   return (
     <button
-      className={`mobile-filter ${isOpenNested ? 'isOpen-btn' : ''} header-mf header-menu-item`}
-      onClick={toggleIsOpen}
+      className={`mobile-filter ${isOpen ? 'isOpen-btn' : ''} header-mf header-menu-item`}
+      onClick={() => toggleIsOpen(label)}
     >
       <AnimatePresence mode="popLayout">
         <motion.span
-          key={`filt-by-${isOpenNested}`}
+          key={`filt-by-${isOpen}`}
           initial={{opacity: 1}}
           animate={{opacity: 1}}
           exit={{opacity: 0}}
@@ -154,7 +188,7 @@ function Dropdown({children, label, displaySVG, isOpen}) {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           initial={{rotate: 0}}
-          animate={{rotate: isOpenNested ? '180deg' : 0}}
+          animate={{rotate: isOpen ? '180deg' : 0}}
           transition={{ease: 'easeInOut', duration: 0.15}}
         >
           <path
@@ -165,7 +199,7 @@ function Dropdown({children, label, displaySVG, isOpen}) {
       ) : null}
 
       <AnimatePresence>
-        {isOpenNested && (
+        {isOpen && (
           <div className="sort-overflow-hidden-container header-sohc">
             <motion.div
               initial={{y: '-100%'}}

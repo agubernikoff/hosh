@@ -752,6 +752,24 @@ button.reset:hover:not(:has(> *)) {
 }
 .header-s-c {
   text-align: left;
+  font-size: inherit;
+  font-weight: 500;
+  gap: 0.5rem;
+}
+.header-s-c .dropdown-title {
+  font-weight: 500;
+  font-size: 11px;
+}
+.header-s-c .dropdown {
+  margin: 0;
+}
+.header-s-c .dropdown-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  background: #f6f6f6;
+  padding-block: 0.5rem;
+  gap: 0.5rem;
 }
 .sort-by-button {
   width: 10rem;
