@@ -552,7 +552,7 @@ button.reset:hover:not(:has(> *)) {
 
 .home > .carousel-wrapper {
   width: 100vw;
-  margin-left: -1rem;
+  margin-left: -1rem !important;
 }
 
 .carousel-wrapper > button {
@@ -710,7 +710,8 @@ button.reset:hover:not(:has(> *)) {
 .filter-container > * {
   position: relative;
 }
-.filter-container button {
+.filter-container button,
+.header button {
   background: transparent;
   border: none;
   text-align: left;
@@ -721,6 +722,14 @@ button.reset:hover:not(:has(> *)) {
   gap: 0.25rem;
   width: 5rem;
 }
+.header-mf {
+  position: relative;
+  width: auto;
+  cursor: pointer;
+  padding: 0;
+  font-family: 'Roboto Mono';
+  justify-content: space-between;
+}
 .sort-overflow-hidden-container {
   position: absolute;
   top: calc(100% - 1px);
@@ -730,12 +739,19 @@ button.reset:hover:not(:has(> *)) {
   height: 50vh;
   z-index: 2;
 }
+.header-sohc {
+  width: 8rem;
+  top: calc(100% + 1px);
+}
 .sort-container {
   background: white;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   padding-block: 0.5rem;
+}
+.header-s-c {
+  text-align: left;
 }
 .sort-by-button {
   width: 10rem;
