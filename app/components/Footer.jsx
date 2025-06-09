@@ -27,6 +27,7 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
     '/pages/faq',
     '/pages/connect',
     '/pages/partners',
+    '/pages/about',
   ];
 
   const shouldShowCarousel = !excludedPaths.includes(location.pathname);
