@@ -1,4 +1,4 @@
-import {Suspense} from 'react';
+import {Suspense, useId, useState} from 'react';
 import {Await, NavLink, useAsyncValue} from '@remix-run/react';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
@@ -6,10 +6,10 @@ import logo from '../assets/Group 196.png';
 import search from '../assets/search.png';
 import bag from '../assets/bag.png';
 import acct from '../assets/acct.png';
-import {useState} from 'react';
 import {motion, AnimatePresence} from 'motion/react';
 import Expandable from './Expandable';
 import {useEffect} from 'react';
+import {SearchFormPredictive} from './SearchFormPredictive';
 
 /**
  * @param {HeaderProps}
@@ -80,7 +80,6 @@ export function HeaderMenu({
       )}
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
-        console.log(item);
 
         // if the url is internal, we strip the domain
         const url =
@@ -98,7 +97,6 @@ export function HeaderMenu({
           >
             {item.items.map((item2) => {
               if (!item2.url) return null;
-              console.log(item2);
 
               // if the url is internal, we strip the domain
               const url =
@@ -255,15 +253,51 @@ function HeaderMenuMobileToggle() {
 }
 
 function SearchToggle() {
-  const {open} = useAside();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+  // const {open} = useAside();
+  const queriesDatalistId = useId();
   return (
-    <button
-      style={{display: 'flex', padding: '0'}}
-      className="reset"
-      onClick={() => open('search')}
-    >
-      <img src={search} className="header-icon" />
-    </button>
+    <>
+      <SearchFormPredictive>
+        {({fetchResults, goToSearch, inputRef}) => (
+          <>
+            <input
+              name="q"
+              value={value}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setValue(e.target.value);
+                fetchResults(e);
+              }}
+              onFocus={fetchResults}
+              placeholder="Search"
+              ref={inputRef}
+              type="search"
+              list={queriesDatalistId}
+              style={{
+                transform: open ? 'translateX(0)' : 'translateX(100%)',
+                transition: 'all 150ms ease-in-out',
+              }}
+            />
+            {/* <button onClick={goToSearch}>Search</button> */}
+            <button
+              style={{display: 'flex', padding: '0', background: 'white'}}
+              className="reset"
+              onClick={() => {
+                console.log('valeu', value, 'x', open);
+                if (!value) {
+                  if (open) setOpen(false);
+                  else setOpen(true);
+                } else goToSearch();
+              }}
+            >
+              <img src={search} className="header-icon" />
+            </button>
+          </>
+        )}
+      </SearchFormPredictive>
+    </>
   );
 }
 
