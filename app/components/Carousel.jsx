@@ -134,7 +134,7 @@ export default function InfiniteCarousel({
         onClick={handlePrev}
         style={{
           position: 'absolute',
-          left: 10,
+          left: '5%',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 10,
@@ -147,7 +147,7 @@ export default function InfiniteCarousel({
         onClick={handleNext}
         style={{
           position: 'absolute',
-          right: 10,
+          right: '5%',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 10,
