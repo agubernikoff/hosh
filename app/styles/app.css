@@ -202,7 +202,7 @@ button.reset:hover:not(:has(> *)) {
 
 .header-menu-item {
   text-transform: uppercase;
-  font-size: 0.875rem;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.05em;
   color: black;
@@ -236,7 +236,7 @@ button.reset:hover:not(:has(> *)) {
   cursor: pointer;
 }
 .header-icon {
-  width: 100%;
+  width: 75%;
   margin: auto !important;
 }
 
@@ -301,7 +301,7 @@ button.reset:hover:not(:has(> *)) {
 
 .footer-locale {
   padding: 0.5rem;
-  font-size: 0.875rem;
+  font-size: 12.5px !important;
   border: 1px solid #000;
   border-radius: 4px;
   margin-top: 2rem;
@@ -322,7 +322,7 @@ button.reset:hover:not(:has(> *)) {
 .footer-menu-column a {
   color: black;
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: 12.5px;
 }
 
 .footer-menu-column a:hover {
@@ -335,6 +335,7 @@ button.reset:hover:not(:has(> *)) {
   align-items: flex-end;
   flex: 1;
   gap: 1rem;
+  font-size: 12.5px !important;
 }
 
 .footer-newsletter {
@@ -343,6 +344,7 @@ button.reset:hover:not(:has(> *)) {
   text-align: right;
   flex-direction: column;
   gap: 0.25rem;
+  font-size: 12.5px !important;
 }
 
 .footer-newsletter input[type='email'],
@@ -350,9 +352,15 @@ button.reset:hover:not(:has(> *)) {
   width: 100%;
   box-sizing: border-box;
   padding: 0.6rem;
-  font-size: 0.875rem;
+  font-size: 12.5px !important;
   border: 1px solid #000;
   background: white;
+}
+
+.footer-newsletter input[type='email']:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: inherit; /* optional: keeps border consistent */
 }
 
 .footer-newsletter button {
@@ -367,7 +375,7 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .footer-copyright {
-  font-size: 0.75rem;
+  font-size: 12.5px !important;
 }
 /*
 * --------------------------------------------------

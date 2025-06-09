@@ -74,7 +74,7 @@ export default function Homepage() {
       <FeaturedCollection collection={data.featuredCollection} />
       <InfiniteCarousel images={[car1, car2, car3]} />
       <RecommendedProducts products={data.recommendedProducts} />
-      <InfiniteCarousel images={[car1, car2, car3]} />
+      {/* <InfiniteCarousel images={[car1, car2, car3]} /> */}
     </div>
   );
 }

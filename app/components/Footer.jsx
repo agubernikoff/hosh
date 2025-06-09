@@ -1,7 +1,11 @@
 import {Suspense, useEffect, useState} from 'react';
-import {Await, NavLink} from '@remix-run/react';
+import {Await, NavLink, useLocation} from '@remix-run/react';
 import logo from '../assets/Group 196.png';
 import gila from '../assets/Gila-Black.png';
+import InfiniteCarousel from '~/components/Carousel';
+import car1 from 'app/assets/car1.png';
+import car2 from 'app/assets/car2.png';
+import car3 from 'app/assets/car3.png';
 
 /**
  * @param {FooterProps}
@@ -15,9 +19,21 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+  const location = useLocation();
+
+  const excludedPaths = [
+    '/pages/privacy-policy',
+    '/pages/terms-of-service',
+    '/pages/faq',
+    '/pages/connect',
+    '/pages/partners',
+  ];
+
+  const shouldShowCarousel = !excludedPaths.includes(location.pathname);
 
   return (
     <Suspense>
+      {shouldShowCarousel && <InfiniteCarousel images={[car1, car2, car3]} />}
       <Await resolve={footerPromise}>
         {(footer) => (
           <footer className="footer">
