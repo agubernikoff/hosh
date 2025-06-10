@@ -623,6 +623,9 @@ input[type='search' i]::-webkit-search-cancel-button {
   padding-inline: 10vw;
   text-align: center;
 }
+.collection-title {
+  margin-bottom: 4rem;
+}
 .collection-description {
   margin-bottom: 1rem;
   max-width: 95%;

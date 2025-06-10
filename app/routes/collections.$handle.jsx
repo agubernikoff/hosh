@@ -92,7 +92,7 @@ export default function Collection() {
 
   return (
     <div className="collection">
-      <p>{collection.title}</p>
+      <p className="collection-title">{collection.title.toUpperCase()}</p>
       <p className="collection-description">{collection.description}</p>
       <Filter filters={collection.products.filters} />
       <PaginatedResourceSection
