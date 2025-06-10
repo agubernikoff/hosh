@@ -618,6 +618,9 @@ input[type='search' i]::-webkit-search-cancel-button {
 * routes/collections.$handle.tsx
 * --------------------------------------------------
 */
+.collection {
+  padding-inline: 10vw;
+}
 .collection-description {
   margin-bottom: 1rem;
   max-width: 95%;
@@ -628,8 +631,8 @@ input[type='search' i]::-webkit-search-cancel-button {
 
 .products-grid {
   display: grid;
-  grid-gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(var(--grid-item-width), 1fr));
+  grid-gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(var(--grid-item-width), 1fr));
   margin-bottom: 2rem;
 }
 
@@ -1033,7 +1036,7 @@ routes/artist
 .artists-grid {
   max-width: 694px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 154px);
+  grid-template-columns: repeat(auto-fill, 154px);
   gap: 116px;
   margin: auto;
   margin-bottom: 6rem;
