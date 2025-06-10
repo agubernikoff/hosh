@@ -114,19 +114,27 @@ export function HeaderMenu({
                   openSection={openNested}
                   toggleSection={toggleSectionNested}
                   header={true}
-                  details={item2.items.map((item3) => (
-                    <NavLink
-                      className="header-menu-item"
-                      end
-                      key={item3.id}
-                      onClick={close}
-                      prefetch="intent"
-                      style={activeLinkStyle}
-                      to={url}
-                    >
-                      {item3.title}
-                    </NavLink>
-                  ))}
+                  details={item2.items.map((item3) => {
+                    const url =
+                      item3.url.includes('myshopify.com') ||
+                      item3.url.includes(publicStoreDomain) ||
+                      item3.url.includes(primaryDomainUrl)
+                        ? new URL(item3.url).pathname
+                        : item3.url;
+                    return (
+                      <NavLink
+                        className="header-menu-item"
+                        end
+                        key={item3.id}
+                        onClick={close}
+                        prefetch="intent"
+                        style={activeLinkStyle}
+                        to={url}
+                      >
+                        {item3.title}
+                      </NavLink>
+                    );
+                  })}
                 />
               ) : (
                 <NavLink
