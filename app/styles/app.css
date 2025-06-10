@@ -1129,4 +1129,9 @@ media queries
     gap: 0;
     flex-direction: column;
   }
+  .carousel-wrapper,
+  .carousel-track,
+  .carousel-track > img {
+    width: 100% !important;
+  }
 }

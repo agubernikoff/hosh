@@ -104,7 +104,7 @@ export default function InfiniteCarousel({
       style={{
         overflow: 'hidden',
         position: 'relative',
-        width: '100%',
+        width: `${width}vw`,
         margin: 'auto',
       }}
     >
@@ -113,7 +113,7 @@ export default function InfiniteCarousel({
         className="carousel-track"
         style={{
           display: 'flex',
-          width: '100%',
+          width: `${extendedImages.length * width}vw`,
         }}
       >
         {extendedImages.map((src, i) => (
@@ -122,7 +122,7 @@ export default function InfiniteCarousel({
             src={src}
             alt={`Slide ${i}`}
             style={{
-              width: '100%',
+              width: `${width}vw`,
               flexShrink: 0,
               objectFit: 'cover',
             }}
