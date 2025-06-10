@@ -241,54 +241,112 @@ export function Filter({filters, shopAll, term}) {
 
 function Sort({addSort, removeSort, isChecked, term, shopAll}) {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Define sort options with their labels and values
+  const sortOptions = [
+    {
+      label: 'Best Selling',
+      value: JSON.stringify({
+        reverse: false,
+        sortKey: 'BEST_SELLING',
+      }),
+    },
+    {
+      label: 'Alphabetically, A-Z',
+      value: JSON.stringify({reverse: false, sortKey: 'TITLE'}),
+    },
+    {
+      label: 'Alphabetically, Z-A',
+      value: JSON.stringify({reverse: true, sortKey: 'TITLE'}),
+    },
+    {
+      label: 'Date, new to old',
+      value: JSON.stringify({
+        reverse: true,
+        sortKey: shopAll ? 'CREATED_AT' : 'CREATED',
+      }),
+    },
+    {
+      label: 'Date, old to new',
+      value: JSON.stringify({
+        reverse: false,
+        sortKey: shopAll ? 'CREATED_AT' : 'CREATED',
+      }),
+    },
+    {
+      label: 'Price, low to high',
+      value: JSON.stringify({reverse: false, sortKey: 'PRICE'}),
+    },
+    {
+      label: 'Price, high to low',
+      value: JSON.stringify({reverse: true, sortKey: 'PRICE'}),
+    },
+  ];
+
+  // Find the currently selected sort option
+  const getSelectedSortLabel = () => {
+    const selectedOption = sortOptions.find((option) =>
+      isChecked(option.value),
+    );
+    return selectedOption ? selectedOption.label : 'Relevance'; // Default fallback
+  };
+
   function toggleIsOpen() {
     setIsOpen(!isOpen);
   }
+
   return (
     <button onClick={toggleIsOpen} className="sort-by-button">
-      <AnimatePresence mode="popLayout">
-        <motion.span
-          key={`sort-by-${isOpen}`}
-          initial={{opacity: 1}}
-          animate={{opacity: 1}}
-          exit={{opacity: 0}}
-          style={{display: 'inline-block', textAlign: 'left'}}
+      <span>
+        <span style={{display: 'inline-block', textAlign: 'left'}}>
+          {`Sort: `}
+        </span>
+        <AnimatePresence mode="popLayout">
+          <motion.span
+            key={`sort-by-${getSelectedSortLabel()}`}
+            initial={{opacity: 1}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            style={{
+              display: 'inline-block',
+              textAlign: 'left',
+              marginLeft: '.5rem',
+            }}
+          >
+            {getSelectedSortLabel()}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+      <div>
+        <motion.svg
+          width="8"
+          height="12"
+          viewBox="0 0 8 12"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          initial={{rotateX: 0}}
+          animate={{rotateX: isOpen ? 180 : 0}}
         >
-          {!isOpen ? 'Sort:' : 'Close'}
-        </motion.span>
-      </AnimatePresence>
-      <svg
-        width="16"
-        height="12"
-        viewBox="0 0 16 12"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <line y1="3" x2="16" y2="3" stroke="black" />
-        <motion.rect
-          x="3.5"
-          y="1"
-          width="4"
-          height="4"
-          fill="white"
-          stroke="black"
-          initial={{x: 0}}
-          animate={{x: isOpen ? '6px' : 0}}
-          transition={{ease: 'easeInOut', duration: 0.15}}
-        />
-        <line y1="9" x2="16" y2="9" stroke="black" />
-        <motion.rect
-          x="9.5"
-          y="7"
-          width="4"
-          height="4"
-          fill="white"
-          stroke="black"
-          initial={{x: 0}}
-          animate={{x: isOpen ? '-6px' : 0}}
-          transition={{ease: 'easeInOut', duration: 0.15}}
-        />
-      </svg>
+          <path
+            d="M4.35355 0.646446C4.15829 0.451184 3.84171 0.451184 3.64645 0.646446L0.464465 3.82843C0.269203 4.02369 0.269203 4.34027 0.464466 4.53553C0.659728 4.7308 0.97631 4.7308 1.17157 4.53553L4 1.70711L6.82843 4.53553C7.02369 4.7308 7.34027 4.7308 7.53553 4.53553C7.7308 4.34027 7.7308 4.02369 7.53553 3.82843L4.35355 0.646446ZM4 12L4.5 12L4.5 1L4 1L3.5 1L3.5 12L4 12Z"
+            fill="black"
+          />
+        </motion.svg>
+        <motion.svg
+          width="8"
+          height="12"
+          viewBox="0 0 8 12"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          initial={{rotateX: 0}}
+          animate={{rotateX: isOpen ? 180 : 0}}
+        >
+          <path
+            d="M3.64645 11.3536C3.84171 11.5488 4.15829 11.5488 4.35355 11.3536L7.53553 8.17157C7.7308 7.97631 7.7308 7.65973 7.53553 7.46447C7.34027 7.2692 7.02369 7.2692 6.82843 7.46447L4 10.2929L1.17157 7.46447C0.97631 7.2692 0.659728 7.2692 0.464466 7.46447C0.269204 7.65973 0.269204 7.97631 0.464466 8.17157L3.64645 11.3536ZM4 0L3.5 -2.18557e-08L3.5 11L4 11L4.5 11L4.5 2.18557e-08L4 0Z"
+            fill="black"
+          />
+        </motion.svg>
+      </div>
       <AnimatePresence>
         {isOpen && (
           <div className="sort-overflow-hidden-container">
@@ -299,76 +357,18 @@ function Sort({addSort, removeSort, isChecked, term, shopAll}) {
               transition={{ease: 'easeInOut', duration: 0.15}}
             >
               <div className="sort-container">
-                <FilterInput
-                  label={'Best Selling'}
-                  value={JSON.stringify({
-                    reverse: false,
-                    sortKey: 'BEST_SELLING',
-                  })}
-                  addFilter={addSort}
-                  isChecked={isChecked}
-                  removeFilter={removeSort}
-                  isSort={true}
-                  term={term}
-                />
-                <FilterInput
-                  label={'Alphabetically, A-Z'}
-                  value={JSON.stringify({reverse: false, sortKey: 'TITLE'})}
-                  addFilter={addSort}
-                  isChecked={isChecked}
-                  removeFilter={removeSort}
-                  term={term}
-                  isSort={true}
-                />
-                <FilterInput
-                  label={'Alphabetically, Z-A'}
-                  value={JSON.stringify({reverse: true, sortKey: 'TITLE'})}
-                  addFilter={addSort}
-                  isChecked={isChecked}
-                  removeFilter={removeSort}
-                  term={term}
-                  isSort={true}
-                />
-                <FilterInput
-                  label={'Date, new to old'}
-                  value={JSON.stringify({
-                    reverse: true,
-                    sortKey: shopAll ? 'CREATED_AT' : 'CREATED',
-                  })}
-                  addFilter={addSort}
-                  isChecked={isChecked}
-                  removeFilter={removeSort}
-                  term={term}
-                  isSort={true}
-                />
-                <FilterInput
-                  label={'Date, old to new'}
-                  value={JSON.stringify({
-                    reverse: false,
-                    sortKey: shopAll ? 'CREATED_AT' : 'CREATED',
-                  })}
-                  addFilter={addSort}
-                  isChecked={isChecked}
-                  removeFilter={removeSort}
-                  term={term}
-                  isSort={true}
-                />
-                <FilterInput
-                  label={'Price, low to high'}
-                  value={JSON.stringify({reverse: false, sortKey: 'PRICE'})}
-                  addFilter={addSort}
-                  isChecked={isChecked}
-                  removeFilter={removeSort}
-                  isSort={true}
-                />
-                <FilterInput
-                  label={'Price, high to low'}
-                  value={JSON.stringify({reverse: true, sortKey: 'PRICE'})}
-                  addFilter={addSort}
-                  isChecked={isChecked}
-                  removeFilter={removeSort}
-                  isSort={true}
-                />
+                {sortOptions.map((option, index) => (
+                  <FilterInput
+                    key={index}
+                    label={option.label}
+                    value={option.value}
+                    addFilter={addSort}
+                    isChecked={isChecked}
+                    removeFilter={removeSort}
+                    isSort={true}
+                    term={term}
+                  />
+                ))}
               </div>
             </motion.div>
           </div>
