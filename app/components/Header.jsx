@@ -296,7 +296,10 @@ function SearchToggle() {
                 console.log('valeu', value, 'x', open);
                 if (!value) {
                   if (open) setOpen(false);
-                  else setOpen(true);
+                  else {
+                    setOpen(true);
+                    setTimeout(() => inputRef.current.focus(), 150);
+                  }
                 } else goToSearch();
               }}
             >
