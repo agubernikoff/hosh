@@ -285,6 +285,10 @@ input[type='search' i]::-webkit-search-cancel-button {
   }
 }
 
+.header-inner > a > img {
+  border-radius: 0px !important;
+}
+
 .header-menu-item {
   cursor: pointer;
 }
@@ -320,6 +324,7 @@ input[type='search' i]::-webkit-search-cancel-button {
 .footer-logo {
   font-weight: 700;
   font-size: 1.75rem;
+  border-radius: 0px !important;
 }
 
 .footer-locale {
@@ -1116,5 +1121,12 @@ media queries
     height: 40px;
     margin-top: 2rem;
     margin-bottom: 1rem;
+  }
+  .article {
+    width: 100%;
+  }
+  .blog-article__inner {
+    gap: 0;
+    flex-direction: column;
   }
 }
