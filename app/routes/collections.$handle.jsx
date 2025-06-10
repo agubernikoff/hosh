@@ -92,7 +92,7 @@ export default function Collection() {
 
   return (
     <div className="collection">
-      <h1>{collection.title}</h1>
+      <p>{collection.title}</p>
       <p className="collection-description">{collection.description}</p>
       <Filter filters={collection.products.filters} />
       <PaginatedResourceSection
@@ -196,7 +196,7 @@ export function Filter({filters, shopAll, term}) {
       searchParams.get('sortKey') === parsed.sortKey
     );
   }
-  console.log(filters);
+
   return (
     <div className="filter-container">
       <Sort

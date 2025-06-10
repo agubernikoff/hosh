@@ -101,7 +101,7 @@ function useIsFirstRender() {
 export default function Page() {
   /** @type {LoaderReturnData} */
   const {metaobject} = useLoaderData();
-  console.log(metaobject);
+  console.log('x', metaobject);
   const artist = metaobject?.fields.reduce(
     (acc, {key, value, reference, references}) => {
       acc[key] = references || reference || value;
@@ -187,11 +187,17 @@ export default function Page() {
             />
           ))}
       </div>
-      {artist?.collection.products?.nodes?.length > 0 && (
-        <div style={{width: '100%'}}>
+      {artist?.collection?.products?.nodes?.length > 0 && (
+        <div
+          style={{
+            width: '100%',
+            paddingInline: '10vw',
+            boxSizing: 'border-box',
+          }}
+        >
           <Filter filters={artist?.collection?.products?.filters} />
           <PaginatedResourceSection
-            connection={artist?.collection.products}
+            connection={artist?.collection?.products}
             resourcesClassName="products-grid"
           >
             {({node: product, index}) => (
