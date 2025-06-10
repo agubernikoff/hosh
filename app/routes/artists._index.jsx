@@ -70,23 +70,9 @@ export default function Page() {
   return (
     <div className="artists-page">
       <AnimatePresence mode="popLayout">
-        {/* <div
-          style={{
-            textAlign: 'center',
-            opacity: hovered ? 0 : 1,
-            transition: 'opacity 300ms ease-in-out',
-          }}
-        >
-          <p>ARTISTS</p>
-          <br />
-        </div> */}
         <motion.div
           style={{
             textAlign: 'center',
-            // position: 'absolute',
-            // top: 0,
-            // left: '50%',
-            // transform: 'translateX(-50%)',
             width: '100%',
             minHeight: '50px',
             paddingBlock: '2rem',
