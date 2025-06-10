@@ -55,9 +55,13 @@ async function loadCriticalData({context, params, request}) {
   if (searchParams.has('reverse'))
     reverse = searchParams.get('reverse') === 'true';
 
-  const [{collection}] = await Promise.all([
+  const [{collection}, {metaobject}] = await Promise.all([
     storefront.query(COLLECTION_QUERY, {
       variables: {handle, filters, reverse, sortKey, ...paginationVariables},
+      // Add other queries here, so that they are loaded in parallel
+    }),
+    storefront.query(ARTIST_QUERY, {
+      variables: {handle},
       // Add other queries here, so that they are loaded in parallel
     }),
   ]);
@@ -68,11 +72,16 @@ async function loadCriticalData({context, params, request}) {
     });
   }
 
+  console.log(metaobject);
+  let artist = null;
+  if (metaobject) artist = metaobject;
+
   // The API handle might be localized, so redirect to the localized handle
   redirectIfHandleIsLocalized(request, {handle, data: collection});
 
   return {
     collection,
+    artist,
   };
 }
 
@@ -88,11 +97,20 @@ function loadDeferredData({context}) {
 
 export default function Collection() {
   /** @type {LoaderReturnData} */
-  const {collection} = useLoaderData();
+  const {collection, artist} = useLoaderData();
 
   return (
     <div className="collection">
-      <p className="collection-title">{collection.title.toUpperCase()}</p>
+      <div className="collection-title">
+        <p>{collection.title.toUpperCase()}</p>
+        {artist && (
+          <p>
+            <span>{artist?.tribe?.value}</span>
+            {artist?.tribe?.value && artist?.discipline?.value && ' • '}
+            <span>{artist?.discipline?.value}</span>
+          </p>
+        )}
+      </div>
       <p className="collection-description">{collection.description}</p>
       <Filter filters={collection.products.filters} />
       <PaginatedResourceSection
@@ -714,6 +732,28 @@ const COLLECTION_QUERY = `#graphql
       }
     }
   }
+`;
+
+const ARTIST_QUERY = `#graphql
+  query Artist(
+    $language: LanguageCode,
+    $country: CountryCode,
+    $handle: String!
+  )
+  @inContext(language: $language, country: $country) {
+    metaobject(handle:{
+        handle:$handle,type:"artist_data"
+      }){
+        tribe:field(key:"tribe") {
+          key
+          value
+        }
+        discipline:field(key:"discipline") {
+          key
+          value
+        }
+      }
+    }
 `;
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */

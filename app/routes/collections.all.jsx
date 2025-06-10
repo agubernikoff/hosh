@@ -81,7 +81,7 @@ export default function Collection() {
 
   return (
     <div className="collection">
-      <h1>Products</h1>
+      {/* <h1>Products</h1> */}
       <Filter filters={filters} shopAll={true} />
       <PaginatedResourceSection
         connection={products}
