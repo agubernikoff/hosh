@@ -212,6 +212,7 @@ button.reset:hover:not(:has(> *)) {
 
 .header-menu-item:hover {
   text-decoration: none;
+  color: black !important;
 }
 
 .header-logo {
@@ -746,6 +747,10 @@ input[type='search' i]::-webkit-search-cancel-button {
   border: none;
   text-align: left;
 }
+.filter-container > button:hover,
+.sort-container > button:hover {
+  color: black !important;
+}
 .mobile-filter {
   display: flex;
   align-items: center;
@@ -838,7 +843,7 @@ input[type='search' i]::-webkit-search-cancel-button {
 .product-left {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.5rem;
 }
 .product-left > div:first-of-type p {
   font-weight: bold;
@@ -926,19 +931,63 @@ input[type='search' i]::-webkit-search-cancel-button {
 * --------------------------------------------------
 */
 .blog-grid {
-  display: grid;
-  grid-gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(var(--grid-item-width), 1fr));
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
 }
 
-.blog-article-image {
-  aspect-ratio: 3/2;
+.blog-article__inner {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+  max-width: 800px;
+  margin-bottom: 80px;
+}
+
+.blog-article__image {
+  flex: 0 0 300px;
+}
+
+.blog-article__image img {
+  width: 100%;
+  height: auto;
   display: block;
+  border-radius: 0;
 }
 
-.blog-article-image img {
-  height: 100%;
+.blog-article__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-article__date {
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+.blog-article__title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.blog-article__excerpt {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.read-link {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #000;
+  text-decoration: none;
 }
 
 /*
@@ -946,6 +995,13 @@ input[type='search' i]::-webkit-search-cancel-button {
 * routes/blog.$articlehandle.tsx
 * --------------------------------------------------
 */
+
+.article {
+  width: 50%;
+  margin: auto;
+  margin-top: 5rem;
+}
+
 .article img {
   height: auto;
   width: 100%;

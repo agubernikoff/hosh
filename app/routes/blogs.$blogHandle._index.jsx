@@ -73,7 +73,7 @@ export default function Blog() {
 
   return (
     <div className="blog">
-      <h1>{blog.title}</h1>
+      {/* <h1>{blog.title}</h1> */}
       <div className="blog-grid">
         <PaginatedResourceSection connection={articles}>
           {({node: article, index}) => (
@@ -98,26 +98,49 @@ export default function Blog() {
 function ArticleItem({article, loading}) {
   const publishedAt = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
   }).format(new Date(article.publishedAt));
+
+  const rawHtml = article.contentHtml || '';
+  const noHtml = rawHtml
+    .replace(/<[^>]+>/g, '') // Strip HTML
+    .replace(article.title, '') // Remove title
+    .replace(/\d{2}\.\d{2}\.\d{4}/, '') // Remove date like "01.25.2024"
+    .replace(/\s+/g, ' ') // Normalize whitespace
+    .trim();
+
+  const excerpt =
+    (article.excerpt || noHtml).slice(0, 200).replace(/\s+\S*$/, '') + '...';
+
   return (
-    <div className="blog-article" key={article.id}>
-      <Link to={`/blogs/${article.blog.handle}/${article.handle}`}>
-        {article.image && (
-          <div className="blog-article-image">
-            <Image
-              alt={article.image.altText || article.title}
-              aspectRatio="3/2"
-              data={article.image}
-              loading={loading}
-              sizes="(min-width: 768px) 50vw, 100vw"
-            />
-          </div>
-        )}
-        <h3>{article.title}</h3>
-        <small>{publishedAt}</small>
-      </Link>
+    <div className="blog-article">
+      <div className="blog-article__inner">
+        <div className="blog-article__image">
+          <Link to={`/blogs/${article.blog.handle}/${article.handle}`}>
+            {article.image && (
+              <Image
+                alt={article.image.altText || article.title}
+                aspectRatio="3/2"
+                data={article.image}
+                loading={loading}
+                sizes="(min-width: 768px) 50vw, 100vw"
+              />
+            )}
+          </Link>
+        </div>
+        <div className="blog-article__content">
+          <div className="blog-article__date">{publishedAt}</div>
+          <div className="blog-article__title">{article.title}</div>
+          <div className="blog-article__excerpt">{excerpt}</div>
+          <Link
+            className="read-link"
+            to={`/blogs/${article.blog.handle}/${article.handle}`}
+          >
+            READ
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

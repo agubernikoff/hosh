@@ -85,18 +85,18 @@ export default function Article() {
 
   return (
     <div className="article">
-      <h1>
+      {/* <h1>
         {title}
         <div>
           <time dateTime={article.publishedAt}>{publishedDate}</time> &middot;{' '}
           <address>{author?.name}</address>
         </div>
-      </h1>
+      </h1> */}
 
-      {image && <Image data={image} sizes="90vw" loading="eager" />}
+      {/* {image && <Image data={image} sizes="90vw" loading="eager" />} */}
       <div
         dangerouslySetInnerHTML={{__html: contentHtml}}
-        className="article"
+        className="article-inner"
       />
     </div>
   );
