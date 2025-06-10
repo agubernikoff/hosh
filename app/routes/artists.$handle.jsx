@@ -1,4 +1,4 @@
-import {useLoaderData, NavLink} from '@remix-run/react';
+import {useLoaderData, NavLink, redirect} from '@remix-run/react';
 import InfiniteCarousel from '~/components/Carousel';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {Image} from '@shopify/hydrogen';
@@ -45,7 +45,7 @@ async function loadCriticalData({context, request, params}) {
   let sortKey = null;
 
   if (!handle) {
-    throw redirect('/collections');
+    throw redirect('/artists');
   }
 
   if (searchParams.has('filter')) {
@@ -110,7 +110,7 @@ export default function Page() {
     {},
   );
 
-  console.log(artist.collection.products.filters);
+  console.log(artist);
 
   const [openSection, setOpenSection] = useState(null);
 
@@ -123,75 +123,87 @@ export default function Page() {
   return (
     <div className="artist-page">
       <div>
-        <p>{artist.name}</p>
+        <p>{artist?.name}</p>
         <p>
-          <span>{artist.tribe}</span>
-          {' • '}
-          <span>{artist.discipline}</span>
+          <span>{artist?.tribe}</span>
+          {artist?.tribe && artist?.discipline && ' • '}
+          <span>{artist?.discipline}</span>
         </p>
       </div>
-      {artist.images.nodes && (
+      {artist?.images?.nodes && (
         <InfiniteCarousel
-          images={artist.images.nodes.map((n) => n.image.url)}
+          images={artist?.images?.nodes?.map((n) => n?.image?.url)}
           width={70}
         />
       )}
-      <Image
-        data={artist.featured_image.image}
-        sizes="(min-width: 45em) 50vw, 100vw"
-        alt={artist.featured_image.alt}
-        width={'30vw'}
-      />
-      <NavLink to={`/products/${artist.featured_product.handle}`}>
+      {artist?.featured_image && (
         <Image
-          data={artist.featured_product.featuredImage}
+          data={artist?.featured_image.image}
           sizes="(min-width: 45em) 50vw, 100vw"
-          alt={artist.featured_product.featuredImage.alt}
+          alt={artist?.featured_image.alt}
           width={'30vw'}
         />
-        <p style={{marginTop: '2rem'}}>
-          {`${artist.featured_product.title} by ${artist.name}  |  `}
-          <strong>SHOP</strong>
-        </p>
-      </NavLink>
+      )}
+      {artist?.featured_product && (
+        <NavLink to={`/products/${artist?.featured_product?.handle}`}>
+          <Image
+            data={artist?.featured_product?.featuredImage}
+            sizes="(min-width: 45em) 50vw, 100vw"
+            alt={artist?.featured_product?.featuredImage?.alt}
+            width={'30vw'}
+          />
+          <p style={{marginTop: '2rem'}}>
+            {`${artist?.featured_product?.title} by ${artist?.name}  |  `}
+            <strong>SHOP</strong>
+          </p>
+        </NavLink>
+      )}
       <div className="artist-expandables-div">
         {[
           {
             title: 'Artist Bio',
-            details: mapRichText(JSON.parse(artist.biography)),
+            details: artist?.biography
+              ? mapRichText(JSON.parse(artist?.biography))
+              : null,
           },
           {
             title: 'Awards & Exhibitions',
-            details: JSON.parse(artist.awards).map((award) => (
-              <p key={award}>{award}</p>
-            )),
+            details: artist.awards
+              ? JSON.parse(artist?.awards).map((award) => (
+                  <p key={award}>{award}</p>
+                ))
+              : null,
           },
-        ].map((section) => (
-          <Expandable
-            key={section.title}
-            openSection={openSection}
-            toggleSection={toggleSection}
-            title={section.title}
-            details={section.details}
-            isFirstRender={isFirstRender}
-          />
-        ))}
-      </div>
-      <div style={{width: '100%'}}>
-        <Filter filters={artist.collection.products.filters} />
-        <PaginatedResourceSection
-          connection={artist.collection.products}
-          resourcesClassName="products-grid"
-        >
-          {({node: product, index}) => (
-            <ProductItem
-              key={product.id}
-              product={product}
-              loading={index < 8 ? 'eager' : undefined}
+        ]
+          .filter((section) => section.details)
+          .map((section) => (
+            <Expandable
+              key={section.title}
+              openSection={openSection}
+              toggleSection={toggleSection}
+              title={section.title}
+              details={section.details}
+              isFirstRender={isFirstRender}
             />
-          )}
-        </PaginatedResourceSection>
+          ))}
       </div>
+      {artist?.collection.products?.nodes?.length > 0 && (
+        <div style={{width: '100%'}}>
+          <Filter filters={artist?.collection?.products?.filters} />
+          <PaginatedResourceSection
+            connection={artist?.collection.products}
+            resourcesClassName="products-grid"
+          >
+            {({node: product, index}) => (
+              <ProductItem
+                key={product.id}
+                product={product}
+                loading={index < 8 ? 'eager' : undefined}
+              />
+            )}
+          </PaginatedResourceSection>
+        </div>
+      )}
     </div>
   );
 }

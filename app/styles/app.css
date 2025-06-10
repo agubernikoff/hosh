@@ -1024,9 +1024,33 @@ input[type='search' i]::-webkit-search-cancel-button {
 
 /* 
 ----------------------------------------------------
-routes/pages/artist
+routes/artist
 ----------------------------------------------------
 */
+.artists-page {
+  position: relative;
+}
+.artists-grid {
+  max-width: 694px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 154px);
+  gap: 116px;
+  margin: auto;
+  margin-bottom: 6rem;
+}
+.artist-thumbnail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+  position: relative;
+}
+.artist-thumbnail p {
+  width: fit-content;
+  text-align: center;
+}
 
 .artist-page {
   text-align: center;
