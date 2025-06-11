@@ -18,7 +18,7 @@ export function PaginatedResourceSection({
         );
 
         return (
-          <div>
+          <div style={{marginBottom: '4rem'}}>
             <PreviousLink>
               {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
             </PreviousLink>
