@@ -1309,7 +1309,7 @@ media queries
   }
 
   .header {
-    padding-inline: 1rem;
+    /* padding-inline: 1rem; */
   }
   .header-ctas {
     gap: 0.25rem;
@@ -1345,7 +1345,8 @@ media queries
     background: inherit;
     color: inherit;
   }
-  .featured-collection-image {
+  html,
+  body {
     overflow-x: hidden;
   }
   .product {
