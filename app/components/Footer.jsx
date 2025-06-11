@@ -106,11 +106,7 @@ export function Footer({
               </div>
 
               <div className="footer-right">
-                <form className="footer-newsletter">
-                  <label>Sign up for our newsletter</label>
-                  <input type="email" placeholder="Email address" />
-                  <button type="submit">Submit</button>
-                </form>
+                <Newsletter />
                 <img src={gila} alt="Penguin" className="footer-icon" />
                 <div className="footer-copyright">© 2024 HOSH</div>
               </div>
@@ -193,6 +189,97 @@ export function LocationForm({availableCountries, selectedLocale, close}) {
         </option>
       ))}
     </select>
+  );
+}
+
+function Newsletter() {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [text, setText] = useState('Sign up for our newsletter');
+
+  function subscribe(e) {
+    e.preventDefault();
+    if (!email) {
+      setError('please enter a valid email');
+      setTimeout(() => {
+        setError();
+      }, 1500);
+      return;
+    }
+
+    const payload = {
+      data: {
+        type: 'subscription',
+        attributes: {
+          profile: {
+            data: {
+              type: 'profile',
+              attributes: {
+                email: `${email}`,
+              },
+            },
+          },
+        },
+        relationships: {
+          list: {
+            data: {
+              type: 'list',
+              id: 'UQazun',
+            },
+          },
+        },
+      },
+    };
+
+    var requestOptions = {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        revision: '2025-04-15',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    fetch(
+      'https://a.klaviyo.com/client/subscriptions/?company_id=XnfL7p',
+      requestOptions,
+    ).then((result) => {
+      if (result.ok) {
+        setText('Thank you for signing up');
+        setTimeout(() => {
+          setText('Sign up for our newsletter');
+        }, 1500);
+      } else {
+        result.json().then((data) => {
+          console.log(data);
+          setError(data.errors[0].detail);
+          setTimeout(() => {
+            setError();
+          }, 1500);
+        });
+      }
+    });
+  }
+
+  return (
+    <form
+      className="footer-newsletter"
+      onSubmit={subscribe}
+      style={{position: 'relative'}}
+    >
+      <label>{text}</label>
+      <input
+        type="email"
+        placeholder="Email address"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <button type="submit">Submit</button>
+      <p style={{position: 'absolute', bottom: '-1.5rem', fontSize: '12px'}}>
+        {error}
+      </p>
+    </form>
   );
 }
 

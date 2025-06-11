@@ -22,6 +22,13 @@ export default async function handleRequest(
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
+    connectSrc: [
+      'https://klaviyo.com',
+      'https://*.klaviyo.com',
+      'https://cdn.shopify.com',
+      'http://localhost:3000',
+      'https://*.klaviyo.com/*',
+    ],
   });
 
   const body = await renderToReadableStream(
