@@ -191,6 +191,7 @@ button.reset:hover:not(:has(> *)) {
   z-index: 50;
   border-bottom: 1px solid #eaeaea;
   padding: 0 2rem;
+  /* height: var(--header-height); */
 }
 
 .header-inner {
@@ -1082,6 +1083,7 @@ routes/artist
   align-items: center;
   width: fit-content;
   position: relative;
+  max-width: 154px;
 }
 .artist-thumbnail p {
   width: fit-content;
@@ -1128,6 +1130,9 @@ media queries
 */
 
 @media (max-width: 499px) {
+  :root {
+    --header-height: 57px;
+  }
   .featured-artist-homepage-section {
     display: block;
     height: auto;
@@ -1195,6 +1200,9 @@ media queries
     padding: 0;
     display: flex;
   }
+  .header {
+    padding-inline: 1rem;
+  }
   .header-ctas {
     gap: 0.25rem;
   }
@@ -1210,5 +1218,29 @@ media queries
   }
   .header-menu-mobile-toggle {
     flex: 1;
+  }
+  .products-grid {
+    grid-gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .product-item-img-container {
+    margin-bottom: 5px;
+  }
+  button {
+    color: black;
+  }
+  aside {
+    top: var(--header-height);
+  }
+  .artists-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .add-to-cart-btn:hover,
+  button:hover {
+    background: inherit;
+    color: inherit;
   }
 }

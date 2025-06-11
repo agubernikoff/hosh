@@ -264,7 +264,7 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState('');
-  const {open, close} = useAside();
+  const {open, close, type} = useAside();
   const queriesDatalistId = useId();
 
   function openSearch() {
@@ -275,6 +275,9 @@ function SearchToggle() {
     close();
     setIsOpen(false);
   }
+  useEffect(() => {
+    if (type !== 'search') setIsOpen(false);
+  }, [type]);
   return (
     <>
       <SearchFormPredictive>
@@ -337,7 +340,7 @@ function SearchToggle() {
  * @param {{count: number | null}}
  */
 function CartBadge({count}) {
-  const {open, close} = useAside();
+  const {open, close, type} = useAside();
   const {publish, shop, cart, prevCart} = useAnalytics();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -355,6 +358,9 @@ function CartBadge({count}) {
     close();
     setIsOpen(false);
   }
+  useEffect(() => {
+    if (type !== 'cart') setIsOpen(false);
+  }, [type]);
 
   return (
     <a
