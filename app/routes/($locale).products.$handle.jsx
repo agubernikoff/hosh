@@ -184,7 +184,7 @@ function Product() {
       <div className="product-left">
         <div style={{marginBottom: '1rem'}}>
           <p>{title}</p>
-          <p>{product.artist.value}</p>
+          <p>{product.artist?.value}</p>
         </div>
         <div style={{marginBottom: '1rem'}}>
           <p>{product.description2.value}</p>
@@ -196,34 +196,36 @@ function Product() {
         {[
           {
             title: 'Artwork',
-            details: product.artwork.value,
+            details: product.artwork?.value,
           },
           {
             title: 'Artist',
-            details: product.artist_note.value,
+            details: product.artist_note?.value,
           },
           {
             title: 'Craftsmanship & Details',
-            details: product.craftsmanship_details.value,
+            details: product.craftsmanship_details?.value,
           },
           {
             title: 'Size & Fit',
-            details: mapRichText(JSON.parse(product.size_and_fit.value)),
+            details: mapRichText(JSON.parse(product.size_and_fit?.value)),
           },
           {
             title: 'Care',
-            details: product.care_guide.value,
+            details: product.care_guide?.value,
           },
-        ].map((section) => (
-          <Expandable
-            key={section.title}
-            openSection={openSection}
-            toggleSection={toggleSection}
-            title={section.title}
-            details={section.details}
-            isFirstRender={isFirstRender}
-          />
-        ))}
+        ]
+          .filter((section) => section.details)
+          .map((section) => (
+            <Expandable
+              key={section.title}
+              openSection={openSection}
+              toggleSection={toggleSection}
+              title={section.title}
+              details={section.details}
+              isFirstRender={isFirstRender}
+            />
+          ))}
       </div>
       <div
         style={{
@@ -270,7 +272,7 @@ function Recs() {
   const collectionFetcher = useFetcher();
 
   useEffect(() => {
-    const collectionHandle = product.artist.value
+    const collectionHandle = product.artist?.value
       .toLowerCase()
       .split(' ')
       .join('-');

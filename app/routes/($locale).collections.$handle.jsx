@@ -136,9 +136,43 @@ export default function Collection() {
   );
 }
 
+// Modified Filter component with cascading close
 export function Filter({filters, shopAll, term}) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [openFilter, setOpenFilter] = useState(null); // Track which filter is open
+  const [backupFilterOpen, setBackupFilterOpen] = useState(false); // Track backup filter state
+
+  // Handle cascading close - close child filters first, then parent
+  const handleBackupFilterClose = () => {
+    if (openFilter !== null) {
+      // If a child filter is open, close it first
+      setOpenFilter(null);
+      // Then close the backup filter after a short delay for smooth animation
+      setTimeout(() => {
+        setBackupFilterOpen(false);
+      }, 150); // Match your animation duration
+    } else {
+      // If no child filters are open, close immediately
+      setBackupFilterOpen(false);
+    }
+  };
+
+  // Handle backup filter toggle
+  const handleBackupFilterToggle = () => {
+    if (backupFilterOpen) {
+      handleBackupFilterClose();
+    } else {
+      setBackupFilterOpen(true);
+    }
+  };
+
+  // Handle child filter toggle - this should work normally when backup filter is open
+  const handleChildFilterToggle = (index) => {
+    // Only allow child filter toggling when backup filter is open
+    if (backupFilterOpen) {
+      setOpenFilter(openFilter === index ? null : index);
+    }
+  };
 
   function addFilter(input) {
     setSearchParams(
@@ -155,11 +189,10 @@ export function Filter({filters, shopAll, term}) {
   function removeFilter(input) {
     setSearchParams(
       (prev) => {
-        const newParams = new URLSearchParams(prev); // Clone to avoid mutation
-        const filters = newParams.getAll('filter'); // Get all filter values
-        newParams.delete('filter'); // Remove all instances
+        const newParams = new URLSearchParams(prev);
+        const filters = newParams.getAll('filter');
+        newParams.delete('filter');
 
-        // Re-add only the filters that are NOT being removed
         filters
           .filter((f) => f !== input)
           .forEach((f) => newParams.append('filter', f));
@@ -179,7 +212,7 @@ export function Filter({filters, shopAll, term}) {
     setSearchParams(
       (prev) => {
         const newParams = new URLSearchParams(prev);
-        newParams.delete('filter'); // Remove all `filter` parameters
+        newParams.delete('filter');
         return newParams;
       },
       {preventScrollReset: true},
@@ -239,6 +272,33 @@ export function Filter({filters, shopAll, term}) {
 
   return (
     <div className="filter-container">
+      <BackupFilter
+        isOpen={backupFilterOpen}
+        onToggle={handleBackupFilterToggle}
+        onClose={handleBackupFilterClose}
+      >
+        <div
+          style={{position: 'relative', margin: 0}}
+          className="filter-container"
+        >
+          {filters.map((filter, index) => (
+            <Filt
+              filter={filter.values}
+              addFilter={addFilter}
+              removeFilter={removeFilter}
+              isChecked={isChecked}
+              clearFilter={clearFilter}
+              label={filter.label}
+              key={filter.label}
+              isOpen={openFilter === index}
+              onToggle={() => handleChildFilterToggle(index)}
+              selectedFilters={getSelectedFilters()}
+              // Pass parent state to child for cascading behavior
+              parentOpen={backupFilterOpen}
+            />
+          ))}
+        </div>
+      </BackupFilter>
       <Sort
         addSort={addSort}
         removeSort={removeSort}
@@ -246,12 +306,9 @@ export function Filter({filters, shopAll, term}) {
         shopAll={shopAll}
         term={term}
       />
-
-      {/* Display selected filters */}
-
       <div
         style={{position: 'relative', margin: 0}}
-        className="filter-container"
+        className="filter-container hide-on-mobile"
       >
         {filters.map((filter, index) => (
           <Filt
@@ -486,8 +543,9 @@ function Filt({
   isOpen,
   onToggle,
   selectedFilters,
+  parentOpen,
 }) {
-  const filterOrderRef = useRef(new Map()); // Persist across renders
+  const filterOrderRef = useRef(new Map());
 
   function storeInitialOrder(filters) {
     if (filterOrderRef.current.size === 0) {
@@ -507,13 +565,17 @@ function Filt({
   }
 
   useEffect(() => {
-    console.log(filter);
     storeInitialOrder(filter);
   }, []);
 
   return (
     <>
-      <MobileFilt label={label} isOpen={isOpen} onToggle={onToggle}>
+      <MobileFilt
+        label={label}
+        isOpen={isOpen}
+        onToggle={onToggle}
+        parentOpen={parentOpen}
+      >
         <div className="filter-container">
           {sortByStoredOrder(filter).map((v) => (
             <FilterInput
@@ -527,7 +589,6 @@ function Filt({
             />
           ))}
         </div>
-        {/* Display selected filters */}
         <SelectedFilters
           selectedFilters={selectedFilters}
           removeFilter={removeFilter}
@@ -538,7 +599,23 @@ function Filt({
   );
 }
 
-function MobileFilt({children, label, isOpen, onToggle}) {
+// Modified MobileFilt component to handle cascading behavior
+function MobileFilt({children, label, isOpen, onToggle, parentOpen}) {
+  // Auto-close when parent is closing - but don't interfere with normal opening
+  useEffect(() => {
+    if (!parentOpen && isOpen) {
+      // Parent is closing and this child is open, so close it
+      // Use a ref to avoid calling onToggle if it's already been called
+      const timer = setTimeout(() => {
+        // Only close if still open (avoid double-closing)
+        if (isOpen) {
+          onToggle();
+        }
+      }, 75);
+      return () => clearTimeout(timer);
+    }
+  }, [parentOpen]); // Only depend on parentOpen, not isOpen or onToggle
+
   return (
     <button
       className={`mobile-filter ${isOpen ? 'isOpen-btn' : ''}`}
@@ -581,9 +658,8 @@ function MobileFilt({children, label, isOpen, onToggle}) {
               transition={{ease: 'easeInOut', duration: 0.15}}
             >
               <div
-                // className="filter-container"
                 style={{
-                  padding: '1rem',
+                  padding: '1rem 0',
                   background: 'white',
                   display: 'flex',
                   flexDirection: 'column',
@@ -633,6 +709,58 @@ function FilterInput({
         </button>
       )}
     </>
+  );
+}
+
+// Modified BackupFilter component
+function BackupFilter({children, isOpen, onToggle, onClose}) {
+  return (
+    <div className="hide-on-desktop">
+      <button onClick={onToggle}>
+        Filter
+        <svg
+          width="9"
+          height="7"
+          viewBox="0 0 9 7"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{scale: '1.5', marginLeft: '.25rem'}}
+        >
+          <path
+            d="M1 1H8M2.16667 3.5H6.83333M3.56667 6H5.43333"
+            stroke="black"
+            strokeWidth="0.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <div className="sort-overflow-hidden-container">
+            <motion.div
+              initial={{y: '-100%'}}
+              animate={{y: '1px'}}
+              exit={{y: '-100%'}}
+              transition={{ease: 'easeInOut', duration: 0.15}}
+            >
+              <div
+                style={{
+                  padding: '1rem 0',
+                  background: 'white',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  border: '1px solid rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                {children}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
