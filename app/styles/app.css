@@ -450,12 +450,12 @@ aside header.cart-header {
 
 .cart-main {
   height: 100%;
-  max-height: calc(100vh - var(--cart-aside-summary-height));
+  max-height: calc(100dvh - var(--cart-aside-summary-height));
   overflow-y: auto;
   width: auto;
 }
 .cart-details {
-  max-height: 60vh;
+  max-height: 50dvh;
   overflow: scroll;
 }
 
