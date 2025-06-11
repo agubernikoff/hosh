@@ -140,11 +140,11 @@ function Product() {
   return (
     <div className="product">
       <div className="product-left">
-        <div>
+        <div style={{marginBottom: '1rem'}}>
           <p>{title}</p>
           <p>{product.artist.value}</p>
         </div>
-        <div>
+        <div style={{marginBottom: '1rem'}}>
           <p>{product.description2.value}</p>
           <ProductPrice
             price={selectedVariant?.price}

@@ -128,6 +128,8 @@ export function ProductForm({productOptions, selectedVariant}) {
       >
         {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
       </AddToCartButton>
+      <br />
+      <p>Free standard shipping and easy returns.</p>
     </div>
   );
 }
