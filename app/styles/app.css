@@ -924,15 +924,15 @@ input[type='search' i]::-webkit-search-cancel-button {
 }
 
 .product-options-grid {
-  display: flex;
+  display: grid;
   flex-wrap: wrap;
   grid-gap: 0.75rem;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .product-options-item,
 .product-options-item:disabled {
   padding: auto;
-  width: 70px;
   height: 60px;
   background-color: transparent;
   font-size: 1rem;
@@ -983,6 +983,10 @@ input[type='search' i]::-webkit-search-cancel-button {
 
 .rich-text-div p {
   margin-bottom: 1rem;
+}
+
+.product .product-form {
+  padding-left: 2rem;
 }
 
 /*
