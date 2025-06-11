@@ -1,16 +1,23 @@
 import {Suspense, useEffect, useState} from 'react';
-import {Await, NavLink, useLocation} from '@remix-run/react';
+import {Await, useLocation, useFetcher} from '@remix-run/react';
 import logo from '../assets/Group 196.png';
 import gila from '../assets/Gila-Black.png';
 import InfiniteCarousel from '~/components/Carousel';
 import car1 from 'app/assets/car1.png';
 import car2 from 'app/assets/car2.png';
 import car3 from 'app/assets/car3.png';
+import NavLink from './NavLink';
 
 /**
  * @param {FooterProps}
  */
-export function Footer({footer: footerPromise, header, publicStoreDomain}) {
+export function Footer({
+  footer: footerPromise,
+  header,
+  publicStoreDomain,
+  selectedLocale,
+  availableCountries,
+}) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -45,9 +52,16 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
                   style={{width: '35%'}}
                   className="footer-logo"
                 />
-                <select className="footer-locale">
-                  <option>United States (USD $)</option>
-                </select>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Await resolve={availableCountries}>
+                    {(availableCountries) => (
+                      <LocationForm
+                        selectedLocale={selectedLocale}
+                        availableCountries={availableCountries}
+                      />
+                    )}
+                  </Await>
+                </Suspense>
               </div>
 
               <div className="footer-center">
@@ -111,6 +125,74 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
         )}
       </Await>
     </Suspense>
+  );
+}
+
+export function LocationForm({availableCountries, selectedLocale, close}) {
+  console.log(availableCountries);
+  const fetcher = useFetcher();
+  fetcher.formAction = '/locale';
+  const {pathname, search} = useLocation();
+
+  const [country, setCountry] = useState({
+    currency: {
+      isoCode: 'USD',
+      name: 'United States Dollar',
+      symbol: '$',
+    },
+    isoCode: 'US',
+    name: 'United States',
+    unitSystem: 'IMPERIAL_SYSTEM',
+  });
+
+  useEffect(() => {
+    setCountry(availableCountries.localization.country);
+  }, [availableCountries, pathname, selectedLocale]);
+
+  const sortedCountries = availableCountries.localization.availableCountries
+    .slice()
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const countryOptions = [
+    country,
+    ...sortedCountries.filter((c) => c.isoCode !== country.isoCode),
+  ];
+
+  const strippedPathname = pathname.includes('EN-')
+    ? pathname
+        .split('/')
+        .filter((part) => !part.includes('EN-'))
+        .join('/')
+    : pathname;
+
+  const handleChange = (e) => {
+    const selectedIso = e.target.value;
+    const selected = countryOptions.find((c) => c.isoCode === selectedIso);
+    if (!selected) return;
+
+    setCountry(selected);
+    close?.();
+
+    const formData = new FormData();
+    formData.append('country', selected.isoCode);
+    formData.append('path', `${strippedPathname}${search}`);
+
+    fetcher.submit(formData, {method: 'POST', preventScrollReset: true});
+  };
+
+  return (
+    <select
+      id="country-select"
+      value={country.isoCode}
+      onChange={handleChange}
+      className="footer-locale"
+    >
+      {countryOptions.map((c) => (
+        <option key={c.isoCode} value={c.isoCode}>
+          {`${c.name} (${c.currency.isoCode} ${c.currency.symbol})`}
+        </option>
+      ))}
+    </select>
   );
 }
 

@@ -1,4 +1,5 @@
-import {Await, useLoaderData, Link, NavLink} from '@remix-run/react';
+import {Await, useLoaderData} from '@remix-run/react';
+import NavLink from '~/components/NavLink';
 import {Suspense} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
@@ -103,7 +104,7 @@ function FeaturedCollection({collection}) {
           </NavLink>
         </div>
       </div>
-      <Link
+      <NavLink
         className="featured-collection"
         to={`/collections/${collection.handle}`}
       >
@@ -112,7 +113,7 @@ function FeaturedCollection({collection}) {
             <Image data={image} sizes="100vw" />
           </div>
         )}
-      </Link>
+      </NavLink>
       <p
         style={{marginBlock: '3rem', textAlign: 'center'}}
       >{`${collection.title.toUpperCase()} COLLECTION`}</p>

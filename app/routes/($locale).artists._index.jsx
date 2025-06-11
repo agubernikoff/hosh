@@ -1,7 +1,7 @@
 import {useLoaderData} from '@remix-run/react';
-import NavLink from '~/components/NavLink';
 import {useState} from 'react';
 import {AnimatePresence, motion} from 'motion/react';
+import NavLink from '~/components/NavLink';
 
 /**
  * @type {MetaFunction<typeof loader>}

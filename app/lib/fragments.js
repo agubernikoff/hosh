@@ -237,3 +237,30 @@ export const FOOTER_QUERY = `#graphql
   }
   ${MENU_FRAGMENT}
 `;
+
+export const COUNTRIES_QUERY = `#graphql
+query($country: CountryCode) @inContext(country:$country) {
+  localization {
+    availableCountries {
+      currency {
+        isoCode
+        name
+        symbol
+      }
+      isoCode
+      name
+      unitSystem
+    }
+    country {
+      currency {
+        isoCode
+        name
+        symbol
+      }
+      isoCode
+      name
+      unitSystem
+    }
+  }
+}
+`;

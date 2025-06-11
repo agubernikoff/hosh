@@ -1,5 +1,6 @@
 import {Suspense, useId, useState} from 'react';
-import {Await, NavLink, useAsyncValue} from '@remix-run/react';
+import {Await, useAsyncValue} from '@remix-run/react';
+import NavLink from './NavLink';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
 import logo from '../assets/Group 196.png';

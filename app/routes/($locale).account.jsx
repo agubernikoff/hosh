@@ -1,6 +1,7 @@
 import {data as remixData} from '@shopify/remix-oxygen';
-import {Form, NavLink, Outlet, useLoaderData} from '@remix-run/react';
+import {Form, Outlet, useLoaderData} from '@remix-run/react';
 import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
+import NavLink from '~/components/NavLink';
 
 export function shouldRevalidate() {
   return true;

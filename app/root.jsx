@@ -10,7 +10,7 @@ import {
   useRouteLoaderData,
 } from '@remix-run/react';
 import favicon from '~/assets/favicon.svg';
-import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import {COUNTRIES_QUERY, FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
@@ -78,6 +78,7 @@ export async function loader(args) {
       storefront,
       publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
     }),
+    selectedLocale: args.context.storefront.i18n,
     consent: {
       checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
       storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
@@ -132,10 +133,20 @@ function loadDeferredData({context}) {
       console.error(error);
       return null;
     });
+  const availableCountries = storefront
+    .query(COUNTRIES_QUERY, {
+      cache: storefront.CacheLong(),
+    })
+    .catch((error) => {
+      // Log query errors, but don't throw them so the page can still render
+      console.error(error);
+      return null;
+    });
   return {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
+    availableCountries,
   };
 }
 

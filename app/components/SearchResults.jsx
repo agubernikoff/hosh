@@ -1,7 +1,7 @@
 import {Link} from '@remix-run/react';
 import {Image, Money, Pagination} from '@shopify/hydrogen';
 import {urlWithTrackingParams} from '~/lib/search';
-import {Filter} from '~/routes/collections.$handle';
+import {Filter} from '~/routes/($locale).collections.$handle';
 // import {Filter} from '~/routes/collections.$handle';
 import {PaginatedResourceSection} from './PaginatedResourceSection';
 import {ProductItem} from './ProductItem';

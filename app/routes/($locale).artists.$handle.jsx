@@ -1,4 +1,5 @@
 import {useLoaderData, redirect} from '@remix-run/react';
+import NavLink from '~/components/NavLink';
 import InfiniteCarousel from '~/components/Carousel';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {Image} from '@shopify/hydrogen';
@@ -8,7 +9,6 @@ import mapRichText from '~/helpers/MapRichText';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {ProductItem} from '~/components/ProductItem';
 import {Filter} from './($locale).collections.$handle';
-import NavLink from '~/components/NavLink';
 
 /**
  * @type {MetaFunction<typeof loader>}
