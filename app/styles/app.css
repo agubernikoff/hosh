@@ -271,6 +271,7 @@ input[type='search' i]::-webkit-search-cancel-button {
 }
 
 .header-menu-mobile-toggle {
+  flex: 1;
   @media (min-width: 48em) {
     display: none;
   }
@@ -1215,9 +1216,6 @@ media queries
   .header-logo > img {
     width: 72px;
     height: 20px;
-  }
-  .header-menu-mobile-toggle {
-    flex: 1;
   }
   .products-grid {
     grid-gap: 1.5rem;
