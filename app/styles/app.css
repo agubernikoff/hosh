@@ -30,8 +30,7 @@ body {
   border: 1px solid black;
   font-family: 'Roboto Mono';
 }
-.add-to-cart-btn:hover,
-button:hover {
+.add-to-cart-btn:hover {
   background: black;
   color: white;
 }
@@ -752,17 +751,17 @@ aside header.cart-header {
 }
 .product-item-img-container {
   position: relative;
-  margin-bottom: 4rem;
 }
 .quick-shop {
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, 40%);
+  transform: translate(-50%, -50%);
   background: white;
   border: 1px solid black;
   padding: 1rem;
   cursor: pointer;
+  font-family: 'Roboto Mono', sans-serif;
 }
 .quick-shop:hover {
   text-decoration: underline;
@@ -860,7 +859,11 @@ aside header.cart-header {
   justify-content: space-between;
   padding-bottom: 1rem;
 }
-
+.selected-filters-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4rem;
+}
 .filter-container {
   display: flex;
   gap: 1.5rem;
@@ -885,6 +888,7 @@ aside header.cart-header {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  position: static;
 }
 .header-mf {
   position: relative;
@@ -1425,5 +1429,8 @@ media queries
   }
   .quick-shop {
     display: none;
+  }
+  .collection {
+    padding-inline: 0;
   }
 }

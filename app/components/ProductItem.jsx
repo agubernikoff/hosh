@@ -244,7 +244,7 @@ function QuickShop({product, closePopUp, pathname}) {
               <strong>{title}</strong>
             </p>
             <p>
-              <strong>{product.artist.value}</strong>
+              <strong>{product.artist?.value}</strong>
             </p>
           </div>
           <p>{product.description2.value}</p>

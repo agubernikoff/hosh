@@ -138,11 +138,14 @@ export default function Collection() {
 
 export function Filter({filters, shopAll, term}) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [openFilter, setOpenFilter] = useState(null); // Track which filter is open
 
   function addFilter(input) {
     setSearchParams(
       (prev) => {
-        prev.set('filter', input);
+        if (prev.has('filter')) {
+          prev.append('filter', input);
+        } else prev.set('filter', input);
         return prev;
       },
       {preventScrollReset: true},
@@ -214,6 +217,26 @@ export function Filter({filters, shopAll, term}) {
     );
   }
 
+  // Get all selected filters across all filter types
+  function getSelectedFilters() {
+    const selectedFilters = [];
+    const activeFilters = searchParams.getAll('filter');
+
+    filters.forEach((filterGroup) => {
+      filterGroup.values.forEach((filterValue) => {
+        if (activeFilters.includes(filterValue.input)) {
+          selectedFilters.push({
+            label: filterValue.label,
+            value: filterValue.input,
+            groupLabel: filterGroup.label,
+          });
+        }
+      });
+    });
+
+    return selectedFilters;
+  }
+
   return (
     <div className="filter-container">
       <Sort
@@ -223,17 +246,91 @@ export function Filter({filters, shopAll, term}) {
         shopAll={shopAll}
         term={term}
       />
-      {filters.map((filter) => (
-        <Filt
-          filter={filter.values}
-          addFilter={addFilter}
-          removeFilter={removeFilter}
-          isChecked={isChecked}
-          clearFilter={clearFilter}
-          label={filter.label}
-          key={filter.label}
-        />
-      ))}
+
+      {/* Display selected filters */}
+
+      <div
+        style={{position: 'relative', margin: 0}}
+        className="filter-container"
+      >
+        {filters.map((filter, index) => (
+          <Filt
+            filter={filter.values}
+            addFilter={addFilter}
+            removeFilter={removeFilter}
+            isChecked={isChecked}
+            clearFilter={clearFilter}
+            label={filter.label}
+            key={filter.label}
+            isOpen={openFilter === index}
+            onToggle={() => setOpenFilter(openFilter === index ? null : index)}
+            selectedFilters={getSelectedFilters()}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SelectedFilters({selectedFilters, removeFilter, clearFilter}) {
+  if (selectedFilters.length === 0) return null;
+
+  return (
+    <div className="selected-filters-container">
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '0.5rem',
+          alignItems: 'center',
+        }}
+      >
+        {selectedFilters.map((filter, index) => (
+          <button
+            key={`${filter.groupLabel}-${filter.value}`}
+            className="selected-filter-tag"
+            onClick={(e) => {
+              e.stopPropagation();
+              removeFilter(filter.value);
+            }}
+            style={{
+              padding: '0.25rem 0.5rem',
+              backgroundColor: '#f0f0f0',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              fontSize: '0.875rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.25rem',
+            }}
+          >
+            <span>{filter.label}</span>
+            <span style={{fontWeight: 'bold'}}>×</span>
+          </button>
+        ))}
+      </div>
+      {selectedFilters.length > 0 && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            clearFilter();
+          }}
+          style={{
+            padding: '0.25rem 0.5rem',
+            backgroundColor: 'black',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            fontSize: '0.875rem',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            alignSelf: 'end',
+          }}
+        >
+          Clear All
+        </button>
+      )}
     </div>
   );
 }
@@ -386,6 +483,9 @@ function Filt({
   removeFilter,
   clearFilter,
   label,
+  isOpen,
+  onToggle,
+  selectedFilters,
 }) {
   const filterOrderRef = useRef(new Map()); // Persist across renders
 
@@ -413,58 +513,36 @@ function Filt({
 
   return (
     <>
-      {/* <div style={{display: 'flex'}} className="desktop-filter">
-        <FilterInput
-          label={'View All'}
-          value={'viewAll'}
-          addFilter={clearFilter}
-          isChecked={isChecked}
-          removeFilter={clearFilter}
+      <MobileFilt label={label} isOpen={isOpen} onToggle={onToggle}>
+        <div className="filter-container">
+          {sortByStoredOrder(filter).map((v) => (
+            <FilterInput
+              key={v.id}
+              label={v.label}
+              value={v.input}
+              addFilter={addFilter}
+              isChecked={isChecked}
+              removeFilter={removeFilter}
+              isSort={true}
+            />
+          ))}
+        </div>
+        {/* Display selected filters */}
+        <SelectedFilters
+          selectedFilters={selectedFilters}
+          removeFilter={removeFilter}
+          clearFilter={clearFilter}
         />
-        {sortByStoredOrder(filter).map((v) => (
-          <FilterInput
-            key={v.id}
-            label={v.label}
-            value={v.input}
-            addFilter={addFilter}
-            isChecked={isChecked}
-            removeFilter={removeFilter}
-          />
-        ))}
-      </div> */}
-      <MobileFilt label={label}>
-        <FilterInput
-          label={'View All'}
-          value={'viewAll'}
-          addFilter={clearFilter}
-          isChecked={isChecked}
-          removeFilter={clearFilter}
-          isSort={true}
-        />
-        {sortByStoredOrder(filter).map((v) => (
-          <FilterInput
-            key={v.id}
-            label={v.label}
-            value={v.input}
-            addFilter={addFilter}
-            isChecked={isChecked}
-            removeFilter={removeFilter}
-            isSort={true}
-          />
-        ))}
       </MobileFilt>
     </>
   );
 }
-function MobileFilt({children, label}) {
-  const [isOpen, setIsOpen] = useState(false);
-  function toggleIsOpen() {
-    setIsOpen(!isOpen);
-  }
+
+function MobileFilt({children, label, isOpen, onToggle}) {
   return (
     <button
       className={`mobile-filter ${isOpen ? 'isOpen-btn' : ''}`}
-      onClick={toggleIsOpen}
+      onClick={onToggle}
     >
       <AnimatePresence mode="popLayout">
         <motion.span
@@ -502,7 +580,19 @@ function MobileFilt({children, label}) {
               exit={{y: '-100%'}}
               transition={{ease: 'easeInOut', duration: 0.15}}
             >
-              <div className="sort-container">{children}</div>
+              <div
+                // className="filter-container"
+                style={{
+                  padding: '1rem',
+                  background: 'white',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  border: '1px solid rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                {children}
+              </div>
             </motion.div>
           </div>
         )}
@@ -540,38 +630,6 @@ function FilterInput({
           }}
         >
           {label}
-          {/* {hovered && (
-        <motion.div
-          layoutId={`${isSort ? 'sort-' : ''}hover-indicator`}
-          id={`${isSort ? 'sort-' : ''}hover-indicator`}
-          style={{
-            right: isSort ? 'auto' : 0,
-            left: 0,
-            height: isSort ? '100%' : '3px',
-            width: isSort ? '3px' : '100%',
-            position: 'absolute',
-            bottom: 0,
-            background: '#999999',
-          }}
-          transition={{ease: 'easeInOut', duration: 0.15}}
-        />
-      )}
-      {isChecked(value) && (
-        <motion.div
-          layoutId={`${isSort ? 'sort-' : ''}filter-indicator`}
-          id={`${isSort ? 'sort-' : ''}filter-indicator`}
-          style={{
-            right: isSort ? 'auto' : 0,
-            left: 0,
-            height: isSort ? '100%' : '3px',
-            width: isSort ? '3px' : '100%',
-            position: 'absolute',
-            bottom: 0,
-            background: 'black',
-          }}
-          transition={{ease: 'easeInOut', duration: 0.15}}
-        />
-      )} */}
         </button>
       )}
     </>
