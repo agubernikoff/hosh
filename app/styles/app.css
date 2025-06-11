@@ -1123,19 +1123,18 @@ aside header.cart-header {
 }
 
 .blog-article__date {
-  font-size: 13px;
+  font-size: 14px;
   margin-bottom: 8px;
   color: #000;
 }
 
 .blog-article__title {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
   margin-bottom: 16px;
 }
 
 .blog-article__excerpt {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   color: #000;
   margin-bottom: 16px;
