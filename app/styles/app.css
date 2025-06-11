@@ -871,6 +871,9 @@ aside header.cart-header {
   font-family: 'Roboto Mono';
   margin-bottom: 0.5rem;
 }
+.filter-container .filter-container .filter-container {
+  flex-wrap: wrap;
+}
 .filter-container > * {
   position: relative;
   font-family: 'Roboto Mono';
