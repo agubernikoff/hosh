@@ -138,7 +138,7 @@ export default function InfiniteCarousel({
           left: '5%',
           top: '50%',
           transform: 'translateY(-50%)',
-          zIndex: 10,
+          zIndex: 1,
         }}
       >
         <Left />
@@ -151,7 +151,7 @@ export default function InfiniteCarousel({
           right: '5%',
           top: '50%',
           transform: 'translateY(-50%)',
-          zIndex: 10,
+          zIndex: 1,
           width: 40,
           height: 40,
           borderRadius: '50%',

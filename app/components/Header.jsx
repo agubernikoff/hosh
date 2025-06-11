@@ -20,6 +20,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
 
   return (
     <header className="header">
+      <div className="headliner">FREE STANDARD SHIPPING</div>
       <div className="header-inner">
         <HeaderMenuMobileToggle />
         <HeaderMenu
