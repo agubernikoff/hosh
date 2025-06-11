@@ -59,11 +59,11 @@ button:hover {
 aside {
   background: var(--color-light);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
-  height: calc(100dvh - var(--header-height) - 3.4rem);
+  height: calc(100dvh - var(--header-height) - 3.5rem);
   width: min(var(--aside-width), 100vw);
   position: fixed;
   right: calc(-1 * var(--aside-width));
-  top: calc(var(--header-height) + 3.4rem) !important;
+  top: calc(var(--header-height) + 3.5rem) !important;
   transition: all 200ms ease-in-out;
 }
 
@@ -359,7 +359,6 @@ input[type='search' i]::-webkit-search-cancel-button {
   border: 1px solid #000;
   border-radius: 4px;
   margin-top: 2rem;
-  color: black;
 }
 
 .footer-center {
@@ -457,6 +456,12 @@ aside header.cart-header {
 .cart-details {
   max-height: 50dvh;
   overflow: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.cart-details::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .cart-main.with-discount {
@@ -530,7 +535,6 @@ aside header.cart-header {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2rem;
 }
 
 .quantity-container {
