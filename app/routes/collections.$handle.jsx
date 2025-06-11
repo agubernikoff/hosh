@@ -366,7 +366,9 @@ function Sort({addSort, removeSort, isChecked, term, shopAll}) {
                     isChecked={isChecked}
                     removeFilter={removeSort}
                     isSort={true}
-                    term={term}
+                    term={
+                      option.label.toLowerCase().includes('price') ? null : term
+                    }
                   />
                 ))}
               </div>
@@ -522,55 +524,57 @@ function FilterInput({
   const [hovered, setHovered] = useState(false);
   return (
     <>
-      <button
-        className="padded-filter-div inline-border filter-input"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (!isChecked(value)) addFilter(value);
-          else removeFilter(value);
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        disabled={term ? true : false}
-        style={{
-          fontWeight: isChecked(value) ? 'bold' : 'normal',
-          textDecoration: isChecked(value) ? 'underline' : 'none',
-        }}
-      >
-        {label}
-        {/* {hovered && (
-          <motion.div
-            layoutId={`${isSort ? 'sort-' : ''}hover-indicator`}
-            id={`${isSort ? 'sort-' : ''}hover-indicator`}
-            style={{
-              right: isSort ? 'auto' : 0,
-              left: 0,
-              height: isSort ? '100%' : '3px',
-              width: isSort ? '3px' : '100%',
-              position: 'absolute',
-              bottom: 0,
-              background: '#999999',
-            }}
-            transition={{ease: 'easeInOut', duration: 0.15}}
-          />
-        )}
-        {isChecked(value) && (
-          <motion.div
-            layoutId={`${isSort ? 'sort-' : ''}filter-indicator`}
-            id={`${isSort ? 'sort-' : ''}filter-indicator`}
-            style={{
-              right: isSort ? 'auto' : 0,
-              left: 0,
-              height: isSort ? '100%' : '3px',
-              width: isSort ? '3px' : '100%',
-              position: 'absolute',
-              bottom: 0,
-              background: 'black',
-            }}
-            transition={{ease: 'easeInOut', duration: 0.15}}
-          />
-        )} */}
-      </button>
+      {!term && (
+        <button
+          className="padded-filter-div inline-border filter-input"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (!isChecked(value)) addFilter(value);
+            else removeFilter(value);
+          }}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          disabled={term ? true : false}
+          style={{
+            fontWeight: isChecked(value) ? 'bold' : 'normal',
+            textDecoration: isChecked(value) ? 'underline' : 'none',
+          }}
+        >
+          {label}
+          {/* {hovered && (
+        <motion.div
+          layoutId={`${isSort ? 'sort-' : ''}hover-indicator`}
+          id={`${isSort ? 'sort-' : ''}hover-indicator`}
+          style={{
+            right: isSort ? 'auto' : 0,
+            left: 0,
+            height: isSort ? '100%' : '3px',
+            width: isSort ? '3px' : '100%',
+            position: 'absolute',
+            bottom: 0,
+            background: '#999999',
+          }}
+          transition={{ease: 'easeInOut', duration: 0.15}}
+        />
+      )}
+      {isChecked(value) && (
+        <motion.div
+          layoutId={`${isSort ? 'sort-' : ''}filter-indicator`}
+          id={`${isSort ? 'sort-' : ''}filter-indicator`}
+          style={{
+            right: isSort ? 'auto' : 0,
+            left: 0,
+            height: isSort ? '100%' : '3px',
+            width: isSort ? '3px' : '100%',
+            position: 'absolute',
+            bottom: 0,
+            background: 'black',
+          }}
+          transition={{ease: 'easeInOut', duration: 0.15}}
+        />
+      )} */}
+        </button>
+      )}
     </>
   );
 }

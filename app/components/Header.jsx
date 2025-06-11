@@ -293,14 +293,17 @@ function SearchToggle() {
               style={{display: 'flex', padding: '0', background: 'white'}}
               className="reset"
               onClick={() => {
-                console.log('valeu', value, 'x', open);
                 if (!value) {
                   if (open) setOpen(false);
                   else {
                     setOpen(true);
                     setTimeout(() => inputRef.current.focus(), 150);
                   }
-                } else goToSearch();
+                } else {
+                  goToSearch();
+                  setValue();
+                  setOpen(false);
+                }
               }}
             >
               <img src={search} className="header-icon" />

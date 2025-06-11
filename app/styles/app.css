@@ -243,6 +243,9 @@ button.reset:hover:not(:has(> *)) {
   margin: 0;
   /* padding: 0; */
 }
+.header-ctas > form > input:focus-visible {
+  outline: none;
+}
 input[type='search' i]::-webkit-search-cancel-button {
   display: none;
 }
@@ -467,6 +470,11 @@ input[type='search' i]::-webkit-search-cancel-button {
 * components/Search
 * --------------------------------------------------
 */
+.search {
+  padding-top: 4rem;
+  padding-inline: 10vw;
+  text-align: center;
+}
 .predictive-search {
   height: calc(100vh - var(--header-height) - 40px);
   overflow-y: auto;
