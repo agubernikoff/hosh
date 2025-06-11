@@ -101,7 +101,7 @@ export default function Homepage() {
 function FeaturedCollection({collection}) {
   if (!collection) return null;
   const image = collection?.image;
-  console.log(collection);
+
   return (
     <div className="featured-artist-container">
       <div className="featured-artist-homepage-section">

@@ -125,7 +125,6 @@ export function Footer({
 }
 
 export function LocationForm({availableCountries, selectedLocale, close}) {
-  console.log(availableCountries);
   const fetcher = useFetcher();
   fetcher.formAction = '/locale';
   const {pathname, search} = useLocation();
