@@ -76,8 +76,9 @@ export function HeaderMenu({
           prefetch="intent"
           style={activeLinkStyle}
           to="/"
+          className="header-menu-item"
         >
-          Home
+          HOME
         </NavLink>
       )}
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
@@ -446,7 +447,6 @@ const FALLBACK_HEADER_MENU = {
  */
 function activeLinkStyle({isActive, isPending}) {
   return {
-    fontWeight: isActive ? 'normal' : undefined,
     color: isPending ? 'grey' : 'black',
   };
 }

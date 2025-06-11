@@ -276,6 +276,11 @@ input[type='search' i]::-webkit-search-cancel-button {
     display: none;
   }
 }
+.header-menu-mobile-toggle:hover {
+  background: inherit;
+  color: inherit;
+  cursor: pointer;
+}
 
 .header-menu-mobile {
   display: flex;
@@ -793,6 +798,12 @@ input[type='search' i]::-webkit-search-cancel-button {
   padding: 0;
   font-family: 'Roboto Mono';
   justify-content: space-between;
+  background: transparent;
+  border: none;
+}
+.header-mf:hover {
+  background: inherit;
+  color: inherit;
 }
 .sort-overflow-hidden-container {
   position: absolute;
