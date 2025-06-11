@@ -15,6 +15,7 @@ import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import Expandable from '~/components/Expandable';
 import mapRichText from '~/helpers/MapRichText';
 import {ProductItem} from '~/components/ProductItem';
+import {motion} from 'motion/react';
 
 function useIsFirstRender() {
   const isFirst = useRef(true);
@@ -137,6 +138,47 @@ function Product() {
     <ProductImage key={edge.node.id} image={edge.node} />
   ));
 
+  const [imageIndex, setImageIndex] = useState(0);
+
+  function handleScroll(scrollWidth, scrollLeft) {
+    const widthOfAnImage = scrollWidth / product.images.edges.length;
+    const dividend = scrollLeft / widthOfAnImage;
+    const rounded = parseFloat((scrollLeft / widthOfAnImage).toFixed(0));
+    if (Math.abs(dividend - rounded) < 0.2) setImageIndex(rounded);
+  }
+
+  const mappedIndicators =
+    product.images.edges.length > 1
+      ? product.images.edges.map((e, i) => (
+          <div
+            key={e.node.id}
+            className="circle"
+            style={{
+              height: '5px',
+              width: '5px',
+              borderRadius: '10px',
+              position: 'relative',
+              background: 'grey',
+            }}
+          >
+            {i === imageIndex ? (
+              <motion.div
+                layoutId="mapped-indicator"
+                key="mapped-indicator"
+                style={{
+                  background: 'black',
+                  height: '5px',
+                  width: '5px',
+                  borderRadius: '10px',
+                  position: 'absolute',
+                }}
+                transition={{ease: 'easeInOut', duration: 0.15}}
+              />
+            ) : null}
+          </div>
+        ))
+      : null;
+
   return (
     <div className="product">
       <div className="product-left">
@@ -183,7 +225,21 @@ function Product() {
           />
         ))}
       </div>
-      <div>{productImage}</div>
+      <div
+        style={{
+          position: 'relative',
+        }}
+      >
+        <div
+          className="product-images"
+          onScroll={(e) =>
+            handleScroll(e.target.scrollWidth, e.target.scrollLeft)
+          }
+        >
+          {productImage}
+        </div>
+        <div className="mapped-indicators">{mappedIndicators}</div>
+      </div>
       <div className="product-main">
         <ProductForm
           productOptions={productOptions}
