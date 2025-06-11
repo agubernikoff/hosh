@@ -3,9 +3,9 @@ import {Await, useLocation, useFetcher} from '@remix-run/react';
 import logo from '../assets/Group 196.png';
 import gila from '../assets/Gila-Black.png';
 import InfiniteCarousel from '~/components/Carousel';
-import car1 from 'app/assets/car1.png';
-import car2 from 'app/assets/car2.png';
-import car3 from 'app/assets/car3.png';
+import car1 from 'app/assets/x1.png';
+import car2 from 'app/assets/x2.png';
+import car3 from 'app/assets/x3.png';
 import NavLink from './NavLink';
 
 /**
