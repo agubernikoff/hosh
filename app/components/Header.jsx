@@ -21,6 +21,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   return (
     <header className="header">
       <div className="header-inner">
+        <HeaderMenuMobileToggle />
         <HeaderMenu
           menu={menu}
           viewport="desktop"
@@ -229,7 +230,6 @@ function Dropdown({children, label, displaySVG, toggleIsOpen, isOpen}) {
 function HeaderCtas({isLoggedIn, cart}) {
   return (
     <nav className="header-ctas" role="navigation">
-      <HeaderMenuMobileToggle />
       <SearchToggle />
       <NavLink
         prefetch="intent"
@@ -262,10 +262,19 @@ function HeaderMenuMobileToggle() {
 }
 
 function SearchToggle() {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState('');
-  // const {open} = useAside();
+  const {open, close} = useAside();
   const queriesDatalistId = useId();
+
+  function openSearch() {
+    open('search');
+    setIsOpen(true);
+  }
+  function closeSearch() {
+    close();
+    setIsOpen(false);
+  }
   return (
     <>
       <SearchFormPredictive>
@@ -285,25 +294,24 @@ function SearchToggle() {
               type="search"
               list={queriesDatalistId}
               style={{
-                transform: open ? 'translateX(0)' : 'translateX(100%)',
+                transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
                 transition: 'all 150ms ease-in-out',
               }}
             />
-            {/* <button onClick={goToSearch}>Search</button> */}
             <button
               style={{display: 'flex', padding: '0', background: 'white'}}
               className="reset"
               onClick={() => {
                 if (!value) {
-                  if (open) setOpen(false);
+                  if (isOpen) setIsOpen(false);
                   else {
-                    setOpen(true);
+                    setIsOpen(true);
                     setTimeout(() => inputRef.current.focus(), 150);
                   }
                 } else {
                   goToSearch();
                   setValue();
-                  setOpen(false);
+                  setIsOpen(false);
                 }
               }}
             >
@@ -312,6 +320,15 @@ function SearchToggle() {
           </>
         )}
       </SearchFormPredictive>
+      <button
+        onClick={() => {
+          if (!isOpen) openSearch();
+          else closeSearch();
+        }}
+        className="mobile-search-icon"
+      >
+        <img src={search} className="header-icon" />
+      </button>
     </>
   );
 }
@@ -320,8 +337,24 @@ function SearchToggle() {
  * @param {{count: number | null}}
  */
 function CartBadge({count}) {
-  const {open} = useAside();
+  const {open, close} = useAside();
   const {publish, shop, cart, prevCart} = useAnalytics();
+
+  const [isOpen, setIsOpen] = useState(false);
+  function openCart() {
+    open('cart');
+    publish('cart_viewed', {
+      cart,
+      prevCart,
+      shop,
+      url: window.location.href || '',
+    });
+    setIsOpen(true);
+  }
+  function closeCart() {
+    close();
+    setIsOpen(false);
+  }
 
   return (
     <a
@@ -329,13 +362,8 @@ function CartBadge({count}) {
       href="/cart"
       onClick={(e) => {
         e.preventDefault();
-        open('cart');
-        publish('cart_viewed', {
-          cart,
-          prevCart,
-          shop,
-          url: window.location.href || '',
-        });
+        if (!isOpen) openCart();
+        else closeCart();
       }}
     >
       <img src={bag} alt="Cart" className="header-icon" />

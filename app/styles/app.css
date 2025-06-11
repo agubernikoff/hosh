@@ -232,6 +232,9 @@ button.reset:hover:not(:has(> *)) {
   align-items: center;
   gap: 1rem;
 }
+.mobile-search-icon {
+  display: none;
+}
 .header-ctas > form {
   overflow: hidden;
 }
@@ -1185,5 +1188,27 @@ media queries
   .blog-article__inner {
     gap: 0;
     flex-direction: column;
+  }
+  .mobile-search-icon {
+    display: block;
+    width: 25px;
+    padding: 0;
+    display: flex;
+  }
+  .header-ctas {
+    gap: 0.25rem;
+  }
+  .header-ctas > form {
+    display: none;
+  }
+  .header-logo {
+    flex: 1;
+  }
+  .header-logo > img {
+    width: 72px;
+    height: 20px;
+  }
+  .header-menu-mobile-toggle {
+    flex: 1;
   }
 }
