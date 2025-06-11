@@ -72,7 +72,6 @@ async function loadCriticalData({context, params, request}) {
     });
   }
 
-  console.log(metaobject);
   let artist = null;
   if (metaobject) artist = metaobject;
 

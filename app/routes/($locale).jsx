@@ -3,7 +3,6 @@ import {redirect} from '@shopify/remix-oxygen';
 export async function action({request, context}) {
   const {session} = context;
   const formData = await request.formData();
-  console.log(formData);
 
   // Make sure the form request is valid
   const languageCode = formData.get('language');
