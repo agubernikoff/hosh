@@ -1345,8 +1345,7 @@ media queries
     background: inherit;
     color: inherit;
   }
-  html,
-  body {
+  .featured-collection-image {
     overflow-x: hidden;
   }
   .product {
