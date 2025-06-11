@@ -73,7 +73,7 @@ export default function Blog() {
 
   return (
     <div className="blog">
-      {/* <h1>{blog.title}</h1> */}
+      <p className="blog-headline">STORIES</p>
       <div className="blog-grid">
         <PaginatedResourceSection connection={articles}>
           {({node: article, index}) => (

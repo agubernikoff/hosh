@@ -1090,6 +1090,12 @@ aside header.cart-header {
   margin-top: 40px;
 }
 
+.blog-headline {
+  text-align: center !important;
+  margin-top: 3rem;
+  margin-bottom: 6rem;
+}
+
 .blog-article__inner {
   display: flex;
   flex-direction: row;
