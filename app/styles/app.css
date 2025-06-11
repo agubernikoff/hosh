@@ -58,11 +58,11 @@ button:hover {
 aside {
   background: var(--color-light);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
-  height: 100vh;
+  height: calc(100vh - var(--header-height));
   width: min(var(--aside-width), 100vw);
   position: fixed;
   right: calc(-1 * var(--aside-width));
-  top: 0;
+  top: var(--header-height);
   transition: all 200ms ease-in-out;
 }
 
@@ -89,6 +89,8 @@ aside header .close {
 
 aside header .close:hover {
   opacity: 1;
+  background: inherit;
+  color: inherit;
 }
 
 aside header h2 {
@@ -431,6 +433,10 @@ input[type='search' i]::-webkit-search-cancel-button {
   max-height: calc(100vh - var(--cart-aside-summary-height));
   overflow-y: auto;
   width: auto;
+}
+.cart-details {
+  max-height: 60vh;
+  overflow: scroll;
 }
 
 .cart-main.with-discount {
@@ -1237,9 +1243,6 @@ media queries
   }
   button {
     color: black;
-  }
-  aside {
-    top: var(--header-height);
   }
   .artists-grid {
     display: flex;

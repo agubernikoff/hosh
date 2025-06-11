@@ -361,6 +361,7 @@ function CartBadge({count}) {
   }
   useEffect(() => {
     if (type !== 'cart') setIsOpen(false);
+    else if (type === 'cart') setIsOpen(true);
   }, [type]);
 
   return (

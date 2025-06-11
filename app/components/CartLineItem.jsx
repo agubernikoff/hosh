@@ -46,15 +46,11 @@ export function CartLineItem({layout, line}) {
           </p>
         </Link>
         <ProductPrice price={line?.cost?.totalAmount} />
-        <ul>
-          {selectedOptions.map((option) => (
-            <li key={option.name}>
-              <small>
-                {option.name}: {option.value}
-              </small>
-            </li>
-          ))}
-        </ul>
+        {selectedOptions.map((option) => (
+          <small key={option.name}>
+            {option.name}: {option.value}
+          </small>
+        ))}
         <CartLineQuantity line={line} />
       </div>
     </li>

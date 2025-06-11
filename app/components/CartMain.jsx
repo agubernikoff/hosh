@@ -54,7 +54,7 @@ function CartEmpty({hidden = false}) {
         started!
       </p>
       <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
+      <Link to="/collections/all" onClick={close} prefetch="viewport">
         Continue shopping →
       </Link>
     </div>
