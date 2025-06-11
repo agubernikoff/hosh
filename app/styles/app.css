@@ -1423,4 +1423,7 @@ media queries
     background: transparent;
     overflow: hidden;
   }
+  .quick-shop {
+    display: none;
+  }
 }
