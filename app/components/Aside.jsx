@@ -44,11 +44,21 @@ export function Aside({children, heading, type}) {
     >
       <button className="close-outside" onClick={close} />
       <aside>
-        <header>
-          <h3>{heading}</h3>
-          <button className="close reset" onClick={close} aria-label="Close">
-            &times;
-          </button>
+        <header className={type === 'cart' ? 'cart-header' : ''}>
+          {type === 'cart' ? (
+            <>
+              <p className="cart-heading">SHOPPING CART</p>
+              <p className="cart-subtext">Free shipping & easy returns</p>
+              <hr className="cart-separator" />
+            </>
+          ) : (
+            <h3>{heading}</h3>
+          )}
+          {type != 'cart' && (
+            <button className="close reset" onClick={close} aria-label="Close">
+              &times;
+            </button>
+          )}
         </header>
         <main>{children}</main>
       </aside>
