@@ -6,9 +6,13 @@ import {ProductItem} from '~/components/ProductItem';
 import model1 from '~/assets/model1.png';
 import model2 from '~/assets/model2.png';
 import InfiniteCarousel from '~/components/Carousel';
-import car1 from 'app/assets/car1.png';
-import car2 from 'app/assets/car2.png';
-import car3 from 'app/assets/car3.png';
+import bingoart from 'app/assets/BINGO-ART 3.png';
+import bingoart2 from 'app/assets/BINGO-ART 31.png';
+import bingoart3 from 'app/assets/BINGO-ART 32.png';
+import bingoart4 from 'app/assets/BINGO-ART 33.png';
+import bingoart5 from 'app/assets/BINGO-ART 34.png';
+import bingoart6 from 'app/assets/BINGO-ART 35.png';
+import bingoart7 from 'app/assets/BINGO-ART 36.png';
 /**
  * @type {MetaFunction}
  */
@@ -73,9 +77,18 @@ export default function Homepage() {
   return (
     <div className="home">
       <FeaturedCollection collection={data.featuredCollection} />
-      <InfiniteCarousel images={[car1, car2, car3]} />
+      <InfiniteCarousel
+        images={[
+          bingoart,
+          bingoart2,
+          bingoart3,
+          bingoart4,
+          bingoart5,
+          bingoart6,
+          bingoart7,
+        ]}
+      />
       <RecommendedProducts products={data.recommendedProducts} />
-      {/* <InfiniteCarousel images={[car1, car2, car3]} /> */}
     </div>
   );
 }
