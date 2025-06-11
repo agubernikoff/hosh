@@ -530,6 +530,7 @@ aside header.cart-header {
   align-items: center;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
 }
 
 .quantity-container {
