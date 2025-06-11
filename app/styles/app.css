@@ -1243,4 +1243,8 @@ media queries
     background: inherit;
     color: inherit;
   }
+  html,
+  body {
+    overflow-x: hidden;
+  }
 }
