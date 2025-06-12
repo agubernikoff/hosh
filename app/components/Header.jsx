@@ -51,6 +51,7 @@ export function HeaderMenu({
   primaryDomainUrl,
   viewport,
   publicStoreDomain,
+  resetTrigger,
 }) {
   const className = `header-menu-${viewport}`;
   const {close} = useAside();
@@ -68,6 +69,14 @@ export function HeaderMenu({
   useEffect(() => {
     setOpenNested();
   }, [open]);
+
+  // Reset when resetTrigger changes (aside closes)
+  useEffect(() => {
+    if (resetTrigger && viewport === 'mobile') {
+      setOpen(null);
+      setOpenNested(null);
+    }
+  }, [resetTrigger, viewport]);
   return (
     <nav className={className} role="navigation">
       {viewport === 'mobile' && (

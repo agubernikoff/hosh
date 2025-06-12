@@ -9,6 +9,7 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
+import {useAside} from './Aside';
 
 /**
  * @param {PageLayoutProps}
@@ -154,6 +155,7 @@ function SearchAside() {
  * }}
  */
 function MobileMenuAside({header, publicStoreDomain}) {
+  const {type} = useAside();
   return (
     header.menu &&
     header.shop.primaryDomain?.url && (
@@ -163,6 +165,7 @@ function MobileMenuAside({header, publicStoreDomain}) {
           viewport="mobile"
           primaryDomainUrl={header.shop.primaryDomain.url}
           publicStoreDomain={publicStoreDomain}
+          resetTrigger={type !== 'mobile'} // Pass reset trigger
         />
       </Aside>
     )
