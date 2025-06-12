@@ -1130,6 +1130,11 @@ aside header.cart-header {
   display: none;
 }
 
+.dropdown-content > .header-menu-item {
+  display: flex;
+  margin-left: 10px;
+}
+
 .rich-text-div p {
   margin-bottom: 1rem;
 }
@@ -1423,10 +1428,7 @@ media queries
     padding: 0;
     display: flex;
   }
-  .dropdown-content > .header-menu-item {
-    display: flex;
-    margin-left: 15px;
-  }
+
   .header {
     /* padding-inline: 1rem; */
   }
