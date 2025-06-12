@@ -105,7 +105,10 @@ function FeaturedCollection({collection}) {
     <div className="featured-artist-container">
       <div className="featured-artist-homepage-section">
         <div className="models-container">
-          <img src={model11} style={{trasform: 'translateY(-10%)'}} />
+          <img
+            src={model11}
+            style={{transform: 'translateY(-10%)', maxWidth: '50vw'}}
+          />
         </div>
         <div className="shop-the-collection">
           <p>FEATURED ARTIST</p>
@@ -135,7 +138,8 @@ function FeaturedCollection({collection}) {
       </div>
       <div
         style={{
-          marginBlock: '5rem',
+          marginTop: '5rem',
+          marginBottom: '9rem',
         }}
       >
         <NavLink
@@ -162,7 +166,9 @@ function FeaturedCollection({collection}) {
 function RecommendedProducts({products}) {
   return (
     <div className="recommended-products">
-      <p style={{marginBlock: '3rem', textAlign: 'center'}}>BEST SELLERS</p>
+      <p style={{marginTop: '7rem', marginBottom: '3rem', textAlign: 'center'}}>
+        BEST SELLERS
+      </p>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {(response) => (

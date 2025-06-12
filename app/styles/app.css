@@ -630,12 +630,18 @@ aside header.cart-header {
 * routes/__index
 * --------------------------------------------------
 */
+.home {
+  margin-bottom: 7rem;
+}
 .featured-artist-container {
   text-align: center;
+  margin-bottom: 2rem;
 }
 .featured-artist-homepage-section {
   display: flex;
   height: calc(100vh - var(--header-height));
+  max-width: 1440px;
+  margin: auto;
 }
 .featured-artist-homepage-section > div {
   flex: 1;
@@ -685,6 +691,7 @@ aside header.cart-header {
 .recommended-products-grid {
   display: grid;
   grid-gap: 1.5rem;
+  row-gap: 7rem;
   padding-inline: 5vw;
   grid-template-columns: repeat(2, 1fr);
   @media (min-width: 45em) {
@@ -1299,6 +1306,9 @@ media queries
   .artists-collection-div {
     padding: 0 !important;
   }
+  .header-menu-mobile-toggle h3 {
+    font-size: 24px;
+  }
 }
 @media (max-width: 499px) {
   :root {
@@ -1310,6 +1320,12 @@ media queries
   }
   .models-container img {
     max-height: 400px;
+    max-width: none !important;
+    transform: translate(0, 0) !important;
+  }
+  .shop-the-collection {
+    margin-top: 2rem;
+    margin-bottom: 4rem;
   }
   .shop-the-collection > * {
     transform: none;

@@ -108,13 +108,17 @@ export function Footer({
               <div className="footer-right">
                 <Newsletter />
                 <img src={gila} alt="Penguin" className="footer-icon" />
-                <div className="footer-copyright">© 2024 HOSH</div>
+                <div className="footer-copyright">
+                  <span style={{fontSize: '16px'}}>©</span> 2024 HOSH
+                </div>
               </div>
             </div>
             {isMobile && (
               <>
                 <img src={gila} alt="Penguin" className="footer-icon" />
-                <div className="footer-copyright">© 2024 HOSH</div>
+                <div className="footer-copyright">
+                  <span style={{fontSize: '16px'}}>©</span> 2024 HOSH
+                </div>
               </>
             )}
           </footer>
