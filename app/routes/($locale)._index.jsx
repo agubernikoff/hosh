@@ -3,8 +3,7 @@ import NavLink from '~/components/NavLink';
 import {Suspense} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
-import model1 from '~/assets/model1.png';
-import model2 from '~/assets/model2.png';
+import model11 from '~/assets/model11.png';
 import InfiniteCarousel from '~/components/Carousel';
 import bingoart from 'app/assets/BINGO-ART 3.png';
 import bingoart2 from 'app/assets/BINGO-ART 31.png';
@@ -106,8 +105,7 @@ function FeaturedCollection({collection}) {
     <div className="featured-artist-container">
       <div className="featured-artist-homepage-section">
         <div className="models-container">
-          <img src={model1} />
-          <img src={model2} />
+          <img src={model11} style={{trasform: 'translateY(-10%)'}} />
         </div>
         <div className="shop-the-collection">
           <p>FEATURED ARTIST</p>
