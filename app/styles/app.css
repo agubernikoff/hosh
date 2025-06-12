@@ -1036,6 +1036,9 @@ aside header.cart-header {
 .product-left > div:first-of-type p {
   font-weight: bold;
 }
+.product-main {
+  padding: 0 1rem 1rem;
+}
 .product-main,
 .product-left {
   align-self: start;
