@@ -848,8 +848,8 @@ aside header.cart-header {
 .popup-image:only-child img {
   min-height: auto;
 }
-.mapped-indicators {
-  display: flex;
+.quick-shop-images-container .mapped-indicators {
+  display: flex !important;
   flex-direction: row;
   width: fit-content;
   margin: auto;
