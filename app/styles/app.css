@@ -1480,6 +1480,7 @@ media queries
   }
   .product-images {
     justify-content: center;
+    align-items: center;
   }
   .product-images,
   .product-item-imgs-container {
@@ -1525,7 +1526,7 @@ media queries
     width: fit-content;
     margin: auto;
     bottom: 1rem;
-    left: 50%;
+    left: 45%;
     position: absolute;
     background: transparent;
     overflow: hidden;
