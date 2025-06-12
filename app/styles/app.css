@@ -1491,7 +1491,6 @@ media queries
     order: 3;
   }
   .product-images {
-    justify-content: center;
     align-items: center;
   }
   .product-images,
@@ -1528,6 +1527,8 @@ media queries
     /* max-width: calc(999px * 0.5 + 2rem); */
     aspect-ratio: auto !important;
     height: auto !important;
+    /* max-height: 60vh; */
+    object-fit: cover;
   }
   .product-image:only-child img {
     min-height: auto;
@@ -1561,5 +1562,8 @@ media queries
   .header-menu-item,
   .dropdown-title {
     padding-left: 0;
+  }
+  .product-image:first-of-type {
+    padding: 0;
   }
 }
