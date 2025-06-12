@@ -285,6 +285,7 @@ input[type='search' i]::-webkit-search-cancel-button {
 
 .header-menu-mobile-toggle {
   flex: 1;
+  display: flex;
   @media (min-width: 48em) {
     display: none;
   }
@@ -743,6 +744,9 @@ aside header.cart-header {
 .collection-title {
   margin-bottom: 4rem;
 }
+.collection-title p:first-of-type {
+  margin-bottom: 1rem;
+}
 .collection-description {
   margin-bottom: 1rem;
   max-width: 95%;
@@ -753,7 +757,8 @@ aside header.cart-header {
 
 .products-grid {
   display: grid;
-  grid-gap: 30px;
+  grid-gap: 1.5rem;
+  row-gap: 7rem;
   grid-template-columns: repeat(3, 1fr);
   margin-bottom: 2rem;
 }
@@ -881,7 +886,7 @@ aside header.cart-header {
   display: flex;
   gap: 1.5rem;
   font-family: 'Roboto Mono';
-  margin-bottom: 0.5rem;
+  margin-bottom: 2rem;
 }
 .filter-container .filter-container .filter-container {
   flex-wrap: wrap;
@@ -993,7 +998,8 @@ aside header.cart-header {
   display: flex;
   gap: 10px;
   min-height: calc(100vh - var(--header-height));
-  padding-inline: 10vw;
+  padding-inline: 5vw;
+  margin-bottom: 5rem;
 }
 .product > div {
   flex: 1;
@@ -1030,6 +1036,11 @@ aside header.cart-header {
   position: sticky;
   top: calc(50vh);
   transform: translateY(-50%);
+  font-size: 13px;
+}
+.product-main *,
+.product-left * {
+  font-size: 13px;
 }
 
 .product-price-on-sale {
@@ -1039,6 +1050,9 @@ aside header.cart-header {
 
 .product-price-on-sale s {
   opacity: 0.5;
+}
+.product-options p:first-of-type {
+  margin-bottom: 1rem;
 }
 
 .product-options-grid {
@@ -1053,7 +1067,6 @@ aside header.cart-header {
   padding: auto;
   height: 60px;
   background-color: transparent;
-  font-size: 1rem;
   font-family: inherit;
   transition: all 150ms ease-in-out;
   border: 1px solid grey;
@@ -1099,6 +1112,8 @@ aside header.cart-header {
   overflow: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  font-size: 12px;
+  line-height: 1.6;
 }
 .dropdown-content::-webkit-scrollbar {
   display: none;
@@ -1222,6 +1237,7 @@ routes/artist
   display: grid;
   grid-template-columns: repeat(auto-fill, 154px);
   gap: 116px;
+  row-gap: 50px;
   margin: auto;
   margin-bottom: 6rem;
 }
@@ -1239,6 +1255,9 @@ routes/artist
   width: fit-content;
   text-align: center;
 }
+.artist-thumbnail p:last-of-type {
+  font-size: 13px;
+}
 
 .artist-page {
   text-align: center;
@@ -1247,6 +1266,7 @@ routes/artist
   flex-direction: column;
   gap: 5rem;
   align-items: center;
+  margin-bottom: 5rem;
 }
 .artist-page img {
   height: auto;
@@ -1255,6 +1275,7 @@ routes/artist
   width: 80%;
   text-align: left;
   margin: auto;
+  max-width: 705px;
 }
 
 /* 
@@ -1272,6 +1293,9 @@ pages
 .page > div > span,
 .page#text {
   font-size: 14px !important;
+}
+.page header p {
+  font-size: 16px !important;
 }
 /* 
 ----------------------------------------------------
@@ -1417,6 +1441,7 @@ media queries
   .artists-grid {
     display: flex;
     gap: 2rem;
+    row-gap: 0.75rem;
     flex-wrap: wrap;
     justify-content: space-between;
   }

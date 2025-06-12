@@ -307,7 +307,7 @@ function Recs() {
   console.log('Recommended products:', recommendedProducts);
 
   return (
-    <div>
+    <div style={{marginBottom: '5rem'}}>
       {collectionFetcher.state === 'loading' && (
         <p>Loading recommendations...</p>
       )}

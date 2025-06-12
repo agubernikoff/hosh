@@ -4,7 +4,7 @@ import InfiniteCarousel from '~/components/Carousel';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {Image} from '@shopify/hydrogen';
 import Expandable from '~/components/Expandable';
-import {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import mapRichText from '~/helpers/MapRichText';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {ProductItem} from '~/components/ProductItem';
@@ -119,9 +119,9 @@ export default function Page() {
     {},
   );
 
-  console.log(artist);
+  console.log(artist.caption.split('\n'));
 
-  const [openSection, setOpenSection] = useState(null);
+  const [openSection, setOpenSection] = useState('Artist Bio');
 
   const toggleSection = (section) => {
     setOpenSection(openSection === section ? null : section);
@@ -132,7 +132,7 @@ export default function Page() {
   return (
     <div className="artist-page">
       <div>
-        <p>{artist?.name}</p>
+        <p>{artist?.name.toUpperCase()}</p>
         <p>
           <span>{artist?.tribe}</span>
           {artist?.tribe && artist?.discipline && ' • '}
@@ -151,9 +151,16 @@ export default function Page() {
             data={artist?.featured_image.image}
             sizes="(min-width: 45em) 50vw, 100vw"
             alt={artist?.featured_image.alt}
-            width={'30vw'}
+            width={'40vw'}
           />
-          <p>{artist?.featured_image_caption}</p>
+          <p>
+            {artist?.caption.split('\n').map((line, index) => (
+              <React.Fragment key={index}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))}
+          </p>
         </div>
       )}
       {artist?.featured_product && (

@@ -264,7 +264,7 @@ function QuickShop({product, closePopUp, pathname}) {
             return (
               <div className="product-options" key={option.name}>
                 <p>
-                  <span>Select {option.name}:</span>{' '}
+                  <strong>Select {option.name}:</strong>{' '}
                   <AnimatePresence mode="popLayout">
                     <motion.span
                       key={`${option.optionValues.find((v) => v.selected)?.name}`}

@@ -257,7 +257,6 @@ function HeaderMenuMobileToggle() {
     <button
       className="header-menu-mobile-toggle reset"
       onClick={() => open('mobile')}
-      style={{display: 'flex'}}
     >
       <svg
         width="21"

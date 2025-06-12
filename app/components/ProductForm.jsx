@@ -21,7 +21,7 @@ export function ProductForm({productOptions, selectedVariant}) {
         return (
           <div className="product-options" key={option.name}>
             <p>
-              <span>Select {option.name}:</span>{' '}
+              <strong>Select {option.name}:</strong>{' '}
               <AnimatePresence mode="popLayout">
                 <motion.span
                   key={`${option.optionValues.find((v) => v.selected)?.name}`}
@@ -126,7 +126,7 @@ export function ProductForm({productOptions, selectedVariant}) {
             : []
         }
       >
-        {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
+        {selectedVariant?.availableForSale ? 'ADD TO CART' : 'SOLD OUT'}
       </AddToCartButton>
       <br />
       <p>Free standard shipping and easy returns.</p>
