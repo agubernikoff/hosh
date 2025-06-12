@@ -962,6 +962,7 @@ aside header.cart-header {
   font-size: inherit;
   font-weight: 500;
   gap: 0.5rem;
+  border: none;
 }
 .header-s-c .dropdown-title {
   font-weight: 500;
