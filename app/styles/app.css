@@ -1466,6 +1466,7 @@ media queries
   .product {
     flex-direction: column;
     padding: 0;
+    margin-top: 2rem;
   }
   .product-left,
   .product-main {
@@ -1526,7 +1527,7 @@ media queries
     width: fit-content;
     margin: auto;
     bottom: 1rem;
-    left: 45%;
+    left: 46%;
     position: absolute;
     background: transparent;
     overflow: hidden;
