@@ -888,6 +888,8 @@ aside header.cart-header {
   background: transparent;
   border: none;
   text-align: left;
+  font-family: 'Roboto Mono';
+  text-wrap: nowrap;
 }
 .filter-container > button:hover,
 .sort-container > button:hover {
@@ -1294,6 +1296,9 @@ media queries
     flex-wrap: wrap;
     width: 90vw;
   }
+  .artists-collection-div {
+    padding: 0 !important;
+  }
 }
 @media (max-width: 499px) {
   :root {
@@ -1476,6 +1481,7 @@ media queries
   }
   .collection {
     padding-inline: 0;
+    padding-top: 2rem;
   }
 
   .product .product-form {

@@ -197,7 +197,9 @@ export default function Page() {
             width: '100%',
             paddingInline: '10vw',
             boxSizing: 'border-box',
+            position: 'relative',
           }}
+          className="artists-collection-div"
         >
           <Filter filters={artist?.collection?.products?.filters} />
           <PaginatedResourceSection
