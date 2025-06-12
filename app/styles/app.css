@@ -1286,6 +1286,10 @@ media queries
     top: 2rem;
     height: 70vh;
   }
+  .filter-container .filter-container {
+    flex-wrap: wrap;
+    width: 90vw;
+  }
   .filter-container .filter-container .filter-container {
     flex-wrap: wrap;
     width: 90vw;
