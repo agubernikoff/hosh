@@ -1248,6 +1248,9 @@ routes/artist
 .artists-page {
   position: relative;
 }
+.artist-page > div > p:first-of-type {
+  margin-bottom: 1rem;
+}
 .artists-grid {
   max-width: 694px;
   display: grid;
