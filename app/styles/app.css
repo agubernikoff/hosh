@@ -1345,9 +1345,6 @@ media queries
     --header-height: 57px;
   }
 
-  body > main {
-    margin: 0 2rem 2rem;
-  }
   .featured-artist-homepage-section {
     display: block;
     height: auto;
@@ -1475,6 +1472,7 @@ media queries
   }
   .product-left {
     order: 2;
+    padding: 0 1rem 1rem;
   }
   .product-main {
     order: 3;
