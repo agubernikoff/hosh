@@ -138,12 +138,15 @@ export default function Page() {
         />
       )}
       {artist?.featured_image && (
-        <Image
-          data={artist?.featured_image.image}
-          sizes="(min-width: 45em) 50vw, 100vw"
-          alt={artist?.featured_image.alt}
-          width={'30vw'}
-        />
+        <div>
+          <Image
+            data={artist?.featured_image.image}
+            sizes="(min-width: 45em) 50vw, 100vw"
+            alt={artist?.featured_image.alt}
+            width={'30vw'}
+          />
+          <p>{artist?.featured_image_caption}</p>
+        </div>
       )}
       {artist?.featured_product && (
         <NavLink to={`/products/${artist?.featured_product?.handle}`}>
