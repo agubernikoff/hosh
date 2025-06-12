@@ -306,7 +306,7 @@ input[type='search' i]::-webkit-search-cancel-button {
   grid-gap: 1rem;
   @media (min-width: 48em) {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
     flex: 1;
   }
 }
