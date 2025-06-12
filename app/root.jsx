@@ -9,7 +9,7 @@ import {
   ScrollRestoration,
   useRouteLoaderData,
 } from '@remix-run/react';
-import favicon from '~/assets/favicon.svg';
+import favicon from '~/assets/Gila-Black.png';
 import {COUNTRIES_QUERY, FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
