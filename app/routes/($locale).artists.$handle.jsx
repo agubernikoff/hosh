@@ -110,7 +110,6 @@ function useIsFirstRender() {
 export default function Page() {
   /** @type {LoaderReturnData} */
   const {metaobject} = useLoaderData();
-  console.log('x', metaobject);
   const artist = metaobject?.fields.reduce(
     (acc, {key, value, reference, references}) => {
       acc[key] = references || reference || value;
@@ -119,7 +118,7 @@ export default function Page() {
     {},
   );
 
-  console.log(artist.caption.split('\n'));
+  console.log(artist);
 
   const [openSection, setOpenSection] = useState('Artist Bio');
 
@@ -154,7 +153,7 @@ export default function Page() {
             width={'40vw'}
           />
           <p>
-            {artist?.caption.split('\n').map((line, index) => (
+            {artist?.caption?.split('\n').map((line, index) => (
               <React.Fragment key={index}>
                 {line}
                 <br />
