@@ -16,7 +16,7 @@ import bingoart7 from 'app/assets/BINGO-ART 36.png';
  * @type {MetaFunction}
  */
 export const meta = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{title: 'Hosh'}];
 };
 
 /**

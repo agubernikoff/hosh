@@ -7,7 +7,8 @@ import NavLink from '~/components/NavLink';
  * @type {MetaFunction<typeof loader>}
  */
 export const meta = ({data}) => {
-  //   return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
+  console.log(data);
+  return [{title: `Hosh | Artists`}];
 };
 
 /**

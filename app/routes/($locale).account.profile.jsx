@@ -11,7 +11,7 @@ import {
  * @type {MetaFunction}
  */
 export const meta = () => {
-  return [{title: 'Profile'}];
+  return [{title: 'Hosh | Profile'}];
 };
 
 /**

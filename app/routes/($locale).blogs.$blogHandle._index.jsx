@@ -7,7 +7,7 @@ import {redirectIfHandleIsLocalized} from '~/lib/redirect';
  * @type {MetaFunction<typeof loader>}
  */
 export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data?.blog.title ?? ''} blog`}];
+  return [{title: `Hosh | ${data?.blog.title ?? ''} blog`}];
 };
 
 /**

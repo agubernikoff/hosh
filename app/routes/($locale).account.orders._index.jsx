@@ -11,7 +11,7 @@ import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
  * @type {MetaFunction}
  */
 export const meta = () => {
-  return [{title: 'Orders'}];
+  return [{title: 'Hosh | Orders'}];
 };
 
 /**

@@ -14,7 +14,15 @@ import {Filter} from './($locale).collections.$handle';
  * @type {MetaFunction<typeof loader>}
  */
 export const meta = ({data}) => {
-  //   return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
+  const artist = data.metaobject?.fields.reduce(
+    (acc, {key, value, reference, references}) => {
+      acc[key] = references || reference || value;
+      return acc;
+    },
+    {},
+  );
+  console.log(artist);
+  return [{title: `Hosh | ${artist?.name ?? ''}`}];
 };
 
 /**

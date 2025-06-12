@@ -4,7 +4,7 @@ import {Link, useLoaderData} from '@remix-run/react';
  * @type {MetaFunction<typeof loader>}
  */
 export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data?.policy.title ?? ''}`}];
+  return [{title: `Hosh | ${data?.policy.title ?? ''}`}];
 };
 
 /**

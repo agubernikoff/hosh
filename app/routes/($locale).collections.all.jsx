@@ -8,7 +8,7 @@ import {Filter} from './($locale).collections.$handle';
  * @type {MetaFunction<typeof loader>}
  */
 export const meta = () => {
-  return [{title: `Hydrogen | Products`}];
+  return [{title: `Hosh | Products`}];
 };
 
 /**
