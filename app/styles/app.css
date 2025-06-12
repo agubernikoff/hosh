@@ -474,14 +474,14 @@ aside header.cart-header {
 }
 
 .cart-heading {
-  font-size: 13px;
+  font-size: 16px;
   text-align: center;
   margin-bottom: 0.25rem;
   font-family: 'Roboto Mono', sans-serif;
 }
 
 .cart-subtext {
-  font-size: 13px;
+  font-size: 15px;
   text-align: center;
   margin-bottom: 1rem;
   color: #333;
@@ -494,6 +494,10 @@ aside header.cart-header {
 .cart-line {
   display: flex;
   padding: 0.75rem 0;
+  font-size: 16px;
+}
+.cart-line * {
+  font-size: 16px;
 }
 
 .cart-line > div > form {
@@ -567,6 +571,7 @@ aside header.cart-header {
   border-radius: 4px;
   padding: 1rem;
   font-family: 'Roboto Mono', sans-serif;
+  font-size: 16px;
 }
 /*
 * --------------------------------------------------
