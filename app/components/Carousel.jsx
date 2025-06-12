@@ -5,6 +5,33 @@ export default function InfiniteCarousel({
   interval = 5000,
   width = 100,
 }) {
+  // If only one image, render it statically without carousel functionality
+  if (images.length <= 1) {
+    return (
+      <div
+        className="single-image-wrapper"
+        style={{
+          overflow: 'hidden',
+          position: 'relative',
+          width: `${width}vw`,
+          margin: 'auto',
+        }}
+      >
+        {images.length === 1 && (
+          <img
+            src={images[0]}
+            alt="Single slide"
+            style={{
+              width: `${width}vw`,
+              objectFit: 'cover',
+              maxHeight: 'calc(100vh - var(--header-height))',
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+
   const [index, setIndex] = useState(1); // Start at real first slide
   const trackRef = useRef(null);
   const timeoutRef = useRef(null);
