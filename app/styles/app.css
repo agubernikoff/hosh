@@ -1480,4 +1480,8 @@ media queries
   .collection-title {
     margin-bottom: 2rem;
   }
+  .header-menu-item,
+  .dropdown-title {
+    padding-left: 0;
+  }
 }
