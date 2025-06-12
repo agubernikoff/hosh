@@ -1039,7 +1039,7 @@ aside header.cart-header {
 }
 .product-main {
   padding: 0 1rem 1rem;
-  width: calc(100% - 2rem);
+  width: calc(100% - 2rem) !important;
 }
 .product-main,
 .product-left {
