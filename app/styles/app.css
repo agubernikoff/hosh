@@ -742,7 +742,7 @@ aside header.cart-header {
 .products-grid {
   display: grid;
   grid-gap: 30px;
-  grid-template-columns: repeat(auto-fill, minmax(var(--grid-item-width), 1fr));
+  grid-template-columns: repeat(3, 1fr);
   margin-bottom: 2rem;
 }
 
@@ -1080,6 +1080,11 @@ aside header.cart-header {
   margin-top: 0.5rem;
   max-height: 90vw;
   overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.dropdown-content::-webkit-scrollbar {
+  display: none;
 }
 
 .rich-text-div p {
