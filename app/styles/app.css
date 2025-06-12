@@ -1343,6 +1343,10 @@ media queries
   :root {
     --header-height: 57px;
   }
+
+  body > main {
+    margin: 0 2rem 2rem;
+  }
   .featured-artist-homepage-section {
     display: block;
     height: auto;
