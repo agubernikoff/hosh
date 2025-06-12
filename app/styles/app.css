@@ -1478,6 +1478,9 @@ media queries
   .product-main {
     order: 3;
   }
+  .product-images {
+    justify-content: center;
+  }
   .product-images,
   .product-item-imgs-container {
     position: relative;
