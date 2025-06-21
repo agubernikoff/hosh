@@ -187,7 +187,7 @@ function Product() {
           <p>{product.artist?.value}</p>
         </div>
         <div style={{marginBottom: '1rem'}}>
-          <p>{product.description2.value}</p>
+          <p>{product.description2?.value}</p>
           <ProductPrice
             price={selectedVariant?.price}
             compareAtPrice={selectedVariant?.compareAtPrice}
@@ -208,7 +208,9 @@ function Product() {
           },
           {
             title: 'Size & Fit',
-            details: mapRichText(JSON.parse(product.size_and_fit?.value)),
+            details: product.size_and_fit
+              ? mapRichText(JSON.parse(product.size_and_fit?.value))
+              : '',
           },
           {
             title: 'Care',
