@@ -1297,7 +1297,8 @@ routes/artist
   align-items: center;
   margin-bottom: 5rem;
 }
-.artist-page .carousel-wrapper {
+.artist-page .carousel-wrapper,
+.artist-page .single-image-wrapper {
   margin: 2rem auto auto !important;
 }
 .artist-page img {
