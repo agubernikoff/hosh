@@ -1239,6 +1239,10 @@ aside header.cart-header {
   height: auto;
   width: 100%;
 }
+.article-inner > p {
+  font-size: 14px !important;
+  letter-spacing: 1px !important;
+}
 
 /*
 * --------------------------------------------------
