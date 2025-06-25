@@ -6,6 +6,13 @@ import InfiniteCarousel from '~/components/Carousel';
 import car1 from 'app/assets/x1.png';
 import car2 from 'app/assets/x2.png';
 import car3 from 'app/assets/x3.png';
+import bingoart from 'app/assets/BINGO-ART 3.png';
+import bingoart2 from 'app/assets/BINGO-ART 31.png';
+import bingoart3 from 'app/assets/BINGO-ART 32.png';
+import bingoart4 from 'app/assets/BINGO-ART 33.png';
+import bingoart5 from 'app/assets/BINGO-ART 34.png';
+import bingoart6 from 'app/assets/BINGO-ART 35.png';
+import bingoart7 from 'app/assets/BINGO-ART 36.png';
 import NavLink from './NavLink';
 
 /**
@@ -41,7 +48,23 @@ export function Footer({
 
   return (
     <Suspense>
-      {shouldShowCarousel && <InfiniteCarousel images={[car1, car2, car3]} />}
+      {shouldShowCarousel && (
+        <InfiniteCarousel
+          images={
+            location.pathname.includes('artists')
+              ? [
+                  bingoart,
+                  bingoart2,
+                  bingoart3,
+                  bingoart4,
+                  bingoart5,
+                  bingoart6,
+                  bingoart7,
+                ]
+              : [car1, car2, car3]
+          }
+        />
+      )}
       <Await resolve={footerPromise}>
         {(footer) => (
           <footer className="footer">

@@ -333,7 +333,9 @@ input[type='search' i]::-webkit-search-cancel-button {
   padding: calc(2rem + 20px) 2rem 2rem 2rem;
   font-family: 'Roboto Mono';
 }
-
+.carousel-wrapper:has(+ .footer) {
+  margin: auto !important;
+}
 .footer-grid {
   display: flex;
   flex-direction: row;
@@ -716,7 +718,7 @@ aside header.cart-header {
   height: auto;
 }
 
-.home > .carousel-wrapper {
+.carousel-wrapper {
   width: 100vw;
   margin-left: -1rem !important;
 }
@@ -770,7 +772,7 @@ aside header.cart-header {
 .products-grid {
   display: grid;
   grid-gap: 1.5rem;
-  row-gap: 7rem;
+  row-gap: 70px;
   grid-template-columns: repeat(3, 1fr);
   margin-bottom: 2rem;
 }
@@ -1143,6 +1145,8 @@ aside header.cart-header {
 
 .rich-text-div p {
   margin-bottom: 1rem;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 
 .product .product-form {
@@ -1292,6 +1296,9 @@ routes/artist
   gap: 5rem;
   align-items: center;
   margin-bottom: 5rem;
+}
+.artist-page .carousel-wrapper {
+  margin: 2rem auto auto !important;
 }
 .artist-page img {
   height: auto;
@@ -1581,5 +1588,17 @@ media queries
   }
   .recommended-products > p:first-of-type {
     margin-bottom: calc(3rem + 20px) !important;
+  }
+  .carousel-wrapper > button {
+    scale: 0.65;
+  }
+  .artist-page {
+    padding-inline: 6px;
+  }
+  .artist-page .artist-expandables-div {
+    width: 100%;
+  }
+  .artist-fetatured-product-image {
+    width: 40vw !important;
   }
 }

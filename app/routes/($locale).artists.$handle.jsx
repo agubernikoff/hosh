@@ -137,22 +137,21 @@ export default function Page() {
           {artist?.tribe && artist?.discipline && ' • '}
           <span>{artist?.discipline}</span>
         </p>
+        {artist?.images?.nodes && (
+          <InfiniteCarousel
+            images={artist?.images?.nodes?.map((n) => n?.image?.url)}
+          />
+        )}
       </div>
-      {artist?.images?.nodes && (
-        <InfiniteCarousel
-          images={artist?.images?.nodes?.map((n) => n?.image?.url)}
-          width={70}
-        />
-      )}
       {artist?.featured_image && (
         <div>
           <Image
             data={artist?.featured_image.image}
             sizes="(min-width: 45em) 50vw, 100vw"
             alt={artist?.featured_image.alt}
-            width={'40vw'}
+            width={'30vw'}
           />
-          <p>
+          <p style={{marginTop: '2rem'}}>
             {artist?.caption?.split('\n').map((line, index) => (
               <React.Fragment key={index}>
                 {line}
@@ -169,6 +168,7 @@ export default function Page() {
             sizes="(min-width: 45em) 50vw, 100vw"
             alt={artist?.featured_product?.featuredImage?.alt}
             width={'30vw'}
+            className="artist-fetatured-product-image"
           />
           <p style={{marginTop: '2rem'}}>
             {`${artist?.featured_product?.title} by ${artist?.name}  |  `}
@@ -206,29 +206,32 @@ export default function Page() {
           ))}
       </div>
       {artist?.collection?.products?.nodes?.length > 0 && (
-        <div
-          style={{
-            width: '100%',
-            paddingInline: '10vw',
-            boxSizing: 'border-box',
-            position: 'relative',
-          }}
-          className="artists-collection-div"
-        >
-          <Filter filters={artist?.collection?.products?.filters} />
-          <PaginatedResourceSection
-            connection={artist?.collection?.products}
-            resourcesClassName="products-grid"
+        <>
+          <p>{artist?.name.toUpperCase()}</p>
+          <div
+            style={{
+              width: '100%',
+              paddingInline: '10vw',
+              boxSizing: 'border-box',
+              position: 'relative',
+            }}
+            className="artists-collection-div"
           >
-            {({node: product, index}) => (
-              <ProductItem
-                key={product.id}
-                product={product}
-                loading={index < 8 ? 'eager' : undefined}
-              />
-            )}
-          </PaginatedResourceSection>
-        </div>
+            <Filter filters={artist?.collection?.products?.filters} />
+            <PaginatedResourceSection
+              connection={artist?.collection?.products}
+              resourcesClassName="products-grid"
+            >
+              {({node: product, index}) => (
+                <ProductItem
+                  key={product.id}
+                  product={product}
+                  loading={index < 8 ? 'eager' : undefined}
+                />
+              )}
+            </PaginatedResourceSection>
+          </div>
+        </>
       )}
     </div>
   );
