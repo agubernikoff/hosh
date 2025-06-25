@@ -69,7 +69,12 @@ export default function Page() {
     <div className="page">
       <header>
         <p
-          style={{textAlign: 'center', marginTop: '4rem', marginBottom: '5rem'}}
+          style={{
+            textAlign: 'center',
+            marginTop: '4rem',
+            marginBottom: '5rem',
+            letterSpacing: '2px',
+          }}
         >
           {page.title}
         </p>
