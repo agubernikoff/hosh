@@ -129,7 +129,7 @@ function FeaturedCollection({collection}) {
         )}
       </NavLink>
       <p
-        style={{marginBlock: '3rem', textAlign: 'center'}}
+        style={{marginBlock: '3rem', textAlign: 'center', letterSpacing: '2px'}}
       >{`${collection.title.toUpperCase()} COLLECTION`}</p>
       <div className="recommended-products-grid">
         {collection.products.nodes.map((product) => (
@@ -166,7 +166,14 @@ function FeaturedCollection({collection}) {
 function RecommendedProducts({products}) {
   return (
     <div className="recommended-products">
-      <p style={{marginTop: '7rem', marginBottom: '3rem', textAlign: 'center'}}>
+      <p
+        style={{
+          marginTop: '7rem',
+          marginBottom: '3rem',
+          textAlign: 'center',
+          letterSpacing: '2px',
+        }}
+      >
         BEST SELLERS
       </p>
       <Suspense fallback={<div>Loading...</div>}>

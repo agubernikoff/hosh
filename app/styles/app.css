@@ -8,8 +8,8 @@
   --color-light: #fff;
 }
 
-img {
-  /* border-radius: 4px; */
+button {
+  font-family: 'Roboto Mono';
 }
 @font-face {
   font-family: 'Roboto Mono';
@@ -330,7 +330,7 @@ input[type='search' i]::-webkit-search-cancel-button {
 * --------------------------------------------------
 */
 .footer {
-  padding: 2rem;
+  padding: calc(2rem + 20px) 2rem 2rem 2rem;
   font-family: 'Roboto Mono';
 }
 
@@ -366,6 +366,7 @@ input[type='search' i]::-webkit-search-cancel-button {
   margin-top: 2rem;
   color: black !important;
   font-family: 'Roboto Mono';
+  background: white;
 }
 
 .footer-center {
@@ -667,9 +668,13 @@ aside header.cart-header {
 .shop-the-collection > * {
   transform: translateY(calc(var(--header-height) * -1));
 }
+.shop-the-collection > p:first-of-type {
+  letter-spacing: 2px;
+}
 .artist-title {
   font-size: 36px;
   margin-bottom: 0.5rem;
+  letter-spacing: 5px;
 }
 .shop-the-collection > a {
   border: 1px solid black;
@@ -699,7 +704,7 @@ aside header.cart-header {
 .recommended-products-grid {
   display: grid;
   grid-gap: 1.5rem;
-  row-gap: 7rem;
+  row-gap: 70px;
   padding-inline: 5vw;
   grid-template-columns: repeat(2, 1fr);
   @media (min-width: 45em) {
@@ -1570,5 +1575,11 @@ media queries
   }
   .product-image:first-of-type {
     padding: 0;
+  }
+  .carousel-track > img {
+    aspect-ratio: 390/250;
+  }
+  .recommended-products > p:first-of-type {
+    margin-bottom: calc(3rem + 20px) !important;
   }
 }
