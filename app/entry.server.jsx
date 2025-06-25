@@ -29,6 +29,7 @@ export default async function handleRequest(
       'http://localhost:3000',
       'https://*.klaviyo.com/*',
     ],
+    frameSrc: ['https://www.youtube.com/'],
   });
 
   const body = await renderToReadableStream(
