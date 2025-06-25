@@ -52,7 +52,7 @@ export function Aside({children, heading, type}) {
               <hr className="cart-separator" />
             </>
           ) : (
-            <h3>{heading}</h3>
+            <p>{heading}</p>
           )}
           {type != 'cart' && (
             <button className="close reset" onClick={close} aria-label="Close">

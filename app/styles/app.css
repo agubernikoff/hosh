@@ -1357,6 +1357,10 @@ media queries
   :root {
     --header-height: 57px;
   }
+  .header-inner {
+    width: 100%;
+    box-sizing: border-box;
+  }
 
   .featured-artist-homepage-section {
     display: block;
