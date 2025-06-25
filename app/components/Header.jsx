@@ -1,5 +1,5 @@
 import {Suspense, useId, useState} from 'react';
-import {Await, useAsyncValue} from '@remix-run/react';
+import {Await, useAsyncValue, useLocation} from '@remix-run/react';
 import NavLink from './NavLink';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
@@ -17,6 +17,8 @@ import {SearchFormPredictive} from './SearchFormPredictive';
  */
 export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
+  const {pathname} = useLocation();
+  const {close} = useAside();
 
   return (
     <header className="header">
@@ -28,8 +30,14 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
           viewport="desktop"
           primaryDomainUrl={header.shop.primaryDomain.url}
           publicStoreDomain={publicStoreDomain}
+          resetTrigger={pathname}
         />
-        <NavLink prefetch="intent" to="/" className="header-logo">
+        <NavLink
+          prefetch="intent"
+          to="/"
+          className="header-logo"
+          onClick={close}
+        >
           <img src={logo} alt={`${shop.name} logo`} />
         </NavLink>
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
@@ -72,11 +80,11 @@ export function HeaderMenu({
 
   // Reset when resetTrigger changes (aside closes)
   useEffect(() => {
-    if (resetTrigger && viewport === 'mobile') {
+    if (resetTrigger) {
       setOpen(null);
       setOpenNested(null);
     }
-  }, [resetTrigger, viewport]);
+  }, [resetTrigger]);
   return (
     <nav className={className} role="navigation">
       {viewport === 'mobile' && (
