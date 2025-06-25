@@ -151,7 +151,7 @@ export default function Page() {
             alt={artist?.featured_image.alt}
             width={'30vw'}
           />
-          <p style={{marginTop: '2rem'}}>
+          <p style={{marginTop: '2rem', letterSpacing: '1px'}}>
             {artist?.caption?.split('\n').map((line, index) => (
               <React.Fragment key={index}>
                 {line}
@@ -162,7 +162,7 @@ export default function Page() {
         </div>
       )}
       {artist?.featured_product && (
-        <NavLink to={`/products/${artist?.featured_product?.handle}`}>
+        <div>
           <Image
             data={artist?.featured_product?.featuredImage}
             sizes="(min-width: 45em) 50vw, 100vw"
@@ -170,10 +170,22 @@ export default function Page() {
             width={'30vw'}
             className="artist-fetatured-product-image"
           />
-          <p style={{marginTop: '2rem'}}>
+          <p style={{marginTop: '2rem', letterSpacing: '1px'}}>
             {`${artist?.featured_product?.title} by ${artist?.name}  |  `}
             <strong>SHOP</strong>
           </p>
+        </div>
+      )}
+      {!artist?.featured_product && artist.coming_soon_product && (
+        <NavLink to={`/products/${artist?.coming_soon_product?.handle}`}>
+          <Image
+            data={artist?.coming_soon_product?.image}
+            sizes="(min-width: 45em) 50vw, 100vw"
+            alt={artist?.coming_soon_product?.image?.alt}
+            width={'30vw'}
+            className="artist-fetatured-product-image"
+          />
+          <p style={{marginTop: '2rem', letterSpacing: '1px'}}>COMING SOON</p>
         </NavLink>
       )}
       <div className="artist-expandables-div">
