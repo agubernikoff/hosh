@@ -51,7 +51,7 @@ export function Footer({
       {shouldShowCarousel && (
         <InfiniteCarousel
           images={
-            location.pathname.includes('artists')
+            location.pathname.includes('artist')
               ? [
                   bingoart,
                   bingoart2,
