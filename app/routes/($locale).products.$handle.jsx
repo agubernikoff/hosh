@@ -526,7 +526,6 @@ function Product() {
 
   function getSizingGuideType(input) {
     const t = input.toLowerCase();
-    console.log('Evaluating guide type for:', t);
 
     if (t.includes('crewneck')) return 'crewneck';
     if (t.includes('sweatshirt')) return 'sweatshirt';
@@ -662,35 +661,26 @@ function Recs() {
       .toLowerCase()
       .split(' ')
       .join('-');
-    console.log('Fetching collection:', collectionHandle);
     if (collectionHandle) {
       collectionFetcher.load(`/collections/${collectionHandle}`);
     }
   }, [product.id]);
 
-  console.log('Fetcher state:', collectionFetcher.state);
-  console.log('Fetcher data:', collectionFetcher.data);
-
   // Filter out current product and limit results
   const recommendedProducts = useMemo(() => {
     // The key change: access .collection from fetcher data
     if (!collectionFetcher.data?.collection.products.nodes) {
-      console.log('No collection products found');
       return [];
     }
 
     const filtered = collectionFetcher.data?.collection.products.nodes
       .filter((node) => {
-        console.log(node);
         return node.id !== product.id;
       }) // exclude current product
       .slice(0, 6); // limit to 4 products
 
-    console.log('Filtered products:', filtered.length);
     return filtered;
   }, [collectionFetcher.data, product.id]);
-
-  console.log('Recommended products:', recommendedProducts);
 
   return (
     <div style={{marginBottom: '5rem'}}>
