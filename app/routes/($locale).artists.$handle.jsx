@@ -162,7 +162,7 @@ export default function Page() {
         </div>
       )}
       {artist?.featured_product && (
-        <div>
+        <NavLink to={`/products/${artist?.coming_soon_product?.handle}`}>
           <Image
             data={artist?.featured_product?.featuredImage}
             sizes="(min-width: 45em) 50vw, 100vw"
@@ -174,10 +174,10 @@ export default function Page() {
             {`${artist?.featured_product?.title} by ${artist?.name}  |  `}
             <strong>SHOP</strong>
           </p>
-        </div>
+        </NavLink>
       )}
       {!artist?.featured_product && artist.coming_soon_product && (
-        <NavLink to={`/products/${artist?.coming_soon_product?.handle}`}>
+        <div>
           <Image
             data={artist?.coming_soon_product?.image}
             sizes="(min-width: 45em) 50vw, 100vw"
@@ -186,7 +186,7 @@ export default function Page() {
             className="artist-fetatured-product-image"
           />
           <p style={{marginTop: '2rem', letterSpacing: '1px'}}>COMING SOON</p>
-        </NavLink>
+        </div>
       )}
       <div className="artist-expandables-div">
         {[
