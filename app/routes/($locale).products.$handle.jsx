@@ -16,6 +16,10 @@ import Expandable from '~/components/Expandable';
 import mapRichText from '~/helpers/MapRichText';
 import {ProductItem} from '~/components/ProductItem';
 import {motion} from 'motion/react';
+import crewneck from '../assets/crewneck.png';
+import sweatshirt from '../assets/sweatshirt.png';
+import tshirt from '../assets/tshirt.png';
+import oversized from '../assets/oversized.png';
 
 function useIsFirstRender() {
   const isFirst = useRef(true);
@@ -124,7 +128,7 @@ function Product() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
-  const {title, descriptionHtml} = product;
+  const descriptionHtml = product.descriptionHtml;
 
   const [openSection, setOpenSection] = useState(null);
 
@@ -179,11 +183,365 @@ function Product() {
         ))
       : null;
 
+  const [showSizingGuide, setShowSizingGuide] = useState(false);
+  const [guideType, setGuideType] = useState('cropped-tshirt');
+  const [unit, setUnit] = useState('cm');
+
+  const measurements = {
+    'oversized-tshirt': {
+      in: {
+        Sleeves: [8.0, 8.25, 8.5, 8.75, 9.0, 9.25],
+        Shoulders: [21.75, 22.5, 23.25, 24.0, 24.75, 25.5],
+        Chest: [20.5, 22.0, 23.5, 25.0, 26.5, 28.0],
+        Length: [27.75, 28.5, 29.25, 30.0, 30.75, 31.5],
+      },
+      cm: {
+        Sleeves: [20.3, 21.0, 21.6, 22.2, 22.9, 23.5],
+        Shoulders: [55.2, 57.2, 59.1, 61.0, 62.9, 64.8],
+        Chest: [52.1, 55.9, 59.7, 63.5, 67.3, 71.1],
+        Length: [70.5, 72.4, 74.3, 76.2, 78.1, 80.0],
+      },
+    },
+    'cropped-tshirt': {
+      in: {
+        Sleeves: [3.875, 4.125, 4.375, 4.625, 4.875, 5.125],
+        Shoulders: [21.25, 21.75, 22.25, 22.75, 23.25, 23.75],
+        Chest: [18.5, 19.5, 20.5, 21.5, 22.5, 23.5],
+        Length: [21.75, 22.25, 22.75, 23.25, 23.75, 24.25],
+      },
+      cm: {
+        Sleeves: [9.8, 10.5, 11.1, 11.7, 12.4, 13.0],
+        Shoulders: [54.0, 55.2, 56.5, 57.8, 59.1, 60.3],
+        Chest: [47.0, 49.5, 52.1, 54.6, 57.2, 59.7],
+        Length: [55.2, 56.5, 57.8, 59.1, 60.3, 61.6],
+      },
+    },
+    sweatshirt: {
+      in: {
+        Sleeves: [21.75, 22.0, 22.25, 22.5, 22.75, 23.0],
+        Shoulders: [22.75, 23.5, 24.25, 25.0, 25.75, 26.5],
+        Chest: [21.25, 22.75, 24.25, 25.75, 27.25, 28.75],
+        Length: [27.75, 28.5, 29.25, 30.0, 30.75, 31.5],
+      },
+      cm: {
+        Sleeves: [55.2, 55.9, 56.5, 57.2, 57.8, 58.4],
+        Shoulders: [57.8, 59.7, 61.6, 63.5, 65.4, 67.3],
+        Chest: [54.0, 57.8, 61.6, 65.4, 69.2, 73.0],
+        Length: [70.5, 72.4, 74.3, 76.2, 78.1, 80.0],
+      },
+    },
+    crewneck: {
+      in: {
+        Sleeves: [21.75, 22.0, 22.25, 22.5, 22.75, 23.0],
+        Shoulders: [22.75, 23.5, 24.25, 25.0, 25.75, 26.5],
+        Chest: [21.25, 22.75, 24.25, 25.75, 27.25, 28.75],
+        Length: [28.75, 29.5, 30.25, 31.0, 31.75, 32.5],
+      },
+      cm: {
+        Sleeves: [55.2, 55.9, 56.5, 57.2, 57.8, 58.4],
+        Shoulders: [57.8, 59.7, 61.6, 63.5, 65.4, 67.3],
+        Chest: [54.0, 57.8, 61.6, 65.4, 69.2, 73.0],
+        Length: [73.0, 74.9, 76.8, 78.7, 80.6, 82.6],
+      },
+    },
+  };
+
+  const SizingGuideModal = () => (
+    <>
+      {showSizingGuide && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+          }}
+          onClick={() => setShowSizingGuide(false)}
+        >
+          <div
+            style={{
+              background: '#fff',
+              padding: '2rem',
+              // borderRadius removed
+              width: '100%',
+              maxWidth: '95vw',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              position: 'relative',
+              fontFamily: 'monospace',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowSizingGuide(false)}
+              style={{
+                position: 'absolute',
+                top: '1rem',
+                right: '1rem',
+                fontSize: '1.5rem',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              &times;
+            </button>
+
+            {/* Title */}
+            <h2
+              style={{
+                marginBottom: '0.5rem',
+                borderBottom: '1px solid black',
+                paddingBottom: '0.5rem',
+              }}
+            >
+              HOSH SIZE GUIDE
+            </h2>
+
+            {/* Guide Type */}
+            <h3 style={{marginBottom: '0.5rem'}}>
+              {guideType === 'oversized-tshirt'
+                ? 'Oversized T-Shirt'
+                : guideType === 'sweatshirt'
+                  ? 'Sweatshirt'
+                  : guideType === 'crewneck'
+                    ? 'Crewneck'
+                    : 'Cropped T-Shirt'}
+            </h3>
+            <ul style={{paddingLeft: '1rem', marginBottom: '1rem'}}>
+              <li>Fits true to size. Take your normal size.</li>
+              <li>Designed for a slight loose fit.</li>
+              <li>Mid-weight, non-stretchy fabric</li>
+              <li>S/M/L/XL/XXL sizing</li>
+            </ul>
+
+            {/* Toggle */}
+            <div style={{marginBottom: '1rem'}}>
+              <div
+                style={{
+                  borderTop: '1px solid black',
+                  marginTop: '1rem',
+                  marginBottom: '1rem',
+                }}
+              ></div>
+              <strong>Measurements</strong>
+              <div
+                style={{display: 'flex', gap: '0.5rem', marginTop: '0.5rem'}}
+              >
+                <label
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="unit"
+                    checked={unit === 'in'}
+                    onChange={() => setUnit('in')}
+                  />
+                  in
+                </label>
+                <label
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="unit"
+                    checked={unit === 'cm'}
+                    onChange={() => setUnit('cm')}
+                  />
+                  cm
+                </label>
+              </div>
+            </div>
+
+            {/* Table */}
+            <div style={{overflowX: 'auto', marginBottom: '2rem'}}>
+              <table
+                style={{
+                  width: '100%',
+                  borderCollapse: 'collapse',
+                  textAlign: 'center',
+                  borderTop: '1px solid #000',
+                }}
+              >
+                <thead>
+                  <tr>
+                    <th
+                      style={{border: '1px solid #000', padding: '1rem 0.5rem'}}
+                    ></th>
+                    <th
+                      style={{
+                        border: '1px solid #000',
+                        padding: '1rem 0.5rem',
+                        width: '60px',
+                      }}
+                    >
+                      XS
+                    </th>
+                    <th
+                      style={{
+                        border: '1px solid #000',
+                        padding: '1rem 0.5rem',
+                        width: '60px',
+                      }}
+                    >
+                      S
+                    </th>
+                    <th
+                      style={{
+                        border: '1px solid #000',
+                        padding: '1rem 0.5rem',
+                        width: '60px',
+                      }}
+                    >
+                      M
+                    </th>
+                    <th
+                      style={{
+                        border: '1px solid #000',
+                        padding: '1rem 0.5rem',
+                        width: '60px',
+                      }}
+                    >
+                      L
+                    </th>
+                    <th
+                      style={{
+                        border: '1px solid #000',
+                        padding: '1rem 0.5rem',
+                        width: '60px',
+                      }}
+                    >
+                      XL
+                    </th>
+                    <th
+                      style={{
+                        border: '1px solid #000',
+                        padding: '1rem 0.5rem',
+                        width: '60px',
+                      }}
+                    >
+                      XXL
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {['Sleeves', 'Shoulders', 'Chest', 'Length'].map((label) => (
+                    <tr key={label}>
+                      <td
+                        style={{
+                          border: '1px solid #000',
+                          padding: '1rem 0.5rem',
+                          textAlign: 'left',
+                        }}
+                      >
+                        {label}
+                      </td>
+                      {[...Array(6)].map((_, idx) => (
+                        <td
+                          key={idx}
+                          style={{
+                            border: '1px solid #000',
+                            padding: '1rem 0.5rem',
+                            textAlign: 'center',
+                          }}
+                        >
+                          {measurements[guideType]
+                            ? measurements[guideType][unit][label][idx]
+                            : '000'}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Diagram + Text */}
+            <div style={{display: 'flex', flexWrap: 'wrap', gap: '2rem'}}>
+              {/* Shirt Diagram */}
+              <div style={{flex: '1 1 300px', textAlign: 'left'}}>
+                <img
+                  src={
+                    guideType === 'crewneck'
+                      ? crewneck
+                      : guideType === 'sweatshirt'
+                        ? sweatshirt
+                        : guideType === 'oversized-tshirt'
+                          ? oversized
+                          : tshirt
+                  }
+                  alt="Sizing diagram"
+                  style={{
+                    width: '100%',
+                    maxWidth: '360px',
+                    height: 'auto',
+                  }}
+                />
+              </div>
+
+              {/* Descriptions */}
+              <div style={{flex: '1 1 300px'}}>
+                <p style={{marginBottom: '2rem'}}>
+                  Sleeve
+                  <br />
+                  Measured from shoulder seam to sleeve hem
+                </p>
+                <p style={{marginBottom: '2rem'}}>
+                  Shoulder
+                  <br />
+                  Measured from shoulder seam to shoulder seam
+                </p>
+                <p style={{marginBottom: '2rem'}}>
+                  Chest
+                  <br />
+                  Measured from pit to pit
+                </p>
+                <p style={{marginBottom: '2rem'}}>
+                  Length
+                  <br />
+                  Measured from high point shoulder to bottom hem
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+
+  function getSizingGuideType(input) {
+    const t = input.toLowerCase();
+    console.log('Evaluating guide type for:', t);
+
+    if (t.includes('crewneck')) return 'crewneck';
+    if (t.includes('sweatshirt')) return 'sweatshirt';
+    if (t.includes('oversized') && (t.includes('t-shirt') || t.includes('tee')))
+      return 'oversized-tshirt';
+    if (t.includes('t-shirt') || t.includes('tee')) return 'cropped-tshirt';
+
+    return 'cropped-tshirt';
+  }
+
   return (
     <div className="product">
       <div className="product-left">
         <div style={{marginBottom: '1rem'}}>
-          <p>{title}</p>
+          <p>{product.title}</p>
           <p>{product.artist?.value}</p>
         </div>
         <div style={{marginBottom: '1rem'}}>
@@ -208,9 +566,34 @@ function Product() {
           },
           {
             title: 'Size & Fit',
-            details: product.size_and_fit
-              ? mapRichText(JSON.parse(product.size_and_fit?.value))
-              : '',
+            details: (
+              <>
+                <p>
+                  See{' '}
+                  <span
+                    onClick={() => {
+                      setGuideType(
+                        getSizingGuideType(
+                          `${product.handle} ${product.title} ${product.size_and_fit?.value ?? ''}`,
+                        ),
+                      );
+                      setShowSizingGuide(true);
+                    }}
+                    style={{
+                      textDecoration: 'underline',
+                      color: 'black',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Sizing Guide
+                  </span>{' '}
+                  for exact measurements.
+                </p>
+                {product.size_and_fit
+                  ? mapRichText(JSON.parse(product.size_and_fit?.value))
+                  : ''}
+              </>
+            ),
           },
           {
             title: 'Care',
@@ -265,6 +648,7 @@ function Product() {
           ],
         }}
       />
+      <SizingGuideModal />
     </div>
   );
 }

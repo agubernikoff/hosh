@@ -116,8 +116,10 @@ ul {
   padding: 0;
 }
 
+li > span,
 li {
-  margin-bottom: 0.5rem;
+  font-size: 12px !important;
+  line-height: 1.1rem;
 }
 
 dl {
