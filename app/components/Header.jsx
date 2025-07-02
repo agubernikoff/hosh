@@ -161,7 +161,7 @@ export function HeaderMenu({
                 <NavLink
                   className="header-menu-item"
                   end
-                  key={item.id}
+                  key={item2.id}
                   onClick={close}
                   prefetch="intent"
                   style={activeLinkStyle}
