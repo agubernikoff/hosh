@@ -177,7 +177,10 @@ export function HeaderMenu({
             className="header-menu-item"
             end
             key={item.id}
-            onClick={close}
+            onClick={() => {
+              close();
+              setOpen();
+            }}
             prefetch="intent"
             style={activeLinkStyle}
             to={url}
