@@ -1210,6 +1210,7 @@ aside header.cart-header {
   margin-bottom: 1rem;
   font-size: 14px;
   letter-spacing: 1px;
+  line-height: 26px;
 }
 
 .product .product-form {
