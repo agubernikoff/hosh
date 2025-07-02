@@ -1174,6 +1174,9 @@ aside header.cart-header {
   margin-bottom: 0.5rem;
   position: relative;
 }
+.product-left .dropdown {
+  margin: 0;
+}
 
 .dropdown-header {
   display: flex;
