@@ -302,6 +302,9 @@ input[type='search' i]::-webkit-search-cancel-button {
   flex-direction: column;
   grid-gap: 1rem;
 }
+.header-menu-mobile > .header-menu-item {
+  padding: 0;
+}
 
 .header-menu-desktop {
   display: none;
