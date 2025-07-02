@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
+import {useLocation} from '@remix-run/react';
 
 export default function InfiniteCarousel({
   images,
@@ -43,6 +44,15 @@ export default function InfiniteCarousel({
     ...images,
     images[0], // clone first
   ];
+
+  const {pathname} = useLocation();
+
+  // Reset carousel when pathname changes
+  useEffect(() => {
+    isTransitioningRef.current = false;
+    isAnimatingRef.current = false;
+    setIndex(1);
+  }, [pathname]);
 
   const resetTimer = () => {
     clearTimeout(timeoutRef.current);
