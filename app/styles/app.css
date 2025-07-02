@@ -1307,6 +1307,7 @@ aside header.cart-header {
 .article-inner > p {
   font-size: 14px !important;
   letter-spacing: 1px !important;
+  line-height: 26px !important;
 }
 
 /*
