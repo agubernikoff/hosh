@@ -80,7 +80,7 @@ aside header h3 {
 }
 
 aside header .close {
-  font-weight: bold;
+  font-weight: 500;
   opacity: 0.8;
   text-decoration: none;
   transition: all 200ms;
@@ -355,7 +355,7 @@ input[type='search' i]::-webkit-search-cancel-button {
 }
 
 .footer-logo {
-  font-weight: 700;
+  font-weight: 500;
   font-size: 1.75rem;
   border-radius: 0px !important;
 }
@@ -1043,7 +1043,7 @@ aside header.cart-header {
   gap: 0.5rem;
 }
 .product-left > div:first-of-type p {
-  font-weight: bold;
+  font-weight: 500;
 }
 .product-main {
   padding: 0 1rem 1rem;
@@ -1122,7 +1122,7 @@ aside header.cart-header {
 
 .dropdown-title {
   flex: 1;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .dropdown-content {
@@ -1217,7 +1217,7 @@ aside header.cart-header {
 
 .read-link {
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 500;
   text-transform: uppercase;
   color: #000;
   text-decoration: none;
