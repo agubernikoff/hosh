@@ -38,15 +38,23 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const [{collection}] = await Promise.all([
+  const handle = 'craig-george';
+  const [{collection}, {metaobject}] = await Promise.all([
     context.storefront.query(NEW_ARRIVALS_QUERY, {
-      variables: {handle: 'craig-george'},
+      variables: {handle},
     }),
     // Add other queries here, so that they are loaded in parallel
+    context.storefront.query(ARTIST_QUERY, {
+      variables: {handle},
+    }),
   ]);
+
+  let artist = null;
+  if (metaobject) artist = metaobject;
 
   return {
     featuredCollection: collection,
+    artist,
   };
 }
 
@@ -75,7 +83,10 @@ export default function Homepage() {
   const data = useLoaderData();
   return (
     <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
+      <FeaturedCollection
+        collection={data.featuredCollection}
+        artist={data.artist}
+      />
       <InfiniteCarousel
         images={[
           bingoart,
@@ -97,7 +108,7 @@ export default function Homepage() {
  *   collection: FeaturedCollectionFragment;
  * }}
  */
-function FeaturedCollection({collection}) {
+function FeaturedCollection({collection, artist}) {
   if (!collection) return null;
   const image = collection?.image;
 
@@ -128,9 +139,16 @@ function FeaturedCollection({collection}) {
           </div>
         )}
       </NavLink>
-      <p
-        style={{marginBlock: '3rem', textAlign: 'center', letterSpacing: '2px'}}
-      >{`${collection.title.toUpperCase()} COLLECTION`}</p>
+      <div className="collection-title">
+        <p style={{letterSpacing: '2px'}}>{collection.title.toUpperCase()}</p>
+        {artist && (
+          <p>
+            <span>{artist?.tribe?.value}</span>
+            {artist?.tribe?.value && artist?.discipline?.value && ' • '}
+            <span>{artist?.discipline?.value}</span>
+          </p>
+        )}
+      </div>
       <div className="recommended-products-grid">
         {collection.products.nodes.map((product) => (
           <ProductItem key={product.id} product={product} />
@@ -359,6 +377,28 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
     }
   }
   ${PRODUCT_FRAGMENT}
+`;
+
+const ARTIST_QUERY = `#graphql
+  query Artist(
+    $language: LanguageCode,
+    $country: CountryCode,
+    $handle: String!
+  )
+  @inContext(language: $language, country: $country) {
+    metaobject(handle:{
+        handle:$handle,type:"artist_data"
+      }){
+        tribe:field(key:"tribe") {
+          key
+          value
+        }
+        discipline:field(key:"discipline") {
+          key
+          value
+        }
+      }
+    }
 `;
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
