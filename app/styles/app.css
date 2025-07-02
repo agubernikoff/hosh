@@ -1333,7 +1333,7 @@ routes/artist
   display: grid;
   grid-template-columns: repeat(auto-fill, 154px);
   gap: 116px;
-  row-gap: 30px;
+  row-gap: 60px;
   margin: auto;
   margin-bottom: 6rem;
 }
