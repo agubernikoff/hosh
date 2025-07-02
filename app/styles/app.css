@@ -1401,6 +1401,12 @@ pages
 .page header p {
   font-size: 16px !important;
 }
+.page p {
+  font-size: 14px !important;
+  letter-spacing: 1px !important;
+  line-height: 26px !important;
+  margin-bottom: 1rem;
+}
 /* 
 ----------------------------------------------------
 media queries
