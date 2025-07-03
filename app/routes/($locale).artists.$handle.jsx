@@ -128,6 +128,14 @@ export default function Page() {
 
   const isFirstRender = useIsFirstRender();
 
+  const [total, setTotal] = useState(null);
+
+  useEffect(() => {
+    fetch(`/api/collection-product-count/${metaobject.handle}`)
+      .then((res) => res.json())
+      .then((data) => setTotal(data.total));
+  }, [metaobject.handle]);
+
   return (
     <div className="artist-page">
       <div>
@@ -229,7 +237,10 @@ export default function Page() {
             }}
             className="artists-collection-div"
           >
-            <Filter filters={artist?.collection?.products?.filters} />
+            <Filter
+              filters={artist?.collection?.products?.filters}
+              total={total}
+            />
             <PaginatedResourceSection
               connection={artist?.collection?.products}
               resourcesClassName="products-grid"
@@ -366,6 +377,7 @@ const ARTIST_QUERY = `#graphql
     metaobject(handle:{
         handle:$handle,type:"artist_data"
       }){
+        handle
         fields{
           key
           value

@@ -964,9 +964,12 @@ aside header.cart-header {
   gap: 1.5rem;
   font-family: 'Roboto Mono';
   margin-bottom: 2rem;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 .filter-container .filter-container .filter-container {
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 .filter-container > * {
   position: relative;

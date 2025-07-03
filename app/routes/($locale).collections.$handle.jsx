@@ -97,6 +97,13 @@ function loadDeferredData({context}) {
 export default function Collection() {
   /** @type {LoaderReturnData} */
   const {collection, artist} = useLoaderData();
+  const [total, setTotal] = useState(null);
+
+  useEffect(() => {
+    fetch(`/api/collection-product-count/${collection.handle}`)
+      .then((res) => res.json())
+      .then((data) => setTotal(data.total));
+  }, [collection.handle]);
 
   return (
     <div className="collection">
@@ -111,7 +118,7 @@ export default function Collection() {
         )}
       </div>
       <p className="collection-description">{collection.description}</p>
-      <Filter filters={collection.products.filters} />
+      <Filter filters={collection.products.filters} total={total} />
       <PaginatedResourceSection
         connection={collection.products}
         resourcesClassName="products-grid"
@@ -137,7 +144,7 @@ export default function Collection() {
 }
 
 // Modified Filter component with cascading close
-export function Filter({filters, shopAll, term}) {
+export function Filter({filters, shopAll, term, total}) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [openFilter, setOpenFilter] = useState(null); // Track which filter is open
   const [backupFilterOpen, setBackupFilterOpen] = useState(false); // Track backup filter state
@@ -325,6 +332,7 @@ export function Filter({filters, shopAll, term}) {
           />
         ))}
       </div>
+      <p style={{fontSize: '13.333px'}}>{total} PRODUCT</p>
     </div>
   );
 }
