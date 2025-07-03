@@ -332,7 +332,7 @@ export function Filter({filters, shopAll, term, total}) {
           />
         ))}
       </div>
-      <p style={{fontSize: '13.333px'}}>{total} PRODUCT</p>
+      <p style={{fontSize: '13.333px'}}>{total} Products</p>
     </div>
   );
 }
