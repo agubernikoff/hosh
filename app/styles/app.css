@@ -1562,9 +1562,12 @@ media queries
   .artists-grid {
     display: flex;
     gap: 2rem;
-    row-gap: 0.75rem;
+    row-gap: 1.75rem;
     flex-wrap: wrap;
     justify-content: space-between;
+  }
+  .artist-thumbnail p:last-of-type {
+    margin-top: -1rem;
   }
   .add-to-cart-btn:hover,
   button:hover {
