@@ -142,7 +142,7 @@ function FeaturedCollection({collection, artist}) {
       <div className="collection-title">
         <p style={{letterSpacing: '2px'}}>{collection.title.toUpperCase()}</p>
         {artist && (
-          <p>
+          <p style={{letterSpacing: '2px'}}>
             <span>{artist?.tribe?.value}</span>
             {artist?.tribe?.value && artist?.discipline?.value && ' • '}
             <span>{artist?.discipline?.value}</span>

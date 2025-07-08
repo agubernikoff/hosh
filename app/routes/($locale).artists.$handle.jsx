@@ -138,7 +138,7 @@ export default function Page() {
 
   return (
     <div className="artist-page">
-      <div>
+      <div style={{letterSpacing: '2px'}}>
         <p>{artist?.name.toUpperCase()}</p>
         <p>
           <span>{artist?.tribe}</span>
