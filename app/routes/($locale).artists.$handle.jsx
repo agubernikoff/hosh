@@ -159,7 +159,7 @@ export default function Page() {
             alt={artist?.featured_image.alt}
             width={'30vw'}
           />
-          <p style={{marginTop: '2rem', letterSpacing: '1px'}}>
+          <p style={{marginTop: '2rem'}}>
             {artist?.caption?.split('\n').map((line, index) => (
               <React.Fragment key={index}>
                 {line}
@@ -178,7 +178,7 @@ export default function Page() {
             width={'30vw'}
             className="artist-fetatured-product-image"
           />
-          <p style={{marginTop: '2rem', letterSpacing: '1px'}}>
+          <p style={{marginTop: '2rem'}}>
             {`${artist?.featured_product?.title} by ${artist?.name}  |  `}
             <strong>SHOP</strong>
           </p>
@@ -193,7 +193,7 @@ export default function Page() {
             width={'30vw'}
             className="artist-fetatured-product-image"
           />
-          <p style={{marginTop: '2rem', letterSpacing: '1px'}}>COMING SOON</p>
+          <p style={{marginTop: '2rem'}}>COMING SOON</p>
         </div>
       )}
       <div className="artist-expandables-div">
