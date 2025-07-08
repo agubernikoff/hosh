@@ -98,14 +98,20 @@ export default function Page() {
         </motion.div>
       </AnimatePresence>
       <div className="artists-grid">
-        {metaobjects?.nodes.map((artist) => (
-          <Thumbnails
-            artist={artist}
-            hovered={hovered?.name === artist.name}
-            setHovered={setHovered}
-            clearHovered={clearHovered}
-          />
-        ))}
+        {metaobjects?.nodes
+          .sort((a, b) => {
+            const aLast = a.name.value.split(' ').pop().toLowerCase();
+            const bLast = b.name.value.split(' ').pop().toLowerCase();
+            return aLast.localeCompare(bLast);
+          })
+          .map((artist) => (
+            <Thumbnails
+              artist={artist}
+              hovered={hovered?.name === artist.name}
+              setHovered={setHovered}
+              clearHovered={clearHovered}
+            />
+          ))}
       </div>
     </div>
   );
