@@ -927,9 +927,10 @@ aside header.cart-header {
   position: static;
   height: auto;
   scroll-snap-align: start;
+  max-height: 450px;
 }
 .popup-image img {
-  width: calc(50vw - 3rem) !important;
+  width: calc(55vw - 3rem) !important;
   max-width: 466px;
   aspect-ratio: auto !important;
   height: auto !important;
@@ -944,6 +945,7 @@ aside header.cart-header {
   margin: auto;
   gap: 0.5rem;
   overflow: hidden;
+  margin-top: 0.5rem;
 }
 
 .quick-shop-popup-right {
@@ -952,6 +954,10 @@ aside header.cart-header {
   flex-direction: column;
   justify-content: space-between;
   padding-bottom: 1rem;
+  max-height: 450px;
+}
+.quick-shop-popup-right * {
+  font-size: 13px;
 }
 .selected-filters-container {
   display: flex;

@@ -373,7 +373,7 @@ function QuickShop({product, closePopUp, pathname}) {
                 : []
             }
           >
-            {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
+            {selectedVariant?.availableForSale ? 'ADD TO CART' : 'Sold out'}
           </AddToCartButton>
           <p>Free standard shipping and easy returns.</p>
         </div>
