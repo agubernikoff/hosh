@@ -132,3 +132,6 @@ code {
   font-family: monospace;
   padding: 0.25rem;
 }
+strong {
+  font-weight: 500;
+}
