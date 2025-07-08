@@ -78,6 +78,7 @@ export default function Page() {
             width: '100%',
             minHeight: '50px',
             paddingBlock: '2rem',
+            letterSpacing: '2px',
           }}
           key={`${hovered?.handle}key`}
           initial={{opacity: 0}}
