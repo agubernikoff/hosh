@@ -1197,10 +1197,11 @@ aside header.cart-header {
 .dropdown-title {
   flex: 1;
   font-weight: 500;
+  text-wrap: nowrap;
 }
 
 .dropdown-content {
-  margin-top: 0.5rem;
+  margin-block: 1rem;
   max-height: 90vw;
   overflow: scroll;
   scrollbar-width: none;
