@@ -1349,7 +1349,6 @@ routes/artist
 .artist-thumbnail {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   justify-content: space-between;
   align-items: center;
   width: fit-content;
@@ -1359,9 +1358,12 @@ routes/artist
 .artist-thumbnail p {
   width: fit-content;
   text-align: center;
+  margin-top: 20px;
+  text-wrap: nowrap;
 }
 .artist-thumbnail p:last-of-type {
   font-size: 13px;
+  margin-top: 10px;
 }
 
 .artist-page {
@@ -1565,9 +1567,6 @@ media queries
     row-gap: 1.75rem;
     flex-wrap: wrap;
     justify-content: space-between;
-  }
-  .artist-thumbnail p:last-of-type {
-    margin-top: -1rem;
   }
   .add-to-cart-btn:hover,
   button:hover {
