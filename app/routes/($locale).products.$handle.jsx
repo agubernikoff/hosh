@@ -544,7 +544,7 @@ function Product() {
           <p>{product.artist?.value}</p>
         </div>
         <div style={{marginBottom: '1rem'}}>
-          <p>{product.description2?.value}</p>
+          <p style={{fontSize: '14px'}}>{product.description2?.value}</p>
           <ProductPrice
             price={selectedVariant?.price}
             compareAtPrice={selectedVariant?.compareAtPrice}

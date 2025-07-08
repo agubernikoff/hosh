@@ -1111,6 +1111,10 @@ aside header.cart-header {
 }
 .product-left > div:first-of-type p {
   font-weight: 500;
+  font-size: 14px;
+}
+.product-price > * {
+  font-size: 14px !important;
 }
 .product-main {
   padding: 0 1rem 1rem;
