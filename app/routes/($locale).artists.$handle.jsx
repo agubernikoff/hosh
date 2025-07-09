@@ -227,7 +227,14 @@ export default function Page() {
       </div>
       {artist?.collection?.products?.nodes?.length > 0 && (
         <>
-          <p>{artist?.name.toUpperCase()}</p>
+          <div style={{letterSpacing: '2px'}}>
+            <p>{artist?.name.toUpperCase()}</p>
+            <p>
+              <span>{artist?.tribe}</span>
+              {artist?.tribe && artist?.discipline && ' • '}
+              <span>{artist?.discipline}</span>
+            </p>
+          </div>
           <div
             style={{
               width: '100%',

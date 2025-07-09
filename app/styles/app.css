@@ -819,6 +819,7 @@ aside header.cart-header {
 }
 .collection-title {
   margin-bottom: 4rem;
+  letter-spacing: 2px;
 }
 .collection-title p:first-of-type {
   margin-bottom: 1rem;
