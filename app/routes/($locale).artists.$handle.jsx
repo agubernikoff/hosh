@@ -170,7 +170,7 @@ export default function Page() {
         </div>
       )}
       {artist?.featured_product && (
-        <NavLink to={`/products/${artist?.coming_soon_product?.handle}`}>
+        <NavLink to={`/products/${artist?.featured_product?.handle}`}>
           <Image
             data={artist?.featured_product?.featuredImage}
             sizes="(min-width: 45em) 50vw, 100vw"
