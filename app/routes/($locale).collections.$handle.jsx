@@ -306,31 +306,35 @@ export function Filter({filters, shopAll, term, total}) {
           ))}
         </div>
       </BackupFilter>
-      <Sort
-        addSort={addSort}
-        removeSort={removeSort}
-        isChecked={isSortChecked}
-        shopAll={shopAll}
-        term={term}
-      />
-      <div
-        style={{position: 'relative', margin: 0}}
-        className="filter-container hide-on-mobile"
-      >
-        {filters.map((filter, index) => (
-          <Filt
-            filter={filter.values}
-            addFilter={addFilter}
-            removeFilter={removeFilter}
-            isChecked={isChecked}
-            clearFilter={clearFilter}
-            label={filter.label}
-            key={filter.label}
-            isOpen={openFilter === index}
-            onToggle={() => setOpenFilter(openFilter === index ? null : index)}
-            selectedFilters={getSelectedFilters()}
-          />
-        ))}
+      <div style={{display: 'flex'}}>
+        <Sort
+          addSort={addSort}
+          removeSort={removeSort}
+          isChecked={isSortChecked}
+          shopAll={shopAll}
+          term={term}
+        />
+        <div
+          style={{position: 'relative', margin: 0}}
+          className="filter-container hide-on-mobile"
+        >
+          {filters.map((filter, index) => (
+            <Filt
+              filter={filter.values}
+              addFilter={addFilter}
+              removeFilter={removeFilter}
+              isChecked={isChecked}
+              clearFilter={clearFilter}
+              label={filter.label}
+              key={filter.label}
+              isOpen={openFilter === index}
+              onToggle={() =>
+                setOpenFilter(openFilter === index ? null : index)
+              }
+              selectedFilters={getSelectedFilters()}
+            />
+          ))}
+        </div>
       </div>
       <p style={{fontSize: '13.333px'}}>{total} Products</p>
     </div>
