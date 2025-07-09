@@ -728,7 +728,11 @@ function FilterInput({
 function BackupFilter({children, isOpen, onToggle, onClose}) {
   return (
     <div className="hide-on-desktop">
-      <button onClick={onToggle}>
+      <button
+        onClick={onToggle}
+        className="sort-by-button"
+        style={{width: 'fit-content'}}
+      >
         Filter
         <svg
           width="9"

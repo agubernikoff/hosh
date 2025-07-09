@@ -1713,4 +1713,8 @@ media queries
   .artist-fetatured-product-image {
     width: 40vw !important;
   }
+  .sort-by-button,
+  .filter-container > p {
+    font-size: 14px !important;
+  }
 }
