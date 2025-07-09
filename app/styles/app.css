@@ -853,7 +853,7 @@ aside header.cart-header {
   background: white;
   border: 1px solid black;
   padding: 1rem;
-  font-size: 1.1rem;
+  font-size: 16px;
   cursor: pointer;
   font-family: 'Roboto Mono', sans-serif;
 }
