@@ -1069,6 +1069,7 @@ aside header.cart-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 .sort-overflow-hidden-container button {
   text-align: left;
@@ -1433,6 +1434,21 @@ media queries
 .mapped-indicators {
   display: none;
 }
+@media (max-width: 910px) {
+  .filter-container:has(> div + div + p) {
+    flex-wrap: wrap;
+  }
+  .filter-container > p {
+    width: 100%;
+    order: 0;
+  }
+  .hide-on-desktop {
+    order: 1;
+  }
+  .filter-container > div:nth-of-type(2) {
+    order: 2;
+  }
+}
 @media (max-width: 700px) {
   .hide-on-desktop {
     display: block;
@@ -1444,7 +1460,7 @@ media queries
     height: 70vh;
   }
   .sort-overflow-hidden-container .sort-overflow-hidden-container {
-    top: 2rem;
+    top: calc(100% + 1rem - 1px);
     height: 70vh;
   }
   .filter-container .filter-container {
