@@ -149,7 +149,7 @@ export function ProductForm({productOptions, selectedVariant, product}) {
         <div
           style={{
             position: 'sticky',
-            bottom: 0,
+            bottom: '10px',
             background: 'white',
             zIndex: 10,
           }}
