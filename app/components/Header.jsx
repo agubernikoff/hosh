@@ -194,6 +194,17 @@ export function HeaderMenu({
 }
 
 function Dropdown({children, label, displaySVG, toggleIsOpen, isOpen}) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    const handleChange = (e) => setIsMobile(e.matches);
+
+    handleChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
   return (
     <button
       className={`mobile-filter ${isOpen ? 'isOpen-btn' : ''} header-mf header-menu-item`}
@@ -233,7 +244,7 @@ function Dropdown({children, label, displaySVG, toggleIsOpen, isOpen}) {
           <div className="sort-overflow-hidden-container header-sohc">
             <motion.div
               initial={{y: '-100%'}}
-              animate={{y: '1px'}}
+              animate={{y: isMobile ? '1px' : '23px'}}
               exit={{y: '-100%'}}
               transition={{ease: 'easeInOut', duration: 0.15}}
             >

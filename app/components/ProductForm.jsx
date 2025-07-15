@@ -1,7 +1,9 @@
 import {Link, useNavigate} from '@remix-run/react';
+import {useState, useEffect} from 'react';
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
 import {motion, AnimatePresence} from 'motion/react';
+import {ProductPrice} from '~/components/ProductPrice';
 
 /**
  * @param {{
@@ -9,9 +11,20 @@ import {motion, AnimatePresence} from 'motion/react';
  *   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
  * }}
  */
-export function ProductForm({productOptions, selectedVariant}) {
+export function ProductForm({productOptions, selectedVariant, product}) {
   const navigate = useNavigate();
   const {open} = useAside();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    const handleChange = (e) => setIsMobile(e.matches);
+
+    handleChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
   return (
     <div className="product-form">
       {productOptions.map((option) => {
@@ -20,6 +33,29 @@ export function ProductForm({productOptions, selectedVariant}) {
 
         return (
           <div className="product-options" key={option.name}>
+            <div style={{marginBottom: '1rem'}}>
+              {isMobile ? (
+                <p style={{fontSize: '14px', fontWeight: '500'}}>
+                  {product.title}
+                </p>
+              ) : null}
+              {isMobile ? (
+                <p style={{fontSize: '14px', fontWeight: '500'}}>
+                  {product.artist?.value}
+                </p>
+              ) : null}
+            </div>
+            <div style={{marginBottom: '1rem'}}>
+              {isMobile ? (
+                <p style={{fontSize: '14px'}}>{product.description2?.value}</p>
+              ) : null}
+              {isMobile ? (
+                <ProductPrice
+                  price={selectedVariant?.price}
+                  compareAtPrice={selectedVariant?.compareAtPrice}
+                />
+              ) : null}
+            </div>
             <p>
               <strong>Select {option.name}:</strong>{' '}
               <AnimatePresence mode="popLayout">

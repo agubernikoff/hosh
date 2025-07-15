@@ -994,6 +994,9 @@ aside header.cart-header {
 .sort-container > button:hover {
   color: black !important;
 }
+.padded-filter-div.inline-border.filter-input:hover {
+  text-decoration: underline !important;
+}
 .mobile-filter {
   display: flex;
   align-items: center;
@@ -1706,6 +1709,7 @@ media queries
   }
   .artist-page {
     padding-inline: 6px;
+    margin-bottom: 2rem;
   }
   .artist-page .artist-expandables-div {
     width: 100%;
@@ -1716,5 +1720,28 @@ media queries
   .sort-by-button,
   .filter-container > p {
     font-size: 14px !important;
+  }
+  .padded-filter-div.inline-border.filter-input:hover {
+    text-decoration: none !important;
+  }
+  .product-main {
+    order: 1;
+  }
+  .product-left {
+    order: 2;
+  }
+  .product-options p:first-of-type {
+    margin-bottom: 0;
+  }
+  .product-options-grid {
+    margin-top: 1rem;
+  }
+  .mob-underline,
+  .read-link,
+  .remove-button {
+    text-decoration: underline;
+  }
+  .header-menu-mobile-toggle.reset {
+    padding: 0;
   }
 }

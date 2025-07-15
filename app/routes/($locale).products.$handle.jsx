@@ -536,20 +536,40 @@ function Product() {
     return 'cropped-tshirt';
   }
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 499px)');
+    const handleChange = (e) => setIsMobile(e.matches);
+
+    handleChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
   return (
     <div className="product">
       <div className="product-left">
-        <div style={{marginBottom: '1rem'}}>
-          <p>{product.title}</p>
-          <p>{product.artist?.value}</p>
-        </div>
-        <div style={{marginBottom: '1rem'}}>
-          <p style={{fontSize: '14px'}}>{product.description2?.value}</p>
-          <ProductPrice
-            price={selectedVariant?.price}
-            compareAtPrice={selectedVariant?.compareAtPrice}
-          />
-        </div>
+        {isMobile ? null : (
+          <div style={{marginBottom: '1rem'}}>
+            <p>{product.title}</p>
+            <p>{product.artist?.value}</p>
+          </div>
+        )}
+        {isMobile ? null : (
+          <div style={{marginBottom: '1rem'}}>
+            {isMobile ? null : (
+              <p style={{fontSize: '14px'}}>{product.description2?.value}</p>
+            )}
+            {isMobile ? null : (
+              <ProductPrice
+                price={selectedVariant?.price}
+                compareAtPrice={selectedVariant?.compareAtPrice}
+              />
+            )}
+          </div>
+        )}
         {[
           {
             title: 'Artwork',
@@ -630,6 +650,7 @@ function Product() {
         <ProductForm
           productOptions={productOptions}
           selectedVariant={selectedVariant}
+          product={product}
         />
       </div>
       <Analytics.ProductView

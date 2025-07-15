@@ -146,7 +146,7 @@ function Thumbnails({artist, hovered, setHovered, clearHovered}) {
         }}
       />
       <p>{artist.name.value}</p>
-      <p>Learn More</p>
+      <p className="mob-underline">Learn More</p>
     </NavLink>
   );
 }

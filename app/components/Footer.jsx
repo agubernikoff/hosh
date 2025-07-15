@@ -126,7 +126,7 @@ export function Footer({
                 <Newsletter />
                 <img src={gila} alt="Penguin" className="footer-icon" />
                 <div className="footer-copyright">
-                  <span style={{fontSize: '16px'}}>©</span> 2024 HOSH
+                  <span style={{fontSize: '16px'}}>©</span> 2025 HOSH
                 </div>
               </div>
             </div>
@@ -134,7 +134,7 @@ export function Footer({
               <>
                 <img src={gila} alt="Penguin" className="footer-icon" />
                 <div className="footer-copyright">
-                  <span style={{fontSize: '16px'}}>©</span> 2024 HOSH
+                  <span style={{fontSize: '16px'}}>©</span> 2025 HOSH
                 </div>
               </>
             )}

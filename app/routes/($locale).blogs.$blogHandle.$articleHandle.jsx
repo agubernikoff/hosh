@@ -98,6 +98,17 @@ export default function Article() {
         dangerouslySetInnerHTML={{__html: contentHtml}}
         className="article-inner"
       />
+      <a
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          textDecoration: 'underline',
+          marginBottom: '1.5rem',
+        }}
+        href="https://hoshart.com/blogs/blog"
+      >
+        Back to Stories
+      </a>
     </div>
   );
 }
