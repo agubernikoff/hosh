@@ -47,7 +47,29 @@ export function Aside({children, heading, type}) {
         <header className={type === 'cart' ? 'cart-header' : ''}>
           {type === 'cart' ? (
             <>
-              <p className="cart-heading">SHOPPING CART</p>
+              <p
+                className="cart-heading"
+                style={{textAlign: 'center', margin: 0}}
+              >
+                SHOPPING CART
+              </p>
+              <button
+                className="close reset"
+                onClick={close}
+                aria-label="Close"
+                style={{
+                  position: 'absolute',
+                  right: '25px',
+                  top: 0,
+                  fontSize: '20px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '0.5rem 1rem',
+                }}
+              >
+                &times;
+              </button>
               <p className="cart-subtext">Free shipping & easy returns</p>
               <hr className="cart-separator" />
             </>
