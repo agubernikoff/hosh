@@ -1791,4 +1791,13 @@ media queries
   .header-menu-mobile-toggle.reset {
     padding: 0;
   }
+
+  .dropdown-content {
+    scrollbar-width: auto; /* Firefox */
+    -ms-overflow-style: auto; /* IE and Edge */
+  }
+
+  .dropdown-content::-webkit-scrollbar {
+    display: block; /* Chrome, Safari, and Opera */
+  }
 }
