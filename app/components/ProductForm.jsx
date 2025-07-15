@@ -145,25 +145,58 @@ export function ProductForm({productOptions, selectedVariant, product}) {
           </div>
         );
       })}
-      <AddToCartButton
-        disabled={!selectedVariant || !selectedVariant.availableForSale}
-        onClick={() => {
-          open('cart');
-        }}
-        lines={
-          selectedVariant
-            ? [
-                {
-                  merchandiseId: selectedVariant.id,
-                  quantity: 1,
-                  selectedVariant,
-                },
-              ]
-            : []
-        }
-      >
-        {selectedVariant?.availableForSale ? 'ADD TO CART' : 'SOLD OUT'}
-      </AddToCartButton>
+      {isMobile ? (
+        <div
+          style={{
+            position: 'sticky',
+            bottom: 0,
+            background: 'white',
+            padding: '1rem',
+            zIndex: 10,
+            borderTop: '1px solid #ccc',
+          }}
+        >
+          <AddToCartButton
+            disabled={!selectedVariant || !selectedVariant.availableForSale}
+            onClick={() => {
+              open('cart');
+            }}
+            lines={
+              selectedVariant
+                ? [
+                    {
+                      merchandiseId: selectedVariant.id,
+                      quantity: 1,
+                      selectedVariant,
+                    },
+                  ]
+                : []
+            }
+          >
+            {selectedVariant?.availableForSale ? 'ADD TO CART' : 'SOLD OUT'}
+          </AddToCartButton>
+        </div>
+      ) : (
+        <AddToCartButton
+          disabled={!selectedVariant || !selectedVariant.availableForSale}
+          onClick={() => {
+            open('cart');
+          }}
+          lines={
+            selectedVariant
+              ? [
+                  {
+                    merchandiseId: selectedVariant.id,
+                    quantity: 1,
+                    selectedVariant,
+                  },
+                ]
+              : []
+          }
+        >
+          {selectedVariant?.availableForSale ? 'ADD TO CART' : 'SOLD OUT'}
+        </AddToCartButton>
+      )}
       <br />
       <p>Free standard shipping and easy returns.</p>
     </div>
