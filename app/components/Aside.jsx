@@ -60,7 +60,7 @@ export function Aside({children, heading, type}) {
                 style={{
                   position: 'absolute',
                   right: '25px',
-                  top: 0,
+                  top: '7px',
                   fontSize: '20px',
                   background: 'none',
                   border: 'none',
