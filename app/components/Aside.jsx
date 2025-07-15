@@ -43,7 +43,7 @@ export function Aside({children, heading, type}) {
       role="dialog"
     >
       <button className="close-outside" onClick={close} />
-      <aside>
+      <aside id={type}>
         <header className={type === 'cart' ? 'cart-header' : ''}>
           {type === 'cart' ? (
             <>

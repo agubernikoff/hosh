@@ -65,6 +65,10 @@ aside {
   top: calc(var(--header-height) + 3.5rem) !important;
   transition: all 200ms ease-in-out;
 }
+aside#mobile {
+  left: calc(-1 * var(--aside-width));
+  right: auto;
+}
 
 aside header {
   align-items: center;
@@ -159,6 +163,9 @@ aside li {
 /* reveal aside */
 .overlay.expanded aside {
   transform: translateX(calc(var(--aside-width) * -1));
+}
+.overlay.expanded aside#mobile {
+  transform: translateX(var(--aside-width));
 }
 
 button.reset {
