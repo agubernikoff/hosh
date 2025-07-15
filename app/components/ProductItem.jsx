@@ -28,7 +28,6 @@ import {useAside} from './Aside';
 export function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product?.images?.edges[0]?.node;
-  const [hovered, setHovered] = useState(false);
   const [quickShop, setQuickShop] = useState();
   function closePopUp() {
     setQuickShop();
@@ -41,8 +40,6 @@ export function ProductItem({product, loading}) {
         key={product.id}
         prefetch="intent"
         to={variantUrl}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
       >
         {image && (
           <div className="product-item-img-container">
@@ -55,18 +52,16 @@ export function ProductItem({product, loading}) {
                 sizes="(min-width: 45em) 400px, 100vw"
               />
             </motion.div>
-            {hovered && (
-              <button
-                className="quick-shop"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setQuickShop(product);
-                }}
-              >
-                Quick Shop
-              </button>
-            )}
+            <button
+              className="quick-shop"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setQuickShop(product);
+              }}
+            >
+              Quick Shop
+            </button>
           </div>
         )}
         <p>{product.title}</p>
