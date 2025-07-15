@@ -1058,7 +1058,8 @@ aside header.cart-header {
   font-size: inherit;
   font-weight: 500;
   gap: 0.5rem;
-  border: none;
+  border: 1px solid #eaeaea;
+  border-top: none;
 }
 .header-s-c .dropdown-title {
   /* font-weight: 500; */
@@ -1578,6 +1579,9 @@ media queries
 
   .header {
     /* padding-inline: 1rem; */
+  }
+  .header-s-c {
+    border: none;
   }
   .header-ctas {
     gap: 0.25rem;

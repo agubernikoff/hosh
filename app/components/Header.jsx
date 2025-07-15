@@ -115,6 +115,7 @@ export function HeaderMenu({
             key={item.id}
             toggleIsOpen={toggleSection}
             isOpen={open === item.title}
+            displaySVG={true}
           >
             {item.items.map((item2) => {
               if (!item2.url) return null;
