@@ -151,9 +151,7 @@ export function ProductForm({productOptions, selectedVariant, product}) {
             position: 'sticky',
             bottom: 0,
             background: 'white',
-            padding: '1rem',
             zIndex: 10,
-            borderTop: '1px solid #ccc',
           }}
         >
           <AddToCartButton
