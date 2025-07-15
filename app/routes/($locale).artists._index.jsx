@@ -7,7 +7,6 @@ import NavLink from '~/components/NavLink';
  * @type {MetaFunction<typeof loader>}
  */
 export const meta = ({data}) => {
-  console.log(data);
   return [{title: `Hosh | Artists`}];
 };
 
@@ -59,7 +58,6 @@ function loadDeferredData({context}) {
 export default function Page() {
   /** @type {LoaderReturnData} */
   const {metaobjects} = useLoaderData();
-  console.log(metaobjects);
 
   const [hovered, setHovered] = useState();
   function hoverArtist(artist) {
@@ -118,7 +116,6 @@ export default function Page() {
 }
 
 function Thumbnails({artist, hovered, setHovered, clearHovered}) {
-  console.log(artist);
   return (
     <NavLink
       to={`/artists/${artist.handle}`}

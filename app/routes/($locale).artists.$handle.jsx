@@ -21,7 +21,6 @@ export const meta = ({data}) => {
     },
     {},
   );
-  console.log(artist);
   return [{title: `Hosh | ${artist?.name ?? ''}`}];
 };
 

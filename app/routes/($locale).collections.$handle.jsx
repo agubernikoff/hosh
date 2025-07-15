@@ -6,6 +6,7 @@ import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import {useState, useRef, useEffect} from 'react';
 import {AnimatePresence, motion} from 'motion/react';
+import {PriceFilterInput} from '~/components/PriceFilterInput';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -190,6 +191,22 @@ export function Filter({filters, shopAll, term, total}) {
     setSearchParams(
       (prev) => {
         if (prev.has('filter')) {
+          const filters = prev.getAll('filter');
+          if (
+            filters.find((f) => JSON.parse(f).price) &&
+            JSON.parse(input).price
+          ) {
+            const newParams = new URLSearchParams(prev);
+            newParams.delete('filter');
+
+            filters
+              .filter((f) => !JSON.parse(f).price)
+              .forEach((f) => newParams.append('filter', f));
+
+            newParams.append('filter', input);
+
+            return newParams;
+          }
           prev.append('filter', input);
         } else prev.set('filter', input);
         return prev;
@@ -525,6 +542,7 @@ function Sort({addSort, removeSort, isChecked, term, shopAll}) {
               animate={{y: '1px'}}
               exit={{y: '-100%'}}
               transition={{ease: 'easeInOut', duration: 0.15}}
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="sort-container">
                 {sortOptions.map((option, index) => (
@@ -594,17 +612,30 @@ function Filt({
         parentOpen={parentOpen}
       >
         <div className="filter-container">
-          {sortByStoredOrder(filter).map((v) => (
-            <FilterInput
-              key={v.id}
-              label={v.label}
-              value={v.input}
-              addFilter={addFilter}
-              isChecked={isChecked}
-              removeFilter={removeFilter}
-              isSort={true}
-            />
-          ))}
+          {sortByStoredOrder(filter).map((v) => {
+            if (v.id === 'filter.v.price')
+              return (
+                <PriceFilterInput
+                  addFilter={addFilter}
+                  isChecked={isChecked}
+                  removeFilter={removeFilter}
+                  value={v.input}
+                  key={v.id}
+                />
+              );
+            else
+              return (
+                <FilterInput
+                  key={v.id}
+                  label={v.label}
+                  value={v.input}
+                  addFilter={addFilter}
+                  isChecked={isChecked}
+                  removeFilter={removeFilter}
+                  isSort={true}
+                />
+              );
+          })}
         </div>
         <SelectedFilters
           selectedFilters={selectedFilters}
@@ -673,6 +704,7 @@ function MobileFilt({children, label, isOpen, onToggle, parentOpen}) {
               animate={{y: '1px'}}
               exit={{y: '-100%'}}
               transition={{ease: 'easeInOut', duration: 0.15}}
+              onClick={(e) => e.stopPropagation()}
             >
               <div
                 style={{
@@ -764,6 +796,7 @@ function BackupFilter({children, isOpen, onToggle, onClose}) {
               animate={{y: '1px'}}
               exit={{y: '-100%'}}
               transition={{ease: 'easeInOut', duration: 0.15}}
+              onClick={(e) => e.stopPropagation()}
             >
               <div
                 style={{

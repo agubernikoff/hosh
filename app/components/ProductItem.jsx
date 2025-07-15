@@ -180,7 +180,6 @@ function QuickShop({product, closePopUp, pathname}) {
     };
   };
 
-  console.log(product);
   const {open} = useAside();
   return (
     <motion.div
