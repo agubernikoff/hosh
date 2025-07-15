@@ -130,7 +130,7 @@ export default function Page() {
 
   const [total, setTotal] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  const filter = searchParams.get('filter');
+  const filter = searchParams.getAll('filter');
 
   useEffect(() => {
     if (filter) setTotal(artist?.collection?.products.nodes.length);

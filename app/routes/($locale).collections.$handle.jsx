@@ -100,10 +100,10 @@ export default function Collection() {
   const [total, setTotal] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const filter = searchParams.get('filter');
+  const filter = searchParams.getAll('filter');
 
   useEffect(() => {
-    if (filter) setTotal(collection.products.nodes.length);
+    if (filter.length > 0) setTotal(collection.products.nodes.length);
     else
       fetch(`/api/collection-product-count/${collection.handle}`)
         .then((res) => res.json())
