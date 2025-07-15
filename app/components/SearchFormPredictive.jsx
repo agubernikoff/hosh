@@ -28,11 +28,12 @@ export function SearchFormPredictive({
   }
 
   /** Navigate to the search page with the current input value */
-  function goToSearch() {
+  function goToSearch(event) {
+    console.log(event);
     const term = inputRef?.current?.value;
     navigate(SEARCH_ENDPOINT + (term ? `?q=${term}` : ''));
     aside.close();
-    resetInput();
+    resetInput(event);
   }
 
   /** Fetch search results based on the input value */

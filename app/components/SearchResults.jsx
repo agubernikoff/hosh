@@ -35,6 +35,7 @@ function SearchResultsProducts({term, products}) {
         handle={''}
         filters={products?.productFilters}
         term={`"${term}"`}
+        total={products.nodes.length}
       />
       <div className="filter-placeholder" />
       <PaginatedResourceSection

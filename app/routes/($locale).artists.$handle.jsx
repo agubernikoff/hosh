@@ -1,4 +1,4 @@
-import {useLoaderData, redirect} from '@remix-run/react';
+import {useLoaderData, redirect, useSearchParams} from '@remix-run/react';
 import NavLink from '~/components/NavLink';
 import InfiniteCarousel from '~/components/Carousel';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
@@ -129,12 +129,16 @@ export default function Page() {
   const isFirstRender = useIsFirstRender();
 
   const [total, setTotal] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filter = searchParams.get('filter');
 
   useEffect(() => {
-    fetch(`/api/collection-product-count/${metaobject.handle}`)
-      .then((res) => res.json())
-      .then((data) => setTotal(data.total));
-  }, [metaobject.handle]);
+    if (filter) setTotal(artist?.collection?.products.nodes.length);
+    else
+      fetch(`/api/collection-product-count/${metaobject.handle}`)
+        .then((res) => res.json())
+        .then((data) => setTotal(data.total));
+  }, [metaobject.handle, filter]);
 
   return (
     <div className="artist-page">
@@ -412,7 +416,7 @@ const ARTIST_QUERY = `#graphql
           reference{
             ...on Collection{
               products(
-                first: 12
+                first: 24
                 filters: $filters,
                 reverse: $reverse,
                 sortKey: $sortKey){
