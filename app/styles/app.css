@@ -1580,8 +1580,12 @@ media queries
   .header {
     /* padding-inline: 1rem; */
   }
+  .header-sohc {
+    width: calc(100% + 5px);
+  }
   .header-s-c {
     border: none;
+    padding-left: 1rem;
   }
   .header-ctas {
     gap: 0.25rem;
