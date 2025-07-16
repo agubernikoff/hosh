@@ -409,7 +409,7 @@ function CartBadge({count}) {
 
   return (
     <a
-      style={{display: 'flex'}}
+      style={{display: 'flex', position: 'relative'}}
       href="/cart"
       onClick={(e) => {
         e.preventDefault();
@@ -417,6 +417,19 @@ function CartBadge({count}) {
         else closeCart();
       }}
     >
+      {count > 0 && (
+        <div
+          style={{
+            width: '8px',
+            height: '8px',
+            background: 'black',
+            borderRadius: '8px',
+            position: 'absolute',
+            left: '3px',
+            top: '3px',
+          }}
+        />
+      )}
       <img src={bag} alt="Cart" className="header-icon" />
     </a>
   );
