@@ -154,7 +154,32 @@ export function Filter({filters, shopAll, term, total}) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [openFilter, setOpenFilter] = useState(null); // Track which filter is open
   const [backupFilterOpen, setBackupFilterOpen] = useState(false); // Track backup filter state
+  const filterRef = useRef(null); // Add ref to track the filter element
+  const backupFilterRef = useRef(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      console.log(event);
+      // Check if click is outside the filter element
+      if (
+        (filterRef.current && !filterRef.current.contains(event.target)) ||
+        (backupFilterRef.current &&
+          !backupFilterRef.current.contains(event.target))
+      ) {
+        handleBackupFilterClose();
+      }
+    };
+
+    // Only add listener if filter is open
+    if (backupFilterOpen || openFilter !== null) {
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    // Cleanup listener on unmount or when filter closes
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [backupFilterOpen, openFilter]); // Re-run when filter states change
   // Handle cascading close - close child filters first, then parent
   const handleBackupFilterClose = () => {
     if (openFilter !== null) {
@@ -246,6 +271,7 @@ export function Filter({filters, shopAll, term, total}) {
       },
       {preventScrollReset: true},
     );
+    handleBackupFilterClose();
   }
 
   function addSort(input) {
@@ -300,7 +326,7 @@ export function Filter({filters, shopAll, term, total}) {
   }
 
   return (
-    <div className="filter-container">
+    <div className="filter-container" ref={backupFilterRef}>
       <BackupFilter
         isOpen={backupFilterOpen}
         onToggle={handleBackupFilterToggle}
@@ -339,6 +365,7 @@ export function Filter({filters, shopAll, term, total}) {
         <div
           style={{position: 'relative', margin: 0}}
           className="filter-container hide-on-mobile"
+          ref={filterRef}
         >
           {filters.map((filter, index) => (
             <Filt
@@ -401,33 +428,53 @@ function SelectedFilters({selectedFilters, removeFilter, clearFilter}) {
           </button>
         ))}
       </div>
-      {selectedFilters.length > 0 && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            clearFilter();
-          }}
-          style={{
-            padding: '0.25rem 0.5rem',
-            backgroundColor: 'black',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            fontSize: '0.875rem',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-            alignSelf: 'end',
-          }}
-        >
-          Clear All
-        </button>
-      )}
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          clearFilter();
+        }}
+        style={{
+          padding: '0.25rem 0.5rem',
+          backgroundColor: 'black',
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          fontSize: '0.875rem',
+          cursor: 'pointer',
+          fontWeight: 'bold',
+          alignSelf: 'end',
+        }}
+      >
+        {selectedFilters.length > 0 ? 'Clear All' : 'Close'}
+      </button>
     </div>
   );
 }
 
 function Sort({addSort, removeSort, isChecked, term, shopAll}) {
   const [isOpen, setIsOpen] = useState(false);
+  const sortRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      console.log(event);
+      // Check if click is outside the filter element
+      if (sortRef.current && !sortRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    // Only add listener if filter is open
+    if (open !== null) {
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    // Cleanup listener on unmount or when filter closes
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [open]); // Re-run when filter states change
 
   // Define sort options with their labels and values
   const sortOptions = [
@@ -483,7 +530,7 @@ function Sort({addSort, removeSort, isChecked, term, shopAll}) {
   }
 
   return (
-    <button onClick={toggleIsOpen} className="sort-by-button">
+    <button onClick={toggleIsOpen} className="sort-by-button" ref={sortRef}>
       <span>
         <span style={{display: 'inline-block', textAlign: 'left'}}>
           {`Sort: `}
