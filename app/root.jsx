@@ -169,6 +169,20 @@ export function Layout({children}) {
         <Links />
       </head>
       <body>
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-11512005692"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-11512005692');
+    `,
+          }}
+        ></script>
         {data ? (
           <Analytics.Provider
             cart={data.cart}
