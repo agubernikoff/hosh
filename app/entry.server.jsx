@@ -22,12 +22,20 @@ export default async function handleRequest(
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
+    scriptSrc: [
+      'https://cdn.shopify.com',
+      'https://cdn.shopifycloud.com',
+      "'self'",
+
+      'https://www.googletagmanager.com',
+    ],
     connectSrc: [
       'https://klaviyo.com',
       'https://*.klaviyo.com',
       'https://cdn.shopify.com',
       'http://localhost:3000',
       'https://*.klaviyo.com/*',
+      'https://www.googletagmanager.com',
     ],
     frameSrc: ['https://www.youtube.com/'],
   });
