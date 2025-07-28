@@ -26,7 +26,8 @@ export default async function handleRequest(
       'https://cdn.shopify.com',
       'https://cdn.shopifycloud.com',
       "'self'",
-
+      "'unsafe-eval'",
+      "'unsafe-inline'",
       'https://www.googletagmanager.com',
     ],
     connectSrc: [
