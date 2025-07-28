@@ -170,10 +170,12 @@ export function Layout({children}) {
       </head>
       <body>
         <script
+          nonce={nonce}
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-11512005692"
         ></script>
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `
       window.dataLayer = window.dataLayer || [];

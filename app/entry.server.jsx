@@ -26,7 +26,6 @@ export default async function handleRequest(
       'https://cdn.shopify.com',
       'https://cdn.shopifycloud.com',
       "'self'",
-      "'unsafe-eval'",
       "'unsafe-inline'",
       'https://www.googletagmanager.com',
     ],
@@ -37,8 +36,23 @@ export default async function handleRequest(
       'http://localhost:3000',
       'https://*.klaviyo.com/*',
       'https://www.googletagmanager.com',
+      'https://www.google.com',
+      'https://td.doubleclick.net',
     ],
-    frameSrc: ['https://www.youtube.com/'],
+    frameSrc: [
+      'https://www.youtube.com/',
+      'https://www.googletagmanager.com',
+      'https://td.doubleclick.net',
+    ],
+    imgSrc: [
+      "'self'",
+      'https://cdn.shopify.com',
+      'https://www.google.com',
+      'https://www.googletagmanager.com',
+      'https://www.googleadservices.com',
+      'https://www.gstatic.com',
+      'https://tpc.googlesyndication.com',
+    ],
   });
 
   const body = await renderToReadableStream(
