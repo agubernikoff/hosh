@@ -89,7 +89,7 @@ export default function Homepage() {
       setShowPopup(true);
       // Delay setting visiblePopup to allow transition
       setTimeout(() => setVisiblePopup(true), 50);
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
   return (
