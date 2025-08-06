@@ -1,6 +1,6 @@
 import {Await, useLoaderData} from '@remix-run/react';
 import NavLink from '~/components/NavLink';
-import {Suspense} from 'react';
+import {Suspense, useState, useEffect} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 import model11 from '~/assets/model11.png';
@@ -12,6 +12,7 @@ import bingoart4 from 'app/assets/BINGO-ART 33.png';
 import bingoart5 from 'app/assets/BINGO-ART 34.png';
 import bingoart6 from 'app/assets/BINGO-ART 35.png';
 import bingoart7 from 'app/assets/BINGO-ART 36.png';
+import poster from 'app/assets/poster.jpeg';
 /**
  * @type {MetaFunction}
  */
@@ -81,25 +82,77 @@ function loadDeferredData({context}) {
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+  const [showPopup, setShowPopup] = useState(false);
+  const [visiblePopup, setVisiblePopup] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+      // Delay setting visiblePopup to allow transition
+      setTimeout(() => setVisiblePopup(true), 50);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
   return (
-    <div className="home">
-      <FeaturedCollection
-        collection={data.featuredCollection}
-        artist={data.artist}
-      />
-      <InfiniteCarousel
-        images={[
-          bingoart,
-          bingoart2,
-          bingoart3,
-          bingoart4,
-          bingoart5,
-          bingoart6,
-          bingoart7,
-        ]}
-      />
-      <RecommendedProducts products={data.recommendedProducts} />
-    </div>
+    <>
+      {showPopup && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+            opacity: visiblePopup ? 1 : 0,
+            transition: 'opacity 1s ease-in-out',
+          }}
+        >
+          <div style={{position: 'relative'}}>
+            <img src={poster} style={{maxWidth: '90vw', maxHeight: '90vh'}} />
+            <button
+              onClick={() => {
+                setVisiblePopup(false);
+                setTimeout(() => setShowPopup(false), 1000); // match transition duration
+              }}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'transparent',
+                color: 'black',
+                border: 'none',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+              }}
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+      <div className="home">
+        <FeaturedCollection
+          collection={data.featuredCollection}
+          artist={data.artist}
+        />
+        <InfiniteCarousel
+          images={[
+            bingoart,
+            bingoart2,
+            bingoart3,
+            bingoart4,
+            bingoart5,
+            bingoart6,
+            bingoart7,
+          ]}
+        />
+        <RecommendedProducts products={data.recommendedProducts} />
+      </div>
+    </>
   );
 }
 
