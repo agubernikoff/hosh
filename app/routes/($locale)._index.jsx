@@ -82,19 +82,19 @@ function loadDeferredData({context}) {
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
-  const [showPopup, setShowPopup] = useState(false);
-  const [visiblePopup, setVisiblePopup] = useState(false);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowPopup(true);
-      // Delay setting visiblePopup to allow transition
-      setTimeout(() => setVisiblePopup(true), 50);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+  // const [showPopup, setShowPopup] = useState(false);
+  // const [visiblePopup, setVisiblePopup] = useState(false);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setShowPopup(true);
+  //     // Delay setting visiblePopup to allow transition
+  //     setTimeout(() => setVisiblePopup(true), 50);
+  //   }, 1000);
+  //   return () => clearTimeout(timer);
+  // }, []);
   return (
     <>
-      {showPopup && (
+      {/* {showPopup && (
         <div
           style={{
             position: 'fixed',
@@ -133,7 +133,7 @@ export default function Homepage() {
             </button>
           </div>
         </div>
-      )}
+      )} */}
       <div className="home">
         <FeaturedCollection
           collection={data.featuredCollection}
