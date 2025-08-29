@@ -66,6 +66,9 @@ export default async function handleRequest(
       'https://*.heatmap.com',
       'wss://*.heatmap.com',
       'https://*.heatmapcore.com',
+      'https://heatmap-project-2022.s3.us-west-2.amazonaws.com',
+      'https://*.s3.amazonaws.com',
+      'https://s3.*.amazonaws.com',
     ],
     frameSrc: [
       'https://www.youtube.com/',
