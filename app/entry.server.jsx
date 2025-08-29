@@ -61,6 +61,9 @@ export default async function handleRequest(
       'http://localhost:*',
       'ws://localhost:*',
       'ws://127.0.0.1:*',
+      'https://dashboard.heatmap.com',
+      'https://heatmap.com',
+      'https://*.heatmap.com',
     ],
     frameSrc: [
       'https://www.youtube.com/',
