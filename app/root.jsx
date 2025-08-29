@@ -1,4 +1,5 @@
 import {Analytics, getShopAnalytics, useNonce} from '@shopify/hydrogen';
+import {useEffect} from 'react';
 import {
   Outlet,
   useRouteError,
@@ -8,6 +9,7 @@ import {
   Scripts,
   ScrollRestoration,
   useRouteLoaderData,
+  useLocation,
 } from '@remix-run/react';
 import favicon from '~/assets/Gila-Black.png';
 import {COUNTRIES_QUERY, FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
@@ -88,6 +90,30 @@ export async function loader(args) {
       language: args.context.storefront.i18n.language,
     },
   };
+}
+
+function ClientTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const payload = {
+      page_location: window.location.href,
+      page_path: location.pathname + location.search,
+      page_title: document?.title,
+    };
+
+    // GTM
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({event: 'page_view', ...payload});
+
+    // GA4 / Meta / Klaviyo (no-ops if not present)
+    window.gtag?.('event', 'page_view', payload);
+    window.fbq?.('track', 'PageView', payload);
+    window._learnq?.push(['track', 'Viewed Page', payload]);
+  }, [location.key]);
+
+  return null;
 }
 
 /**
@@ -206,6 +232,7 @@ export function Layout({children}) {
     `,
           }}
         ></script>
+        <ClientTracker />
         {data ? (
           <Analytics.Provider
             cart={data.cart}
