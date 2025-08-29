@@ -64,6 +64,8 @@ export default async function handleRequest(
       'https://dashboard.heatmap.com',
       'https://heatmap.com',
       'https://*.heatmap.com',
+      'wss://*.heatmap.com',
+      'https://*.heatmapcore.com',
     ],
     frameSrc: [
       'https://www.youtube.com/',
@@ -84,6 +86,7 @@ export default async function handleRequest(
       'https://pagead2.googlesyndication.com',
       'https://www.facebook.com',
     ],
+    workerSrc: ["'self'", 'blob:'],
   });
 
   const body = await renderToReadableStream(
