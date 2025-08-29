@@ -26,7 +26,7 @@ export default async function handleRequest(
       'https://cdn.shopify.com',
       'https://cdn.shopifycloud.com',
       "'self'",
-      "'unsafe-inline'",
+      // removed "'unsafe-inline'",
       'https://www.googletagmanager.com',
       'https://www.google-analytics.com',
       'https://googleads.g.doubleclick.net',
