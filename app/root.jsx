@@ -97,19 +97,30 @@ function ClientTracker() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
     const payload = {
       page_location: window.location.href,
       page_path: location.pathname + location.search,
       page_title: document?.title,
+      source: 'hydrogen_custom', // Mark as custom to identify in reports
     };
 
-    // GTM
+    // GTM - Keep this for custom events and enhanced tracking
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({event: 'page_view', ...payload});
+    window.dataLayer.push({
+      event: 'hydrogen_page_view', // Changed event name to avoid conflicts
+      ...payload,
+    });
 
-    // GA4 / Meta / Klaviyo (no-ops if not present)
-    window.gtag?.('event', 'page_view', payload);
-    window.fbq?.('track', 'PageView', payload);
+    // GA4 - ONLY enable if GA4 is NOT receiving Shopify Analytics data automatically
+    // Uncomment the line below if GA4 needs manual page view tracking
+    // window.gtag?.('event', 'page_view', payload);
+
+    // Meta/Facebook - ONLY enable if Meta is NOT receiving Shopify Analytics data automatically
+    // Uncomment the line below if Meta needs manual page view tracking
+    // window.fbq?.('track', 'PageView', payload);
+
+    // Klaviyo - Usually safe to keep as it's typically separate from Shopify Analytics
     window._learnq?.push(['track', 'Viewed Page', payload]);
   }, [location.key]);
 
