@@ -248,6 +248,7 @@ export function Layout({children}) {
             shop={data.shop}
             consent={data.consent}
           >
+            <Analytics />
             <ClientTracker />
             <PageLayout {...data}>{children}</PageLayout>
           </Analytics.Provider>
