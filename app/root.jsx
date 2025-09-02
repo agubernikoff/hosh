@@ -22,6 +22,10 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
 
+const SHOP_ID_QUERY = `#graphql
+  query ShopId { shop { id } }
+`;
+
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  * @type {ShouldRevalidateFunction}
@@ -77,14 +81,20 @@ export async function loader(args) {
 
   const {storefront, env} = args.context;
 
+  const shopAnalytics = getShopAnalytics({
+    storefront,
+  });
+
+  const shop = {
+    ...shopAnalytics,
+    shopId: criticalData?.shopId || shopAnalytics?.shopId || null,
+  };
+
   return {
     ...deferredData,
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
-    shop: getShopAnalytics({
-      storefront,
-      publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
-    }),
+    shop,
     selectedLocale: args.context.storefront.i18n,
     consent: {
       checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
@@ -144,17 +154,20 @@ function ShopifyPageViewEmitter() {
 async function loadCriticalData({context}) {
   const {storefront} = context;
 
-  const [header] = await Promise.all([
+  const [header, shopIdResult] = await Promise.all([
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
       variables: {
         headerMenuHandle: 'main-menu', // Adjust to your header menu handle
       },
     }),
-    // Add other queries here, so that they are loaded in parallel
+    storefront.query(SHOP_ID_QUERY, {
+      cache: storefront.CacheLong(),
+    }),
   ]);
 
-  return {header};
+  const shopId = shopIdResult?.shop?.id || null;
+  return {header, shopId};
 }
 
 /**
