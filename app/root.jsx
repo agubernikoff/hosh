@@ -1,9 +1,4 @@
-import {
-  Analytics,
-  getShopAnalytics,
-  useNonce,
-  useAnalytics,
-} from '@shopify/hydrogen';
+import {Analytics, getShopAnalytics, useNonce} from '@shopify/hydrogen';
 import {useEffect} from 'react';
 import {
   Outlet,
@@ -21,10 +16,6 @@ import {COUNTRIES_QUERY, FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
-
-const SHOP_ID_QUERY = `#graphql
-  query ShopId { shop { id } }
-`;
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -81,22 +72,14 @@ export async function loader(args) {
 
   const {storefront, env} = args.context;
 
-  const shopAnalytics = getShopAnalytics({
-    storefront,
-  });
-
-  const i18n = args.context.storefront.i18n;
-  const shop = {
-    ...shopAnalytics,
-    shopId: criticalData?.shopId || shopAnalytics?.shopId || null,
-    acceptedLanguage: i18n?.language,
-  };
-
   return {
     ...deferredData,
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
-    shop,
+    shop: getShopAnalytics({
+      storefront,
+      publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
+    }),
     selectedLocale: args.context.storefront.i18n,
     consent: {
       checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
@@ -125,25 +108,10 @@ function ClientTracker() {
     window.dataLayer.push({event: 'page_view', ...payload});
 
     // GA4 / Meta / Klaviyo (no-ops if not present)
-    // Removed direct GA4 and Meta calls to keep GTM as single source of truth
+    window.gtag?.('event', 'page_view', payload);
+    window.fbq?.('track', 'PageView', payload);
     window._learnq?.push(['track', 'Viewed Page', payload]);
   }, [location.key]);
-
-  return null;
-}
-
-function ShopifyPageViewEmitter() {
-  const analytics = useAnalytics();
-  const location = useLocation();
-
-  useEffect(() => {
-    if (!analytics?.publish || typeof window === 'undefined') return;
-    analytics.publish('page_viewed', {
-      page_location: window.location.href,
-      page_path: location.pathname + location.search,
-      page_title: document?.title,
-    });
-  }, [analytics, location.key]);
 
   return null;
 }
@@ -156,20 +124,17 @@ function ShopifyPageViewEmitter() {
 async function loadCriticalData({context}) {
   const {storefront} = context;
 
-  const [header, shopIdResult] = await Promise.all([
+  const [header] = await Promise.all([
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
       variables: {
         headerMenuHandle: 'main-menu', // Adjust to your header menu handle
       },
     }),
-    storefront.query(SHOP_ID_QUERY, {
-      cache: storefront.CacheLong(),
-    }),
+    // Add other queries here, so that they are loaded in parallel
   ]);
 
-  const shopId = shopIdResult?.shop?.id || null;
-  return {header, shopId};
+  return {header};
 }
 
 /**
@@ -283,7 +248,6 @@ export function Layout({children}) {
             shop={data.shop}
             consent={data.consent}
           >
-            <ShopifyPageViewEmitter />
             <ClientTracker />
             <PageLayout {...data}>{children}</PageLayout>
           </Analytics.Provider>
