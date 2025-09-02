@@ -85,9 +85,11 @@ export async function loader(args) {
     storefront,
   });
 
+  const i18n = args.context.storefront.i18n;
   const shop = {
     ...shopAnalytics,
     shopId: criticalData?.shopId || shopAnalytics?.shopId || null,
+    acceptedLanguage: i18n?.language,
   };
 
   return {
