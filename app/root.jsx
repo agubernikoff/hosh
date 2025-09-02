@@ -1,4 +1,9 @@
-import {Analytics, getShopAnalytics, useNonce} from '@shopify/hydrogen';
+import {
+  Analytics,
+  getShopAnalytics,
+  useNonce,
+  useAnalytics,
+} from '@shopify/hydrogen';
 import {useEffect} from 'react';
 import {
   Outlet,
@@ -108,10 +113,25 @@ function ClientTracker() {
     window.dataLayer.push({event: 'page_view', ...payload});
 
     // GA4 / Meta / Klaviyo (no-ops if not present)
-    window.gtag?.('event', 'page_view', payload);
-    window.fbq?.('track', 'PageView', payload);
+    // Removed direct GA4 and Meta calls to keep GTM as single source of truth
     window._learnq?.push(['track', 'Viewed Page', payload]);
   }, [location.key]);
+
+  return null;
+}
+
+function ShopifyPageViewEmitter() {
+  const analytics = useAnalytics();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!analytics?.publish || typeof window === 'undefined') return;
+    analytics.publish('page_viewed', {
+      page_location: window.location.href,
+      page_path: location.pathname + location.search,
+      page_title: document?.title,
+    });
+  }, [analytics, location.key]);
 
   return null;
 }
@@ -248,6 +268,7 @@ export function Layout({children}) {
             shop={data.shop}
             consent={data.consent}
           >
+            <ShopifyPageViewEmitter />
             <ClientTracker />
             <PageLayout {...data}>{children}</PageLayout>
           </Analytics.Provider>
