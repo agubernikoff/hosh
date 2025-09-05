@@ -13,6 +13,8 @@ import bingoart5 from 'app/assets/BINGO-ART 34.png';
 import bingoart6 from 'app/assets/BINGO-ART 35.png';
 import bingoart7 from 'app/assets/BINGO-ART 36.png';
 import poster from 'app/assets/poster.jpeg';
+import hero2 from 'app/assets/mask-group.png';
+import Press from '~/components/Press';
 /**
  * @type {MetaFunction}
  */
@@ -39,8 +41,9 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const handle = 'craig-george';
-  const [{collection}, {metaobject}] = await Promise.all([
+  const isDev = process.env.NODE_ENV === 'development';
+  const handle = isDev ? 'the-begay-sisters' : 'craig-george';
+  const [{collection}, {metaobject}, press] = await Promise.all([
     context.storefront.query(NEW_ARRIVALS_QUERY, {
       variables: {handle},
     }),
@@ -48,6 +51,7 @@ async function loadCriticalData({context}) {
     context.storefront.query(ARTIST_QUERY, {
       variables: {handle},
     }),
+    context.storefront.query(PRESS_QUERY),
   ]);
 
   let artist = null;
@@ -56,6 +60,8 @@ async function loadCriticalData({context}) {
   return {
     featuredCollection: collection,
     artist,
+    isDev,
+    press: press.metaobject,
   };
 }
 
@@ -135,6 +141,8 @@ export default function Homepage() {
         </div>
       )} */}
       <div className="home">
+        {data.isDev ? <Hero collection={data.featuredCollection} /> : null}
+        {data.isDev ? <Press data={data.press} rotateImages={true} /> : null}
         <FeaturedCollection
           collection={data.featuredCollection}
           artist={data.artist}
@@ -153,6 +161,23 @@ export default function Homepage() {
         <RecommendedProducts products={data.recommendedProducts} />
       </div>
     </>
+  );
+}
+
+function Hero({collection}) {
+  return (
+    <div className={`featured-artist-container fac-dev`}>
+      <div className="featured-artist-homepage-section">
+        <div className="models-container">
+          <img src={hero2} style={{width: '100%'}} />
+        </div>
+        <div className="shop-the-collection">
+          <p>FEATURED COLLECTION</p>
+          <p className="artist-title">{collection.title.toUpperCase()}</p>
+          <NavLink to={`/collections/${collection.handle}`}>SHOP</NavLink>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -452,6 +477,62 @@ const ARTIST_QUERY = `#graphql
         }
       }
     }
+`;
+
+const PRESS_QUERY = `#graphql
+  query Press(
+    $language: LanguageCode,
+    $country: CountryCode
+  )
+  @inContext(language: $language, country: $country) {
+    metaobject(handle:{
+        handle:"hosh-launch",type:"press"
+      }){
+          handle
+          fields{
+            key
+            value
+            type
+            references(first:10) {
+              nodes {
+                ... on MediaImage {
+                  alt
+                  id
+                  image {
+                    url
+                    height
+                    id
+                    width
+                  }
+                }
+              }
+            }
+            reference{
+              ...on MediaImage{
+                alt
+                id
+                image{
+                  url
+                  height
+                  id
+                  width
+                }
+              }
+              ...on Product{
+                handle
+                title
+                featuredImage{
+                  altText
+                  url
+                  id
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+      }
 `;
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
