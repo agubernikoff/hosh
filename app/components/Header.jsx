@@ -190,7 +190,7 @@ export function HeaderMenu({
           </NavLink>
         );
       })}
-      <NavLink
+      {/* <NavLink
         className="header-menu-item"
         end
         onClick={() => {
@@ -202,7 +202,7 @@ export function HeaderMenu({
         to={'/press'}
       >
         PRESS
-      </NavLink>
+      </NavLink> */}
     </nav>
   );
 }
