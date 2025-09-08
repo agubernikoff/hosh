@@ -741,6 +741,12 @@ aside header.cart-header {
   justify-content: center;
   align-items: center;
 }
+.fac-dev .models-container > img {
+  width: 100vw;
+  height: calc(100vh - var(--header-height));
+  object-fit: cover;
+  object-position: 54% 26%;
+}
 .shop-the-collection {
   flex-direction: column;
   gap: 1rem;
@@ -826,7 +832,7 @@ aside header.cart-header {
 
 .press-container {
   display: flex;
-  padding: 5vw 80px;
+  padding: 80px 5vw;
 }
 .press-img-container {
   width: 70%;
@@ -1575,6 +1581,26 @@ media queries
   .shop-the-collection {
     margin-top: 2rem;
     margin-bottom: 4rem;
+  }
+  .fac-dev .shop-the-collection {
+    margin: auto;
+  }
+  .press-container {
+    padding: 80px 0;
+    flex-direction: column;
+  }
+  .press-img-container {
+    width: auto;
+    height: 25%;
+  }
+  .press-img-container > img {
+    position: static;
+    display: flex;
+    aspect-ratio: 286/119;
+  }
+  .press-text-container {
+    aspect-ratio: auto;
+    padding: 40px;
   }
   .shop-the-collection > * {
     transform: none;

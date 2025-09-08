@@ -15,16 +15,25 @@ function Press({data, rotateImages}) {
 
   const [index, setIndex] = useState(0);
 
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
-    if (!rotateImages || images.length <= 1) return;
+    const checkMobile = () => setIsMobile(window.innerWidth <= 499);
+
+    checkMobile(); // run on mount
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!rotateImages || isMobile || images.length <= 1) return;
 
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [rotateImages]);
-  console.log(index);
+  }, [rotateImages, isMobile]);
 
   return (
     <div className="press-container">
@@ -34,7 +43,7 @@ function Press({data, rotateImages}) {
             key={images[index]?.image?.url}
             src={images[index]?.image?.url}
             alt={images[index]?.alt}
-            initial={{x: '100%'}}
+            initial={isMobile || !rotateImages ? {x: 0} : {x: '100%'}}
             animate={{x: 0}}
             exit={{x: '-100%'}}
             transition={{duration: 0.3, ease: 'easeInOut'}}

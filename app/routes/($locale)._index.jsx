@@ -13,7 +13,7 @@ import bingoart5 from 'app/assets/BINGO-ART 34.png';
 import bingoart6 from 'app/assets/BINGO-ART 35.png';
 import bingoart7 from 'app/assets/BINGO-ART 36.png';
 import poster from 'app/assets/poster.jpeg';
-import hero2 from 'app/assets/mask-group.png';
+import hero2 from 'app/assets/hero2.jpg';
 import Press from '~/components/Press';
 import carousel1 from 'app/assets/carousel1.png';
 import carousel2 from 'app/assets/carousel2.png';
