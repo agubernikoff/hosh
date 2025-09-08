@@ -190,6 +190,19 @@ export function HeaderMenu({
           </NavLink>
         );
       })}
+      <NavLink
+        className="header-menu-item"
+        end
+        onClick={() => {
+          close();
+          setOpen();
+        }}
+        prefetch="intent"
+        style={activeLinkStyle}
+        to={'/press'}
+      >
+        PRESS
+      </NavLink>
     </nav>
   );
 }

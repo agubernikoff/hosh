@@ -25,7 +25,7 @@ import {useAside} from './Aside';
  *   loading?: 'eager' | 'lazy';
  * }}
  */
-export function ProductItem({product, loading}) {
+export function ProductItem({product, loading, layoutId}) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product?.images?.edges[0]?.node;
   const [quickShop, setQuickShop] = useState();
@@ -43,7 +43,7 @@ export function ProductItem({product, loading}) {
       >
         {image && (
           <div className="product-item-img-container">
-            <motion.div layoutId={`${product.id}-${pathname}`}>
+            <motion.div layoutId={layoutId || `${product.id}-${pathname}`}>
               <Image
                 alt={image.altText || product.title}
                 // aspectRatio="1/1"
@@ -75,6 +75,7 @@ export function ProductItem({product, loading}) {
             product={quickShop}
             closePopUp={closePopUp}
             pathname={pathname}
+            layoutId={layoutId}
           />
         )}
       </AnimatePresence>
@@ -86,7 +87,7 @@ export function ProductItem({product, loading}) {
 /** @typedef {import('storefrontapi.generated').CollectionItemFragment} CollectionItemFragment */
 /** @typedef {import('storefrontapi.generated').RecommendedProductFragment} RecommendedProductFragment */
 
-function QuickShop({product, closePopUp, pathname}) {
+function QuickShop({product, closePopUp, pathname, layoutId}) {
   const images = product?.images?.edges;
   useEffect(() => {
     // Lock scroll
@@ -208,7 +209,7 @@ function QuickShop({product, closePopUp, pathname}) {
           </svg>
         </button>
         <motion.div
-          layoutId={`${product.id}-${pathname}`}
+          layoutId={layoutId || `${product.id}-${pathname}`}
           className="quick-shop-images-container"
           style={{width: '55%'}}
         >
@@ -241,7 +242,7 @@ function QuickShop({product, closePopUp, pathname}) {
               <strong>{product.artist?.value}</strong>
             </p>
           </div>
-          <p>{product.description2.value}</p>
+          <p>{product.description2?.value}</p>
           <div>
             <ProductPrice
               price={selectedVariant?.price}
@@ -249,7 +250,7 @@ function QuickShop({product, closePopUp, pathname}) {
             />
           </div>
           {productOptions.map((option) => {
-            if (option.optionValues.length === 0) return null;
+            if (option.optionValues.length === 1) return null;
 
             const isColorOption =
               option.name.toLowerCase() === 'material' ||

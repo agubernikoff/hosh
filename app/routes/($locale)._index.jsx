@@ -15,6 +15,11 @@ import bingoart7 from 'app/assets/BINGO-ART 36.png';
 import poster from 'app/assets/poster.jpeg';
 import hero2 from 'app/assets/mask-group.png';
 import Press from '~/components/Press';
+import carousel1 from 'app/assets/carousel1.png';
+import carousel2 from 'app/assets/carousel2.png';
+import carousel3 from 'app/assets/carousel3.jpg.png';
+import carousel4 from 'app/assets/carousel4.png';
+import carousel5 from 'app/assets/carousel5.png';
 /**
  * @type {MetaFunction}
  */
@@ -43,15 +48,23 @@ export async function loader(args) {
 async function loadCriticalData({context}) {
   const isDev = process.env.NODE_ENV === 'development';
   const handle = isDev ? 'the-begay-sisters' : 'craig-george';
-  const [{collection}, {metaobject}, press] = await Promise.all([
+  const [{collection}, {metaobject}, press, latest] = await Promise.all([
     context.storefront.query(NEW_ARRIVALS_QUERY, {
-      variables: {handle},
+      variables: {handle, first: 3},
     }),
     // Add other queries here, so that they are loaded in parallel
     context.storefront.query(ARTIST_QUERY, {
       variables: {handle},
     }),
     context.storefront.query(PRESS_QUERY),
+    context.storefront.query(NEW_ARRIVALS_QUERY, {
+      variables: {
+        handle: 'all-products',
+        first: 6,
+        reverse: true,
+        sortKey: 'CREATED',
+      },
+    }),
   ]);
 
   let artist = null;
@@ -62,6 +75,7 @@ async function loadCriticalData({context}) {
     artist,
     isDev,
     press: press.metaobject,
+    latest: latest.collection,
   };
 }
 
@@ -141,22 +155,32 @@ export default function Homepage() {
         </div>
       )} */}
       <div className="home">
-        {data.isDev ? <Hero collection={data.featuredCollection} /> : null}
-        {data.isDev ? <Press data={data.press} rotateImages={true} /> : null}
-        <FeaturedCollection
-          collection={data.featuredCollection}
-          artist={data.artist}
-        />
+        {data.isDev ? (
+          <>
+            <Hero collection={data.featuredCollection} />{' '}
+            <Press data={data.press} rotateImages={true} />
+            <LatestReleases collection={data.latest} />{' '}
+          </>
+        ) : (
+          <FeaturedCollection
+            collection={data.featuredCollection}
+            artist={data.artist}
+          />
+        )}
         <InfiniteCarousel
-          images={[
-            bingoart,
-            bingoart2,
-            bingoart3,
-            bingoart4,
-            bingoart5,
-            bingoart6,
-            bingoart7,
-          ]}
+          images={
+            data.isDev
+              ? [carousel1, carousel2, carousel3, carousel4, carousel5]
+              : [
+                  bingoart,
+                  bingoart2,
+                  bingoart3,
+                  bingoart4,
+                  bingoart5,
+                  bingoart6,
+                  bingoart7,
+                ]
+          }
         />
         <RecommendedProducts products={data.recommendedProducts} />
       </div>
@@ -176,6 +200,42 @@ function Hero({collection}) {
           <p className="artist-title">{collection.title.toUpperCase()}</p>
           <NavLink to={`/collections/${collection.handle}`}>SHOP</NavLink>
         </div>
+      </div>
+    </div>
+  );
+}
+function LatestReleases({collection}) {
+  return (
+    <div className="featured-artist-container">
+      <div className="collection-title">
+        <p style={{letterSpacing: '2px'}}>LATEST RELEASES</p>
+      </div>
+      <div className="recommended-products-grid">
+        {collection.products.nodes.map((product) => (
+          <ProductItem
+            key={`latest-${product.id}`}
+            product={product}
+            layoutId={`latest-${product.id}`}
+          />
+        ))}
+      </div>
+      <div
+        style={{
+          marginTop: '5rem',
+          marginBottom: '9rem',
+        }}
+      >
+        <NavLink
+          to={`/collections/${collection.handle}/?reverse=true&sortKey=CREATED`}
+          style={{
+            padding: '1rem',
+            border: '1px solid black',
+            boxSizing: 'border-box',
+          }}
+          className="s-t-c"
+        >
+          SHOP THE COLLECTION
+        </NavLink>
       </div>
     </div>
   );
@@ -400,6 +460,9 @@ const NEW_ARRIVALS_QUERY = `#graphql
     $country: CountryCode
     $language: LanguageCode
     $handle: String
+    $first: Int
+    $reverse: Boolean
+    $sortKey: ProductCollectionSortKeys
   ) @inContext(country: $country, language: $language) {
     collection(handle: $handle) {
       id
@@ -414,7 +477,9 @@ const NEW_ARRIVALS_QUERY = `#graphql
         height
       }
       products(
-        first: 3
+        first: $first
+        reverse: $reverse,
+        sortKey: $sortKey
       ) {
         filters{
           id
