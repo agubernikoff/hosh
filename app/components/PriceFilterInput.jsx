@@ -97,17 +97,13 @@ function PriceFilterInput({addFilter, removeFilter, isChecked, value}) {
   return (
     <div
       className="price-filter-container"
-      style={{padding: '1rem', boxSizing: 'border-box', width: '100%'}}
+      style={{boxSizing: 'border-box', width: '100%'}}
     >
       <div className="price-filter-header" style={{marginBottom: '1rem'}}>
-        <h4 style={{margin: 0, fontSize: '14px', fontWeight: 'bold'}}>
-          Price Range
-        </h4>
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
-            marginTop: '0.5rem',
             fontSize: '12px',
             color: '#666',
           }}
