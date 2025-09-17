@@ -63,6 +63,17 @@ export default function PressPage() {
 
   return (
     <div className="press-page">
+      <header>
+        <p
+          style={{
+            textAlign: 'center',
+            marginTop: '4rem',
+            letterSpacing: '2px',
+          }}
+        >
+          PRESS
+        </p>
+      </header>
       {metaobjects?.nodes.map((n) => (
         <Press data={n} key={n.id} rotateImages={false} />
       ))}
