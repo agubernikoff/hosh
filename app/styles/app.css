@@ -1920,4 +1920,8 @@ media queries
   .filter-container .filter-container .filter-container {
     width: calc(100vw - 5rem);
   }
+
+  .press-text-container img {
+    object-fit: contain;
+  }
 }
