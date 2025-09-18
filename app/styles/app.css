@@ -1170,6 +1170,10 @@ aside header.cart-header {
 .hide-on-desktop {
   display: none;
 }
+button.mobile-filter:hover,
+.sort-by-button:hover {
+  font-weight: 500 !important;
+}
 /*
 * --------------------------------------------------
 * routes/products.$handle.tsx
@@ -1564,13 +1568,14 @@ media queries
     width: 75vw;
   }
   .sort-overflow-hidden-container .sort-overflow-hidden-container {
-    top: calc(100% + 1rem - 1px);
+    top: calc(100% - 1px);
+    left: 0px;
     height: 70vh;
   }
   .filter-container .filter-container {
     width: 75vw;
     justify-content: flex-start;
-    /* overflow-x: scroll; */
+    overflow-x: scroll;
   }
   .filter-container button {
     position: static;
@@ -1578,6 +1583,9 @@ media queries
   .filter-container .filter-container .filter-container {
     flex-wrap: wrap;
     width: 69vw;
+  }
+  .sort-overflow-hidden-container > div > div > .filter-container {
+    position: static !important;
   }
   .artists-collection-div {
     padding: 0 !important;
@@ -1919,5 +1927,9 @@ media queries
   }
   .filter-container .filter-container .filter-container {
     width: calc(100vw - 5rem);
+  }
+  button.mobile-filter,
+  .sort-by-button {
+    font-weight: normal !important;
   }
 }
