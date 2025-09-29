@@ -43,8 +43,10 @@ export default async function handleRequest(
       "'self'",
       'https://fonts.gstatic.com',
       'https://cdn.accessiblyapp.co',
-      'https://cdn.accessibly.app', // Added for Accessibly fonts
-      'https://cdn.shopify.com', // Added for Shopify fonts (RobotoMono)
+      'https://cdn.accessibly.app',
+      'https://*.accessibly.app',
+      'https://*.accessiblyapp.co',
+      'https://cdn.shopify.com',
     ],
     connectSrc: [
       'https://klaviyo.com',
@@ -78,8 +80,10 @@ export default async function handleRequest(
       'https://heatmap-project-2022.s3.us-west-2.amazonaws.com',
       'https://*.s3.amazonaws.com',
       'https://util-tags.accessiblyapp.co',
-      'https://*.accessiblyapp.com', // Added for Accessibly API calls
-      'https://alt-tags.accessiblyapp.com', // Added specifically for alt-tags endpoint
+      'https://*.accessiblyapp.com',
+      'https://*.accessiblyapp.co',
+      'https://*.accessibly.app',
+      'https://alt-tags.accessiblyapp.com',
     ],
     frameSrc: [
       'https://www.youtube.com/',
@@ -99,6 +103,10 @@ export default async function handleRequest(
       'https://googleads.g.doubleclick.net',
       'https://pagead2.googlesyndication.com',
       'https://www.facebook.com',
+      'https://*.accessiblyapp.com',
+      'https://*.accessibly.app',
+      'data:',
+      'blob:',
     ],
     workerSrc: ["'self'", 'blob:'],
   });
