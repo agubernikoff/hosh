@@ -242,6 +242,7 @@ export function Layout({children}) {
     `,
           }}
         />
+        <script src="https://dash.accessiblyapp.com/widget/d1ac4cc2-4e45-43dd-b46f-5c4a50dc93af/autoload.js"></script>
       </head>
       <body>
         <noscript>

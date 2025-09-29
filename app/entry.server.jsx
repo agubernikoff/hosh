@@ -36,6 +36,7 @@ export default async function handleRequest(
       'https://dashboard.heatmap.com',
       'https://heatmap.com',
       'https://*.heatmap.com',
+      'https://dash.accessiblyapp.com',
     ],
     connectSrc: [
       'https://klaviyo.com',
