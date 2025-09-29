@@ -39,6 +39,12 @@ export default async function handleRequest(
       'https://dash.accessiblyapp.com',
       'https://cdn.accessibly.app',
     ],
+    styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+    fontSrc: [
+      "'self'",
+      'https://fonts.gstatic.com',
+      'https://cdn.accessiblyapp.co',
+    ],
     connectSrc: [
       'https://klaviyo.com',
       'https://*.klaviyo.com',
@@ -70,6 +76,7 @@ export default async function handleRequest(
       'https://*.heatmapcore.com',
       'https://heatmap-project-2022.s3.us-west-2.amazonaws.com',
       'https://*.s3.amazonaws.com',
+      'https://util-tags.accessiblyapp.co',
     ],
     frameSrc: [
       'https://www.youtube.com/',
