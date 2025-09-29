@@ -26,7 +26,6 @@ export default async function handleRequest(
       'https://cdn.shopify.com',
       'https://cdn.shopifycloud.com',
       "'self'",
-      // removed "'unsafe-inline'",
       'https://www.googletagmanager.com',
       'https://www.google-analytics.com',
       'https://googleads.g.doubleclick.net',
@@ -44,6 +43,8 @@ export default async function handleRequest(
       "'self'",
       'https://fonts.gstatic.com',
       'https://cdn.accessiblyapp.co',
+      'https://cdn.accessibly.app', // Added for Accessibly fonts
+      'https://cdn.shopify.com', // Added for Shopify fonts (RobotoMono)
     ],
     connectSrc: [
       'https://klaviyo.com',
@@ -77,6 +78,8 @@ export default async function handleRequest(
       'https://heatmap-project-2022.s3.us-west-2.amazonaws.com',
       'https://*.s3.amazonaws.com',
       'https://util-tags.accessiblyapp.co',
+      'https://*.accessiblyapp.com', // Added for Accessibly API calls
+      'https://alt-tags.accessiblyapp.com', // Added specifically for alt-tags endpoint
     ],
     frameSrc: [
       'https://www.youtube.com/',
