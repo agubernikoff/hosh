@@ -859,6 +859,7 @@ aside header.cart-header {
 }
 .press-text-container img {
   width: 100%;
+  object-fit: contain;
 }
 
 /*
