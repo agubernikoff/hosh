@@ -777,7 +777,7 @@ aside header.cart-header {
 .fac-dev .shop-the-collection > a {
   border: 1px solid white;
   color: white;
-  padding: 1rem;
+  padding: 1rem 4rem;
 }
 .shop-the-collection > a:hover,
 .s-t-c:hover {
