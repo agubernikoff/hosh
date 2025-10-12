@@ -587,27 +587,29 @@ function Product() {
             title: 'Size & Fit',
             details: (
               <>
-                <p>
-                  See{' '}
-                  <span
-                    onClick={() => {
-                      setGuideType(
-                        getSizingGuideType(
-                          `${product.handle} ${product.title} ${product.size_and_fit?.value ?? ''}`,
-                        ),
-                      );
-                      setShowSizingGuide(true);
-                    }}
-                    style={{
-                      textDecoration: 'underline',
-                      color: 'black',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Sizing Guide
-                  </span>{' '}
-                  for exact measurements.
-                </p>
+                {product.hide_size_guide ? null : (
+                  <p>
+                    See{' '}
+                    <span
+                      onClick={() => {
+                        setGuideType(
+                          getSizingGuideType(
+                            `${product.handle} ${product.title} ${product.size_and_fit?.value ?? ''}`,
+                          ),
+                        );
+                        setShowSizingGuide(true);
+                      }}
+                      style={{
+                        textDecoration: 'underline',
+                        color: 'black',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Sizing Guide
+                    </span>{' '}
+                    for exact measurements.
+                  </p>
+                )}
                 {product.size_and_fit
                   ? mapRichText(JSON.parse(product.size_and_fit?.value))
                   : ''}
@@ -849,6 +851,9 @@ const PRODUCT_FRAGMENT = `#graphql
       value
     }
     artist_note:metafield(namespace:"custom",key:"artist_note"){
+      value
+    }
+    hide_size_guide:metafield(namespace:"custom",key:"hide_size_guide"){
       value
     }
   }
