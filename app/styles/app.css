@@ -1108,7 +1108,7 @@ aside header.cart-header {
   left: -1px;
   /* width: calc(100% + 2px); */
   overflow: hidden;
-  height: 50vh;
+  height: 70vh;
   z-index: 2;
   font-family: 'Roboto Mono';
   font-size: 13.333px;
