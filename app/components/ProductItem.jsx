@@ -250,7 +250,7 @@ function QuickShop({product, closePopUp, pathname, layoutId}) {
             />
           </div>
           {productOptions.map((option) => {
-            if (option.optionValues.length === 1) return null;
+            // if (option.optionValues.length === 1) return null;
 
             const isColorOption =
               option.name.toLowerCase() === 'material' ||

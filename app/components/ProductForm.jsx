@@ -29,7 +29,7 @@ export function ProductForm({productOptions, selectedVariant, product}) {
     <div className="product-form">
       {productOptions.map((option) => {
         // If there is only a single value in the option values, don't display the option
-        if (option.optionValues.length === 1) return null;
+        // if (option.optionValues.length === 1) return null;
 
         return (
           <div className="product-options" key={option.name}>
