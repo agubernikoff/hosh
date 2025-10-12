@@ -47,7 +47,7 @@ export async function loader(args) {
  */
 async function loadCriticalData({context}) {
   const isDev = process.env.NODE_ENV === 'development';
-  const handle = isDev ? 'the-begay-sisters' : 'craig-george';
+  const handle = 'the-begay-sisters';
   const [{collection}, {metaobject}, press, latest] = await Promise.all([
     context.storefront.query(NEW_ARRIVALS_QUERY, {
       variables: {handle, first: 3},
