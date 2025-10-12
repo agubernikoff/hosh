@@ -155,32 +155,11 @@ export default function Homepage() {
         </div>
       )} */}
       <div className="home">
-        {data.isDev ? (
-          <>
-            <Hero collection={data.featuredCollection} />{' '}
-            <Press data={data.press} rotateImages={true} />
-            <LatestReleases collection={data.latest} />{' '}
-          </>
-        ) : (
-          <FeaturedCollection
-            collection={data.featuredCollection}
-            artist={data.artist}
-          />
-        )}
+        <Hero collection={data.featuredCollection} />{' '}
+        <Press data={data.press} rotateImages={true} />
+        <LatestReleases collection={data.latest} />{' '}
         <InfiniteCarousel
-          images={
-            data.isDev
-              ? [carousel1, carousel2, carousel3, carousel4, carousel5]
-              : [
-                  bingoart,
-                  bingoart2,
-                  bingoart3,
-                  bingoart4,
-                  bingoart5,
-                  bingoart6,
-                  bingoart7,
-                ]
-          }
+          images={[carousel1, carousel2, carousel3, carousel4, carousel5]}
         />
         <RecommendedProducts products={data.recommendedProducts} />
       </div>
