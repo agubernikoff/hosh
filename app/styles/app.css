@@ -901,11 +901,24 @@ aside header.cart-header {
 .collection-title p:first-of-type {
   margin-bottom: 1rem;
 }
+.collection-image {
+  width: 100vw;
+  margin-left: calc(-10vw - 1rem);
+  margin-bottom: 4rem;
+}
+.collection-image > img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 .collection-description {
-  margin-bottom: 1rem;
-  max-width: 95%;
+  margin: auto;
+  margin-bottom: 4rem;
+  text-align: left;
+  line-height: 30px;
   @media (min-width: 45em) {
-    max-width: 600px;
+    max-width: 945px;
+    line-height: 40px;
   }
 }
 
@@ -1856,6 +1869,14 @@ media queries
   }
   .collection-title {
     margin-bottom: 2rem;
+  }
+  .collection-image {
+    margin-left: -1rem;
+    margin-bottom: 2rem;
+  }
+  .collection-description {
+    margin-bottom: 2rem;
+    font-size: 14px;
   }
   .header-menu-item,
   .dropdown-title {

@@ -110,10 +110,13 @@ export default function Collection() {
         .then((res) => res.json())
         .then((data) => setTotal(data.total));
   }, [collection.handle, filter]);
-
+  console.log(collection);
   return (
     <div className="collection">
       <div className="collection-title">
+        {collection.subtitle?.value && (
+          <p>{collection.subtitle.value.toUpperCase()}</p>
+        )}
         <p>{collection.title.toUpperCase()}</p>
         {artist && (
           <p>
@@ -123,7 +126,14 @@ export default function Collection() {
           </p>
         )}
       </div>
-      <p className="collection-description">{collection.description}</p>
+      {collection.show_image?.value && (
+        <div className="collection-image">
+          <img src={collection.image.url} alt={collection.image.altText} />
+        </div>
+      )}
+      {collection.show_description?.value && (
+        <p className="collection-description">{collection.description}</p>
+      )}
       <Filter filters={collection.products.filters} total={total} />
       <PaginatedResourceSection
         connection={collection.products}
@@ -1053,6 +1063,22 @@ const COLLECTION_QUERY = `#graphql
       handle
       title
       description
+      image{
+        id
+        url
+        altText
+        width
+        height
+      }
+      subtitle:metafield(namespace:"custom",key:"subtitle"){
+        value
+      }
+      show_image:metafield(namespace:"custom",key:"show_image"){
+        value
+      }
+      show_description:metafield(namespace:"custom",key:"show_description"){
+        value
+      }
       products(
         first: $first,
         last: $last,
