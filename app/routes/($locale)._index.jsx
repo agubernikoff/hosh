@@ -59,10 +59,8 @@ async function loadCriticalData({context}) {
     context.storefront.query(PRESS_QUERY),
     context.storefront.query(NEW_ARRIVALS_QUERY, {
       variables: {
-        handle: 'all-products',
+        handle: 'latest-releases',
         first: 6,
-        reverse: true,
-        sortKey: 'CREATED',
       },
     }),
   ]);
@@ -205,7 +203,7 @@ function LatestReleases({collection}) {
         }}
       >
         <NavLink
-          to={`/collections/${collection.handle}/?reverse=true&sortKey=CREATED`}
+          to={`/collections/${collection.handle}`}
           style={{
             padding: '1rem',
             border: '1px solid black',
