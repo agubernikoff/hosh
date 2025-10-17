@@ -12,7 +12,10 @@ import bingoart4 from 'app/assets/BINGO-ART 33.png';
 import bingoart5 from 'app/assets/BINGO-ART 34.png';
 import bingoart6 from 'app/assets/BINGO-ART 35.png';
 import bingoart7 from 'app/assets/BINGO-ART 36.png';
-import poster from 'app/assets/poster.jpeg';
+import poster from 'app/assets/HOSH-EXTRA-POP-UP 1.png';
+import mposter from 'app/assets/mobile-poster.png';
+import jersey from 'app/assets/jersey1.png';
+import jersey2 from 'app/assets/jersey2.png';
 import hero2 from 'app/assets/hero2.jpg';
 import Press from '~/components/Press';
 import carousel1 from 'app/assets/carousel1.png';
@@ -129,8 +132,39 @@ export default function Homepage() {
             transition: 'opacity 1s ease-in-out',
           }}
         >
-          <div style={{position: 'relative'}}>
-            <img src={poster} style={{maxWidth: '90vw', maxHeight: '90vh'}} />
+          <div
+            className="poster"
+            style={{
+              position: 'relative',
+            }}
+          >
+            <img
+              className="poster-img"
+              src={poster}
+              style={{width: '100%', maxWidth: '90vw', maxHeight: '90vh'}}
+            />
+            <img
+              className="mobile-poster"
+              src={mposter}
+              style={{width: '100%', maxWidth: '90vw', maxHeight: '90vh'}}
+            />
+            <div>
+              <div>
+                <img src={jersey} style={{flex: 1}} />
+                <img src={jersey2} style={{flex: 1}} />
+              </div>
+              <p>
+                “This imagined team is my way of giving Native actors the
+                spotlight they rarely had.”
+              </p>
+              <p>Craig George</p>
+              <NavLink
+                to="/collections/hollywood-extras-collection"
+                style={{textDecoration: 'underline'}}
+              >
+                Now Available
+              </NavLink>
+            </div>
             <button
               onClick={() => {
                 setVisiblePopup(false);

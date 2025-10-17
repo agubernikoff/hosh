@@ -1540,6 +1540,78 @@ pages
 .page img {
   width: 100%;
 }
+
+/* 
+poster
+*/
+.poster {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  background: rgba(255, 255, 255, 1);
+  padding: 1rem;
+  gap: clamp(1rem, 1vw 3rem);
+}
+.poster-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.mobile-poster {
+  display: none;
+}
+.poster > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  text-align: center;
+}
+.poster > div > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.poster > div > p:first-of-type {
+  font-size: 17px;
+  line-height: 26px;
+}
+.poster > div > p {
+  font-size: 14px;
+}
+.poster > div > a {
+  font-size: 12px;
+  cursor: pointer;
+}
+@media (max-width: 723px) {
+  .poster {
+    flex-direction: column;
+    width: calc(100% - 6rem);
+    max-height: 90vh;
+    max-width: 400px;
+    margin: auto;
+    padding: 2rem;
+  }
+  .poster-img {
+    display: none;
+  }
+  .mobile-poster {
+    display: block;
+  }
+  .poster > div {
+    gap: 1rem;
+    padding: 0;
+    padding-top: 1rem;
+  }
+  .poster > div > div {
+    display: none;
+  }
+}
+@media (max-width: 500px) {
+  .poster {
+    max-width: 300px;
+  }
+}
 /* 
 ----------------------------------------------------
 media queries
