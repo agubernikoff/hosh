@@ -68,6 +68,7 @@ aside {
 aside#mobile {
   left: calc(-1 * var(--aside-width));
   right: auto;
+  width: 100vw;
 }
 
 aside header {
