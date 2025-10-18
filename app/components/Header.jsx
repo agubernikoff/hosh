@@ -19,10 +19,26 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
   const {pathname} = useLocation();
   const {close} = useAside();
+  const [showBanner, setShowBanner] = useState(true);
+
+  function hideBanner() {
+    setShowBanner(false);
+    document.documentElement.style.setProperty('--headliner-height', '0px');
+  }
 
   return (
     <header className="header">
-      <div className="headliner">FREE STANDARD SHIPPING</div>
+      <div
+        className="headliner"
+        style={
+          showBanner
+            ? {padding: '1rem', height: 'calc(var(--headliner-height) - 3px)'}
+            : {padding: 0, height: 0}
+        }
+      >
+        <>FREE STANDARD SHIPPING</>
+        <button onClick={hideBanner}>x</button>
+      </div>
       <div className="header-inner">
         <HeaderMenuMobileToggle />
         <HeaderMenu
