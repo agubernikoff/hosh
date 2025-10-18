@@ -1,4 +1,4 @@
-import {Suspense, useId, useState} from 'react';
+import {Suspense, useId, useState, useRef} from 'react';
 import {Await, useAsyncValue, useLocation} from '@remix-run/react';
 import NavLink from './NavLink';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
@@ -209,6 +209,7 @@ export function HeaderMenu({
 
 function Dropdown({children, label, displaySVG, toggleIsOpen, isOpen}) {
   const [isMobile, setIsMobile] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 768px)');
@@ -219,10 +220,27 @@ function Dropdown({children, label, displaySVG, toggleIsOpen, isOpen}) {
 
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (isOpen) {
+          toggleIsOpen(null); // Close the dropdown
+        }
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, toggleIsOpen]);
   return (
     <button
       className={`mobile-filter ${isOpen ? 'isOpen-btn' : ''} header-mf header-menu-item`}
       onClick={() => toggleIsOpen(label)}
+      ref={dropdownRef}
     >
       <AnimatePresence mode="popLayout">
         <motion.span
