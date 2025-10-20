@@ -833,10 +833,6 @@ aside header.cart-header {
   height: auto;
 }
 
-.home > .carousel-wrapper img {
-  max-height: calc(75vh - var(--header-height)) !important;
-}
-
 .carousel-wrapper {
   width: 100vw;
   margin-left: -1rem !important;
