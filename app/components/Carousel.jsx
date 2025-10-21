@@ -26,7 +26,7 @@ export default function InfiniteCarousel({
               width: `${width}vw`,
               objectFit: 'cover',
               maxHeight: 'calc(75vh - var(--header-height))',
-              objectPosition: 'bottom',
+              objectPosition: 'top',
             }}
           />
         )}
@@ -148,7 +148,7 @@ export default function InfiniteCarousel({
               flexShrink: 0,
               objectFit: 'cover',
               maxHeight: 'calc(75vh - var(--header-height))',
-              objectPosition: 'bottom',
+              objectPosition: 'top',
             }}
           />
         ))}
