@@ -24,7 +24,6 @@ export function PageLayout({
   selectedLocale,
   availableCountries,
 }) {
-  console.log(header);
   return (
     <Aside.Provider>
       <CartAside cart={cart} />
