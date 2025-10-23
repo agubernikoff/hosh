@@ -5,24 +5,21 @@ import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 import model11 from '~/assets/model11.png';
 import InfiniteCarousel from '~/components/Carousel';
-import bingoart from 'app/assets/BINGO-ART 3.png';
-import bingoart2 from 'app/assets/BINGO-ART 31.png';
-import bingoart3 from 'app/assets/BINGO-ART 32.png';
-import bingoart4 from 'app/assets/BINGO-ART 33.png';
-import bingoart5 from 'app/assets/BINGO-ART 34.png';
-import bingoart6 from 'app/assets/BINGO-ART 35.png';
-import bingoart7 from 'app/assets/BINGO-ART 36.png';
 import poster from 'app/assets/HOSH-EXTRA-POP-UP 1.png';
 import mposter from 'app/assets/mobile-poster.png';
 import jersey from 'app/assets/jersey1.png';
 import jersey2 from 'app/assets/jersey2.png';
 import hero2 from 'app/assets/hero2.jpg';
 import Press from '~/components/Press';
-import carousel1 from 'app/assets/carousel1.png';
-import carousel2 from 'app/assets/carousel2.png';
-import carousel3 from 'app/assets/carousel3.jpg.png';
-import carousel4 from 'app/assets/carousel4.png';
-import carousel5 from 'app/assets/carousel5.png';
+import carousel1 from 'app/assets/Slider A.png';
+import carousel2 from 'app/assets/Slider B.png';
+import carousel3 from 'app/assets/Slider C.png';
+import carousel4 from 'app/assets/Slider D.png';
+import carousel5 from 'app/assets/Slider E.png';
+import carousel6 from 'app/assets/Slider F.png';
+import desktop1 from 'app/assets/Slider 1.png';
+import desktop2 from 'app/assets/Slider 2.png';
+import desktop3 from 'app/assets/Slider 3.png';
 /**
  * @type {MetaFunction}
  */
@@ -191,7 +188,19 @@ export default function Homepage() {
         <Press data={data.press} rotateImages={true} />
         <LatestReleases collection={data.latest} />{' '}
         <InfiniteCarousel
-          images={[carousel1, carousel2, carousel3, carousel4, carousel5]}
+          images={[desktop1, desktop2, desktop3]}
+          hideOn={'mobile'}
+        />
+        <InfiniteCarousel
+          images={[
+            carousel1,
+            carousel2,
+            carousel3,
+            carousel4,
+            carousel5,
+            carousel6,
+          ]}
+          hideOn={'desktop'}
         />
         <RecommendedProducts products={data.recommendedProducts} />
       </div>

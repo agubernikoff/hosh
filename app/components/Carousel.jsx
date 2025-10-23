@@ -5,6 +5,7 @@ export default function InfiniteCarousel({
   images,
   interval = 5000,
   width = 100,
+  hideOn,
 }) {
   // If only one image, render it statically without carousel functionality
   if (images.length <= 1) {
@@ -123,7 +124,7 @@ export default function InfiniteCarousel({
 
   return (
     <div
-      className="carousel-wrapper"
+      className={`carousel-wrapper ${hideOn}-hidden`}
       style={{
         overflow: 'hidden',
         position: 'relative',

@@ -838,6 +838,9 @@ aside header.cart-header {
   width: 100vw;
   margin-left: -1rem !important;
 }
+.carousel-wrapper.desktop-hidden {
+  display: none;
+}
 
 .carousel-wrapper > button {
   background: transparent;
@@ -1972,9 +1975,6 @@ media queries
   .product-image:first-of-type {
     padding: 0;
   }
-  .carousel-track > img {
-    aspect-ratio: 390/250;
-  }
   .recommended-products > p:first-of-type {
     margin-bottom: calc(3rem + 20px) !important;
   }
@@ -2038,5 +2038,12 @@ media queries
 
   .press-text-container img {
     object-fit: contain;
+  }
+
+  .carousel-wrapper.desktop-hidden {
+    display: block;
+  }
+  .carousel-wrapper.mobile-hidden {
+    display: none;
   }
 }
