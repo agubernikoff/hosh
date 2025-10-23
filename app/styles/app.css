@@ -107,7 +107,7 @@ aside main {
   margin: 0.5rem 20px;
   overflow: scroll;
   height: calc(
-    100vh - (var(--header-height) 57px * 2) - var(--headliner-height) - 1rem
+    100dvh - (var(--header-height) * 2) - var(--headliner-height) - 1rem
   );
 }
 /* Hide scrollbar for WebKit browsers (Chrome, Safari, Edge) */
@@ -356,7 +356,7 @@ input[type='search' i]::-webkit-search-cancel-button {
   padding-inline: 6px;
 }
 .header-menu-mobile .dropdown-content {
-  margin-bottom: -1rem;
+  margin-bottom: 0;
   background: rgba(222, 222, 222, 0.5);
   max-height: none;
   padding-top: 0.25rem;
