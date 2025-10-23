@@ -244,6 +244,7 @@ button.reset:hover:not(:has(> *)) {
   color: black;
   text-decoration: none;
   padding: 0.15rem;
+  text-wrap: wrap;
 }
 
 .header-menu-item:hover {
