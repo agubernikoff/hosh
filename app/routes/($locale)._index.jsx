@@ -143,7 +143,13 @@ export default function Homepage() {
             <img
               className="mobile-poster"
               src={mposter}
-              style={{width: '100%', maxWidth: '90vw', maxHeight: '90vh'}}
+              style={{
+                width: '100%',
+                maxWidth: '90vw',
+                maxHeight: '90vh',
+                height: 'auto',
+                objectFit: 'cover',
+              }}
             />
             <div>
               <div>
