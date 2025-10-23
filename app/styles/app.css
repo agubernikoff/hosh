@@ -1978,18 +1978,11 @@ media queries
     flex-direction: column;
     max-height: calc(100vh - var(--header-height) - 5rem);
     overflow: auto;
-    padding: 2rem 1rem 2rem;
+    padding: 2rem 1rem 1rem;
     top: calc(var(--header-height) + 1rem);
     left: 1rem;
     transform: none;
     gap: 1rem;
-  }
-  .quick-shop-popup .add-to-cart-btn {
-    position: fixed;
-    bottom: 1rem;
-    right: 2rem;
-    left: 2rem;
-    width: calc(100vw - 4rem);
   }
   .quick-shop-images-container {
     width: 100% !important;
