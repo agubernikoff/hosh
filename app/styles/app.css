@@ -352,6 +352,9 @@ input[type='search' i]::-webkit-search-cancel-button {
   font-size: 14px;
   margin-bottom: 0.25rem;
 }
+.header-menu-mobile .dropdown-content .dropdown-header {
+  width: 95%;
+}
 .header-menu-mobile > .dropdown > .dropdown-header > svg {
   padding-inline: 6px;
 }
