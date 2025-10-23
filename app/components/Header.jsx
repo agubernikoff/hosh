@@ -37,7 +37,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
         }
       >
         <>FREE STANDARD SHIPPING</>
-        <button onClick={hideBanner}>x</button>
+        {showBanner && <button onClick={hideBanner}>x</button>}
       </div>
       <div className="header-inner">
         <HeaderMenuMobileToggle />
