@@ -118,78 +118,150 @@ export function HeaderMenu({
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
 
-        // if the url is internal, we strip the domain
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain) ||
           item.url.includes(primaryDomainUrl)
             ? new URL(item.url).pathname
             : item.url;
-        return item.items.length > 0 ? (
-          <Dropdown
-            label={item.title}
-            key={item.id}
-            toggleIsOpen={toggleSection}
-            isOpen={open === item.title}
-            displaySVG={true}
-          >
-            {item.items.map((item2) => {
-              if (!item2.url) return null;
 
-              // if the url is internal, we strip the domain
-              const url =
-                item2.url.includes('myshopify.com') ||
-                item2.url.includes(publicStoreDomain) ||
-                item2.url.includes(primaryDomainUrl)
-                  ? new URL(item2.url).pathname
-                  : item2.url;
+        // Top-level item with children
+        if (item.items.length > 0) {
+          if (viewport === 'mobile') {
+            // 📱 MOBILE: Use Expandable
+            return (
+              <Expandable
+                key={item.id}
+                title={item.title}
+                parent={null}
+                openSection={open}
+                toggleSection={toggleSection}
+                header={true}
+                details={item.items.map((item2) => {
+                  if (!item2.url) return null;
+                  const url =
+                    item2.url.includes('myshopify.com') ||
+                    item2.url.includes(publicStoreDomain) ||
+                    item2.url.includes(primaryDomainUrl)
+                      ? new URL(item2.url).pathname
+                      : item2.url;
 
-              return item2.items.length > 0 ? (
-                <Expandable
-                  key={item2.id}
-                  title={item2.title}
-                  parent={item.title}
-                  openSection={openNested}
-                  toggleSection={toggleSectionNested}
-                  header={true}
-                  details={item2.items.map((item3) => {
-                    const url =
-                      item3.url.includes('myshopify.com') ||
-                      item3.url.includes(publicStoreDomain) ||
-                      item3.url.includes(primaryDomainUrl)
-                        ? new URL(item3.url).pathname
-                        : item3.url;
-                    return (
-                      <NavLink
-                        className="header-menu-item"
-                        end
-                        key={item3.id}
-                        onClick={close}
-                        prefetch="intent"
-                        style={activeLinkStyle}
-                        to={url}
-                      >
-                        {item3.title}
-                      </NavLink>
-                    );
-                  })}
-                />
-              ) : (
-                <NavLink
-                  className="header-menu-item"
-                  end
-                  key={item2.id}
-                  onClick={close}
-                  prefetch="intent"
-                  style={activeLinkStyle}
-                  to={url}
-                >
-                  {item2.title}
-                </NavLink>
-              );
-            })}
-          </Dropdown>
-        ) : (
+                  return item2.items.length > 0 ? (
+                    <Expandable
+                      key={item2.id}
+                      title={item2.title}
+                      parent={item.title}
+                      openSection={openNested}
+                      toggleSection={toggleSectionNested}
+                      header={true}
+                      details={item2.items.map((item3) => {
+                        const url =
+                          item3.url.includes('myshopify.com') ||
+                          item3.url.includes(publicStoreDomain) ||
+                          item3.url.includes(primaryDomainUrl)
+                            ? new URL(item3.url).pathname
+                            : item3.url;
+                        return (
+                          <NavLink
+                            className="header-menu-item"
+                            end
+                            key={item3.id}
+                            onClick={close}
+                            prefetch="intent"
+                            style={activeLinkStyle}
+                            to={url}
+                          >
+                            {item3.title}
+                          </NavLink>
+                        );
+                      })}
+                    />
+                  ) : (
+                    <NavLink
+                      className="header-menu-item"
+                      end
+                      key={item2.id}
+                      onClick={close}
+                      prefetch="intent"
+                      style={activeLinkStyle}
+                      to={url}
+                    >
+                      {item2.title}
+                    </NavLink>
+                  );
+                })}
+              />
+            );
+          } else {
+            // 💻 DESKTOP: Use Dropdown
+            return (
+              <Dropdown
+                label={item.title}
+                key={item.id}
+                toggleIsOpen={toggleSection}
+                isOpen={open === item.title}
+                displaySVG={true}
+              >
+                {item.items.map((item2) => {
+                  if (!item2.url) return null;
+                  const url =
+                    item2.url.includes('myshopify.com') ||
+                    item2.url.includes(publicStoreDomain) ||
+                    item2.url.includes(primaryDomainUrl)
+                      ? new URL(item2.url).pathname
+                      : item2.url;
+
+                  return item2.items.length > 0 ? (
+                    <Expandable
+                      key={item2.id}
+                      title={item2.title}
+                      parent={item.title}
+                      openSection={openNested}
+                      toggleSection={toggleSectionNested}
+                      header={true}
+                      details={item2.items.map((item3) => {
+                        const url =
+                          item3.url.includes('myshopify.com') ||
+                          item3.url.includes(publicStoreDomain) ||
+                          item3.url.includes(primaryDomainUrl)
+                            ? new URL(item3.url).pathname
+                            : item3.url;
+                        return (
+                          <NavLink
+                            className="header-menu-item"
+                            end
+                            key={item3.id}
+                            onClick={close}
+                            prefetch="intent"
+                            style={activeLinkStyle}
+                            to={url}
+                          >
+                            {item3.title}
+                          </NavLink>
+                        );
+                      })}
+                    />
+                  ) : (
+                    <NavLink
+                      className="header-menu-item"
+                      end
+                      key={item2.id}
+                      onClick={close}
+                      prefetch="intent"
+                      style={activeLinkStyle}
+                      to={url}
+                    >
+                      {item2.title}
+                    </NavLink>
+                  );
+                })}
+              </Dropdown>
+            );
+          }
+        }
+
+        // Top-level item with no children
+        return (
           <NavLink
             className="header-menu-item"
             end
