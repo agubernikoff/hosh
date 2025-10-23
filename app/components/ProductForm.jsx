@@ -47,13 +47,13 @@ export function ProductForm({productOptions, selectedVariant, product}) {
             </div>
             <div style={{marginBottom: '1rem'}}>
               {isMobile ? (
-                <p style={{fontSize: '14px'}}>{product.description2?.value}</p>
-              ) : null}
-              {isMobile ? (
                 <ProductPrice
                   price={selectedVariant?.price}
                   compareAtPrice={selectedVariant?.compareAtPrice}
                 />
+              ) : null}
+              {isMobile ? (
+                <p style={{fontSize: '14px'}}>{product.description2?.value}</p>
               ) : null}
             </div>
             <p>
