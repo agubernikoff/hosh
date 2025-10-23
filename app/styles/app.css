@@ -1984,6 +1984,10 @@ media queries
     transform: none;
     gap: 1rem;
   }
+  .quick-shop-popup .product-options-item,
+  .quick-shop-popup .product-options-item:disabled {
+    height: 25px;
+  }
   .quick-shop-images-container {
     width: 100% !important;
   }
