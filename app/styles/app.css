@@ -1850,7 +1850,7 @@ media queries
   .product {
     flex-direction: column;
     padding: 0;
-    margin-top: 2rem;
+    margin-top: 0.5rem;
   }
   .product-left,
   .product-main {
