@@ -1677,8 +1677,25 @@ poster
   }
 }
 @media (max-width: 500px) {
+  .popup-bg {
+    align-items: normal !important;
+  }
   .poster {
-    max-width: 300px;
+    width: calc(100% - 3rem);
+    max-width: 310px;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+  .poster > div {
+    gap: 10px;
+    padding-top: 10px;
+  }
+  .poster > div > p:first-of-type {
+    font-size: 15px;
+  }
+  .poster > button {
+    top: 0 !important;
+    right: 0 !important;
   }
 }
 /* 

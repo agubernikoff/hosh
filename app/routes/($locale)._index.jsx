@@ -5,7 +5,7 @@ import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 import model11 from '~/assets/model11.png';
 import InfiniteCarousel from '~/components/Carousel';
-import poster from 'app/assets/HOSH-EXTRA-POP-UP 1.png';
+import poster from 'app/assets/Group 780.png';
 import mposter from 'app/assets/mobile-poster.png';
 import jersey from 'app/assets/jersey1.png';
 import jersey2 from 'app/assets/jersey2.png';
@@ -128,6 +128,7 @@ export default function Homepage() {
             opacity: visiblePopup ? 1 : 0,
             transition: 'opacity 1s ease-in-out',
           }}
+          className="popup-bg"
         >
           <div
             className="poster"
@@ -138,14 +139,14 @@ export default function Homepage() {
             <img
               className="poster-img"
               src={poster}
-              style={{width: '100%', maxWidth: '90vw', maxHeight: '90vh'}}
+              style={{width: '50%', maxWidth: '90vw', maxHeight: '90vh'}}
             />
             <img
               className="mobile-poster"
               src={mposter}
               style={{
                 width: '100%',
-                maxWidth: '90vw',
+                // maxWidth: '90vw',
                 maxHeight: '90vh',
                 height: 'auto',
                 objectFit: 'cover',
