@@ -10,6 +10,7 @@ import mposter from 'app/assets/mobile-poster.png';
 import jersey from 'app/assets/jersey1.png';
 import jersey2 from 'app/assets/jersey2.png';
 import hero2 from 'app/assets/hero2.jpg';
+import hero3 from 'app/assets/hero3.jpg';
 import Press from '~/components/Press';
 import carousel1 from 'app/assets/Slider A.png';
 import carousel2 from 'app/assets/Slider B.png';
@@ -100,6 +101,7 @@ function loadDeferredData({context}) {
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+  const isDev = data.isDev;
   const [showPopup, setShowPopup] = useState(false);
   const [visiblePopup, setVisiblePopup] = useState(false);
   useEffect(() => {
@@ -191,7 +193,7 @@ export default function Homepage() {
         </div>
       )}
       <div className="home">
-        <Hero collection={data.featuredCollection} />{' '}
+        <Hero collection={data.featuredCollection} isDev={isDev} />
         <Press data={data.press} rotateImages={true} />
         <LatestReleases collection={data.latest} />{' '}
         <InfiniteCarousel
@@ -215,17 +217,27 @@ export default function Homepage() {
   );
 }
 
-function Hero({collection}) {
+function Hero({collection, isDev}) {
   return (
     <div className={`featured-artist-container fac-dev`}>
       <div className="featured-artist-homepage-section">
         <div className="models-container">
-          <img src={hero2} style={{width: '100%'}} />
+          <img src={!isDev ? hero2 : hero3} style={{width: '100%'}} alt="" />
         </div>
-        <div className="shop-the-collection">
-          <p>FEATURED COLLECTION</p>
-          <p className="artist-title">{collection.title.toUpperCase()}</p>
-          <NavLink to={`/collections/${collection.handle}`}>SHOP</NavLink>
+        <div className={`shop-the-collection ${isDev ? 'dev' : ''}`}>
+          {!isDev && <p>FEATURED COLLECTION</p>}
+          <p className="artist-title">
+            {!isDev
+              ? collection.title.toUpperCase()
+              : 'Welcome to the world of HOSH'}
+          </p>
+          {!isDev ? (
+            <NavLink to={`/collections/${collection.handle}`}>SHOP</NavLink>
+          ) : (
+            <NavLink to={`/collections/all-products`}>
+              Shop All Products
+            </NavLink>
+          )}
         </div>
       </div>
     </div>

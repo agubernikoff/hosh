@@ -792,6 +792,7 @@ aside header.cart-header {
   height: calc(100vh - var(--header-height));
   max-width: 1440px;
   margin: auto;
+  position: relative;
 }
 .fac-dev .featured-artist-homepage-section {
   height: auto;
@@ -807,6 +808,10 @@ aside header.cart-header {
   justify-content: center;
   align-items: center;
 }
+.featured-artist-homepage-section:has(> .shop-the-collection.dev)
+  > .models-container {
+  filter: brightness(70%);
+}
 .fac-dev .models-container > img {
   width: 100vw;
   height: calc(100vh - var(--header-height));
@@ -821,6 +826,14 @@ aside header.cart-header {
   background: black;
   padding-block: 80px;
   color: white;
+}
+.shop-the-collection.dev {
+  background: transparent;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
 }
 .shop-the-collection > * {
   transform: translateY(calc(var(--header-height) * -1));
@@ -839,11 +852,15 @@ aside header.cart-header {
 .shop-the-collection > a {
   border: 1px solid black;
   padding: 1rem;
+  transition: all 300ms ease-in-out;
 }
 .fac-dev .shop-the-collection > a {
   border: 1px solid white;
   color: white;
   padding: 1rem 4rem;
+}
+.shop-the-collection.dev > a {
+  padding: 1rem;
 }
 .shop-the-collection > a:hover,
 .s-t-c:hover {
@@ -853,6 +870,10 @@ aside header.cart-header {
 .fac-dev .shop-the-collection > a:hover {
   background: white;
   color: black;
+}
+.shop-the-collection.dev > a:hover {
+  background: black;
+  color: white;
 }
 .featured-collection {
   display: block;
