@@ -875,6 +875,52 @@ aside header.cart-header {
   background: black;
   color: white;
 }
+
+.subhero-section {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: calc(80px - 2rem);
+}
+.subhero-blurb {
+  width: 100%;
+  max-width: 366px;
+  margin: auto;
+}
+.subhero-blurb * {
+  margin: 0;
+}
+.subhero-blurb .rich-text-div h4 {
+  line-height: 33px;
+  margin-bottom: 1rem;
+  font-size: 29px;
+}
+.subhero-blurb .rich-text-div p {
+  line-height: 1rem;
+}
+.subhero-images {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  width: 60vw;
+}
+.subhero-images img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.latest-releases-container {
+  margin-bottom: 0;
+  padding-block: 80px;
+  background: #f1e6b1;
+  width: 100vw;
+  margin-left: -1rem;
+}
+.latest-releases-container .collection-title p:first-of-type {
+  margin: 0;
+}
+
 .featured-collection {
   display: block;
   margin-bottom: 2rem;

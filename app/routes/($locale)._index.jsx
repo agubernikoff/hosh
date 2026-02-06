@@ -21,6 +21,7 @@ import carousel6 from 'app/assets/Slider F.png';
 import desktop1 from 'app/assets/Slider 1.png';
 import desktop2 from 'app/assets/Slider 2.png';
 import desktop3 from 'app/assets/Slider 3.png';
+import mapRichText from '~/helpers/MapRichText';
 /**
  * @type {MetaFunction}
  */
@@ -49,22 +50,24 @@ export async function loader(args) {
 async function loadCriticalData({context}) {
   const isDev = process.env.NODE_ENV === 'development';
   const handle = 'the-begay-sisters';
-  const [{collection}, {metaobject}, press, latest] = await Promise.all([
-    context.storefront.query(NEW_ARRIVALS_QUERY, {
-      variables: {handle, first: 3},
-    }),
-    // Add other queries here, so that they are loaded in parallel
-    context.storefront.query(ARTIST_QUERY, {
-      variables: {handle},
-    }),
-    context.storefront.query(PRESS_QUERY),
-    context.storefront.query(NEW_ARRIVALS_QUERY, {
-      variables: {
-        handle: 'latest-releases',
-        first: 6,
-      },
-    }),
-  ]);
+  const [{collection}, {metaobject}, press, latest, subhero] =
+    await Promise.all([
+      context.storefront.query(NEW_ARRIVALS_QUERY, {
+        variables: {handle, first: 3},
+      }),
+      // Add other queries here, so that they are loaded in parallel
+      context.storefront.query(ARTIST_QUERY, {
+        variables: {handle},
+      }),
+      context.storefront.query(PRESS_QUERY),
+      context.storefront.query(NEW_ARRIVALS_QUERY, {
+        variables: {
+          handle: isDev ? 'hollywood-extras-collection' : 'latest-releases',
+          first: isDev ? 3 : 6,
+        },
+      }),
+      context.storefront.query(SUBHERO_QUERY),
+    ]);
 
   let artist = null;
   if (metaobject) artist = metaobject;
@@ -75,6 +78,7 @@ async function loadCriticalData({context}) {
     isDev,
     press: press.metaobject,
     latest: latest.collection,
+    subhero: subhero.metaobject,
   };
 }
 
@@ -194,23 +198,28 @@ export default function Homepage() {
       )}
       <div className="home">
         <Hero collection={data.featuredCollection} isDev={isDev} />
+        {isDev && <Subhero subhero={data.subhero} />}
         <Press data={data.press} rotateImages={true} />
-        <LatestReleases collection={data.latest} />{' '}
-        <InfiniteCarousel
-          images={[desktop1, desktop2, desktop3]}
-          hideOn={'mobile'}
-        />
-        <InfiniteCarousel
-          images={[
-            carousel1,
-            carousel2,
-            carousel3,
-            carousel4,
-            carousel5,
-            carousel6,
-          ]}
-          hideOn={'desktop'}
-        />
+        <LatestReleases collection={data.latest} isDev={isDev} />
+        {!isDev && (
+          <InfiniteCarousel
+            images={[desktop1, desktop2, desktop3]}
+            hideOn={'mobile'}
+          />
+        )}
+        {!isDev && (
+          <InfiniteCarousel
+            images={[
+              carousel1,
+              carousel2,
+              carousel3,
+              carousel4,
+              carousel5,
+              carousel6,
+            ]}
+            hideOn={'desktop'}
+          />
+        )}
         <RecommendedProducts products={data.recommendedProducts} />
       </div>
     </>
@@ -243,11 +252,59 @@ function Hero({collection, isDev}) {
     </div>
   );
 }
-function LatestReleases({collection}) {
+
+function Subhero({subhero}) {
+  if (!subhero) return null;
+  const imagesField = subhero.fields.find((f) => f.key === 'images');
+  const blurb = subhero.fields.find((f) => f.key === 'blurb');
+  console.log(subhero, imagesField, blurb);
+
   return (
-    <div className="featured-artist-container">
+    <div className="subhero-section">
+      {blurb && (
+        <p className="subhero-blurb">{mapRichText(JSON.parse(blurb.value))}</p>
+      )}
+      <div className="subhero-images">
+        {imagesField?.references?.nodes.map((image) => (
+          <div key={image.id}>
+            <Image data={image.image} sizes="34vw" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LatestReleases({collection, isDev}) {
+  return (
+    <div
+      className={`featured-artist-container ${isDev ? 'latest-releases-container' : ''}`}
+    >
       <div className="collection-title">
-        <p style={{letterSpacing: '2px'}}>LATEST RELEASES</p>
+        {isDev && <p style={{letterSpacing: '2px'}}>FEATURED COLLECTION</p>}
+        <p style={{letterSpacing: '2px', fontSize: isDev ? '32px' : 'inherit'}}>
+          {isDev ? 'THE ' : ''}
+          {collection.title.toUpperCase()}
+        </p>
+        {isDev && (
+          <div
+            style={{
+              marginTop: '2rem',
+            }}
+          >
+            <NavLink
+              to={`/collections/${collection.handle}`}
+              style={{
+                padding: '1rem 4rem',
+                border: '1px solid black',
+                boxSizing: 'border-box',
+              }}
+              className="s-t-c"
+            >
+              SHOP
+            </NavLink>
+          </div>
+        )}
       </div>
       <div className="recommended-products-grid">
         {collection.products.nodes.map((product) => (
@@ -258,24 +315,26 @@ function LatestReleases({collection}) {
           />
         ))}
       </div>
-      <div
-        style={{
-          marginTop: '5rem',
-          marginBottom: '9rem',
-        }}
-      >
-        <NavLink
-          to={`/collections/${collection.handle}`}
+      {!isDev && (
+        <div
           style={{
-            padding: '1rem',
-            border: '1px solid black',
-            boxSizing: 'border-box',
+            marginTop: '5rem',
+            marginBottom: '9rem',
           }}
-          className="s-t-c"
         >
-          SHOP THE COLLECTION
-        </NavLink>
-      </div>
+          <NavLink
+            to={`/collections/${collection.handle}`}
+            style={{
+              padding: '1rem',
+              border: '1px solid black',
+              boxSizing: 'border-box',
+            }}
+            className="s-t-c"
+          >
+            SHOP THE COLLECTION
+          </NavLink>
+        </div>
+      )}
     </div>
   );
 }
@@ -591,6 +650,62 @@ const PRESS_QUERY = `#graphql
   @inContext(language: $language, country: $country) {
     metaobject(handle:{
         handle:"hosh-launch",type:"press"
+      }){
+          handle
+          fields{
+            key
+            value
+            type
+            references(first:10) {
+              nodes {
+                ... on MediaImage {
+                  alt
+                  id
+                  image {
+                    url
+                    height
+                    id
+                    width
+                  }
+                }
+              }
+            }
+            reference{
+              ...on MediaImage{
+                alt
+                id
+                image{
+                  url
+                  height
+                  id
+                  width
+                }
+              }
+              ...on Product{
+                handle
+                title
+                featuredImage{
+                  altText
+                  url
+                  id
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+      }
+`;
+
+const SUBHERO_QUERY = `#graphql
+  query Press(
+    $language: LanguageCode,
+    $country: CountryCode
+  )
+  @inContext(language: $language, country: $country) {
+    metaobject(handle:{
+        handle:"homepage-sub-hero-section-pgedekuh",type:"homepage_sub_hero_section"
       }){
           handle
           fields{
