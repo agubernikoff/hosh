@@ -7,6 +7,8 @@
   --color-dark: #000;
   --color-light: #fff;
   --headliner-height: 3.5rem;
+  --color-yellow: #fbe300;
+  --color-light-yellow: #f1e6b1;
 }
 
 button {
@@ -880,7 +882,7 @@ aside header.cart-header {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-top: calc(80px - 2rem);
+  padding: calc(80px - 2rem) 0 80px;
 }
 .subhero-blurb {
   width: 100%;
@@ -913,7 +915,7 @@ aside header.cart-header {
 .latest-releases-container {
   margin-bottom: 0;
   padding-block: 80px;
-  background: #f1e6b1;
+  background: var(--color-light-yellow);
   width: 100vw;
   margin-left: -1rem;
 }
@@ -970,16 +972,34 @@ aside header.cart-header {
   display: flex;
   padding: 80px 5vw;
 }
+.press-container.dev {
+  position: relative;
+  max-height: 455px;
+  padding: 0;
+  width: 100vw;
+  margin-left: -1rem;
+}
+
 .press-page .press-container:first-of-type {
   padding-block: 80px 1rem;
 }
 .press-page .press-container {
   padding-block: 1rem;
 }
+.press-page .press-container.dev {
+  padding-block: 0;
+}
+.press-page .press-container.dev:first-of-type {
+  margin-top: 80px;
+}
 .press-img-container {
   width: 70%;
   overflow: hidden;
   position: relative;
+}
+.press-container.dev .press-img-container {
+  filter: brightness(0.7);
+  width: 100%;
 }
 .press-img-container > img {
   width: 100%;
@@ -987,6 +1007,9 @@ aside header.cart-header {
   object-fit: cover;
   position: absolute;
   inset: 0;
+}
+.press-container.dev .press-img-container > img {
+  position: static;
 }
 .press-text-container {
   background: rgba(239, 239, 239, 1);
@@ -999,9 +1022,41 @@ aside header.cart-header {
   padding: 5%;
   aspect-ratio: 1/1;
 }
+.press-container.dev .press-text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  background: transparent;
+  aspect-ratio: auto;
+}
 .press-text-container img {
   width: 100%;
   object-fit: contain;
+}
+.press-container.dev .press-text-container img {
+  filter: invert(1);
+  max-height: 125px;
+}
+.press-container.dev .press-text-container p:has(+ a) {
+  font-size: 22px;
+}
+.press-container.dev .press-text-container p:first-of-type,
+.press-container.dev .press-text-container a {
+  color: var(--color-yellow);
+}
+.press-container.dev .press-text-container p {
+  color: white;
+}
+.press-container.dev .press-text-container a {
+  color: var(--color-yellow);
+  border: 1px solid var(--color-yellow);
+  padding: 1rem 2rem;
+}
+.press-container.dev .press-text-container a:hover {
+  background: var(--color-yellow);
+  color: black;
 }
 
 /*

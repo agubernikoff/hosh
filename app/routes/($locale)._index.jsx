@@ -199,8 +199,11 @@ export default function Homepage() {
       <div className="home">
         <Hero collection={data.featuredCollection} isDev={isDev} />
         {isDev && <Subhero subhero={data.subhero} />}
-        <Press data={data.press} rotateImages={true} />
+        {!isDev && <Press data={data.press} rotateImages={true} />}
         <LatestReleases collection={data.latest} isDev={isDev} />
+        {isDev && (
+          <Press data={data.press} rotateImages={false} isDev={isDev} />
+        )}
         {!isDev && (
           <InfiniteCarousel
             images={[desktop1, desktop2, desktop3]}
