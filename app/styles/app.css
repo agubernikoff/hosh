@@ -409,7 +409,7 @@ input[type='search' i]::-webkit-search-cancel-button {
 * --------------------------------------------------
 */
 .footer {
-  padding: calc(2rem + 20px) 2rem 2rem 2rem;
+  padding: calc(2rem + 20px) 2rem 0 2rem;
   font-family: 'Roboto Mono';
 }
 .carousel-wrapper:has(+ .footer) {
@@ -428,7 +428,6 @@ input[type='search' i]::-webkit-search-cancel-button {
 .footer-left {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   flex: 1;
   min-width: 150px;
 }
@@ -779,7 +778,7 @@ aside header.cart-header {
 * --------------------------------------------------
 */
 .home {
-  margin-bottom: 7rem;
+  margin-bottom: 3.5rem;
 }
 .featured-artist-container {
   text-align: center;
