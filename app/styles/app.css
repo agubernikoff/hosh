@@ -1684,9 +1684,119 @@ pages
 */
 
 .page {
+  margin-bottom: 4rem;
+}
+.page main {
   margin: auto;
   width: 50%;
-  margin-bottom: 4rem;
+}
+.about-hero {
+  display: flex;
+  position: relative;
+  width: 100vw;
+  margin-left: -1rem;
+}
+.about-hero-content {
+  position: absolute;
+  padding: 2rem;
+  width: calc(100% - 4rem);
+  max-width: 780px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+  letter-spacing: 2px;
+  line-height: 26px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.about-hero-logo {
+  max-width: 122px;
+}
+.about-subhero {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.about-subhero-image {
+  max-width: 306px;
+  height: 100%;
+}
+.about-subhero-text {
+  flex-shrink: 0;
+  width: 50%;
+  padding-block: 5rem;
+  padding-inline: clamp(0rem, 3vw, 5rem);
+}
+.about-subhero-text > div {
+  padding: 2rem;
+  background: var(--color-light-yellow);
+  max-width: 655px;
+  position: relative;
+}
+.about-subhero-header {
+  position: relative;
+  top: clamp(-7rem, calc(-10vw + 1.25rem), 0rem);
+  left: clamp(-7rem, calc(-10vw + 1.25rem), 0rem);
+  margin-bottom: clamp(-5rem, calc(-10vw + 1.25rem), 0rem);
+}
+.about-subhero-header h4 {
+  font-size: clamp(24px, 3vw, 36px);
+}
+@media (max-width: 767px) {
+  .page header p {
+    margin-block: 2rem !important;
+  }
+  .about-hero {
+    height: calc(100vh - var(--header-height));
+  }
+  .about-hero > img {
+    object-fit: cover;
+  }
+  .about-subhero-header.hide-on-mobile {
+    display: none;
+  }
+  .about-subhero-header.hide-on-desktop {
+    display: block;
+    order: 0;
+    position: static;
+    margin-bottom: auto;
+    margin-block: 2rem;
+  }
+  .about-subhero {
+    position: relative;
+    display: block;
+    padding-top: 200px;
+    padding-bottom: 40px;
+  }
+  .about-subhero-image {
+    width: 306px;
+    height: 306px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .about-subhero-image > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .about-subhero-text {
+    margin-left: auto;
+    padding: 0;
+    width: 80%;
+  }
+  .about-subhero-header h4 {
+    font-size: clamp(24px, 6vw, 36px);
+  }
+  .page main {
+    width: 100%;
+  }
 }
 .page p,
 .page > div > span,
