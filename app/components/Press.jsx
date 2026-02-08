@@ -1,7 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import {motion, AnimatePresence} from 'framer-motion';
-
-function Press({data, rotateImages}) {
+function Press({data}) {
   const press = data.fields.reduce(
     (acc, {key, value, reference, references}) => {
       if (key === 'article_link') acc[key] = JSON.parse(value);
@@ -13,42 +10,14 @@ function Press({data, rotateImages}) {
 
   const images = press?.images?.nodes || [];
 
-  const [index, setIndex] = useState(0);
-
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 499);
-
-    checkMobile(); // run on mount
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  useEffect(() => {
-    if (!rotateImages || isMobile || images.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % images.length);
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [rotateImages, isMobile]);
-
   return (
     <div className="press-container">
       <div className="press-img-container">
-        <AnimatePresence mode="popLayout">
-          <motion.img
-            key={images[index]?.image?.url}
-            src={images[index]?.image?.url}
-            alt={images[index]?.alt}
-            initial={isMobile || !rotateImages ? {x: 0} : {x: '100%'}}
-            animate={{x: 0}}
-            exit={{x: '-100%'}}
-            transition={{duration: 0.3, ease: 'easeInOut'}}
-          />
-        </AnimatePresence>
+        <img
+          key={images[0]?.image?.url}
+          src={images[0]?.image?.url}
+          alt={images[0]?.alt}
+        />
       </div>
       <div className="press-text-container">
         <p>PRESS</p>

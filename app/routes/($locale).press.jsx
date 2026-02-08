@@ -33,7 +33,11 @@ async function loadCriticalData({context}) {
   const {storefront} = context;
 
   const [{metaobjects}] = await Promise.all([
-    storefront.query(PRESS_QUERY),
+    storefront.query(PRESS_QUERY, {
+      variables: {
+        first: 100,
+      },
+    }),
     // Add other queries here, so that they are loaded in parallel
   ]);
 
@@ -81,9 +85,9 @@ export default function PressPage() {
   );
 }
 
-const PRESS_QUERY = `#graphql
-query Artists($language: LanguageCode, $country: CountryCode) @inContext(language: $language, country: $country) {
-  metaobjects(type: "press", first: 100) {
+export const PRESS_QUERY = `#graphql
+query Artists($language: LanguageCode, $country: CountryCode, $first: Int) @inContext(language: $language, country: $country) {
+  metaobjects(type: "press", first: $first, reverse: true) {
     nodes {
       id
       handle
