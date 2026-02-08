@@ -30,7 +30,6 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const isDev = process.env.NODE_ENV === 'development';
   const {storefront} = context;
 
   const [{metaobjects}] = await Promise.all([
@@ -44,7 +43,6 @@ async function loadCriticalData({context}) {
 
   return {
     metaobjects,
-    isDev,
   };
 }
 
@@ -60,7 +58,7 @@ function loadDeferredData({context}) {
 
 export default function PressPage() {
   /** @type {LoaderReturnData} */
-  const {metaobjects, isDev} = useLoaderData();
+  const {metaobjects} = useLoaderData();
   console.log(metaobjects);
 
   return (
@@ -77,7 +75,7 @@ export default function PressPage() {
         </p>
       </header>
       {metaobjects?.nodes.map((n) => (
-        <Press data={n} key={n.id} rotateImages={false} isDev={isDev} />
+        <Press data={n} key={n.id} rotateImages={false} />
       ))}
     </div>
   );

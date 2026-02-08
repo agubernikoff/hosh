@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
 
-function Press({data, rotateImages, isDev}) {
+function Press({data, rotateImages}) {
   const press = data.fields.reduce(
     (acc, {key, value, reference, references}) => {
       if (key === 'article_link') acc[key] = JSON.parse(value);
@@ -36,7 +36,7 @@ function Press({data, rotateImages, isDev}) {
   }, [rotateImages, isMobile]);
 
   return (
-    <div className={`press-container ${isDev ? 'dev' : ''}`}>
+    <div className="press-container">
       <div className="press-img-container">
         <AnimatePresence mode="popLayout">
           <motion.img
@@ -51,12 +51,12 @@ function Press({data, rotateImages, isDev}) {
         </AnimatePresence>
       </div>
       <div className="press-text-container">
-        <p>{!isDev ? press?.title : 'PRESS'}</p>
+        <p>PRESS</p>
         <img
           src={press?.publication_logo?.image?.url}
           alt={press?.publication_logo?.alt}
         />
-        {isDev && <p>{press?.title}</p>}
+        <p>{press?.title}</p>
         <a
           target="_blank"
           rel="noopener noreferrer"

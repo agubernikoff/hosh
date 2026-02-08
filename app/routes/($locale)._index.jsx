@@ -4,23 +4,12 @@ import {Suspense, useState, useEffect} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 import model11 from '~/assets/model11.png';
-import InfiniteCarousel from '~/components/Carousel';
 import poster from 'app/assets/Group 780.png';
 import mposter from 'app/assets/mobile-poster.png';
 import jersey from 'app/assets/jersey1.png';
 import jersey2 from 'app/assets/jersey2.png';
-import hero2 from 'app/assets/hero2.jpg';
 import hero3 from 'app/assets/hero3.jpg';
 import Press from '~/components/Press';
-import carousel1 from 'app/assets/Slider A.png';
-import carousel2 from 'app/assets/Slider B.png';
-import carousel3 from 'app/assets/Slider C.png';
-import carousel4 from 'app/assets/Slider D.png';
-import carousel5 from 'app/assets/Slider E.png';
-import carousel6 from 'app/assets/Slider F.png';
-import desktop1 from 'app/assets/Slider 1.png';
-import desktop2 from 'app/assets/Slider 2.png';
-import desktop3 from 'app/assets/Slider 3.png';
 import mapRichText from '~/helpers/MapRichText';
 /**
  * @type {MetaFunction}
@@ -48,7 +37,6 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const isDev = process.env.NODE_ENV === 'development';
   const handle = 'the-begay-sisters';
   const [{collection}, {metaobject}, press, latest, subhero] =
     await Promise.all([
@@ -62,8 +50,8 @@ async function loadCriticalData({context}) {
       context.storefront.query(PRESS_QUERY),
       context.storefront.query(NEW_ARRIVALS_QUERY, {
         variables: {
-          handle: isDev ? 'hollywood-extras-collection' : 'latest-releases',
-          first: isDev ? 3 : 6,
+          handle: 'hollywood-extras-collection',
+          first: 3,
         },
       }),
       context.storefront.query(SUBHERO_QUERY),
@@ -75,7 +63,6 @@ async function loadCriticalData({context}) {
   return {
     featuredCollection: collection,
     artist,
-    isDev,
     press: press.metaobject,
     latest: latest.collection,
     subhero: subhero.metaobject,
@@ -105,7 +92,6 @@ function loadDeferredData({context}) {
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
-  const isDev = data.isDev;
   const [showPopup, setShowPopup] = useState(false);
   const [visiblePopup, setVisiblePopup] = useState(false);
   useEffect(() => {
@@ -197,59 +183,26 @@ export default function Homepage() {
         </div>
       )}
       <div className="home">
-        <Hero collection={data.featuredCollection} isDev={isDev} />
-        {isDev && <Subhero subhero={data.subhero} />}
-        {!isDev && <Press data={data.press} rotateImages={true} />}
-        <LatestReleases collection={data.latest} isDev={isDev} />
-        {isDev && (
-          <Press data={data.press} rotateImages={false} isDev={isDev} />
-        )}
-        {!isDev && (
-          <InfiniteCarousel
-            images={[desktop1, desktop2, desktop3]}
-            hideOn={'mobile'}
-          />
-        )}
-        {!isDev && (
-          <InfiniteCarousel
-            images={[
-              carousel1,
-              carousel2,
-              carousel3,
-              carousel4,
-              carousel5,
-              carousel6,
-            ]}
-            hideOn={'desktop'}
-          />
-        )}
+        <Hero />
+        <Subhero subhero={data.subhero} />
+        <LatestReleases collection={data.latest} />
+        <Press data={data.press} rotateImages={false} />
         <RecommendedProducts products={data.recommendedProducts} />
       </div>
     </>
   );
 }
 
-function Hero({collection, isDev}) {
+function Hero() {
   return (
-    <div className={`featured-artist-container fac-dev`}>
+    <div className="featured-artist-container fac-dev">
       <div className="featured-artist-homepage-section">
         <div className="models-container">
-          <img src={!isDev ? hero2 : hero3} style={{width: '100%'}} alt="" />
+          <img src={hero3} style={{width: '100%'}} alt="" />
         </div>
-        <div className={`shop-the-collection ${isDev ? 'dev' : ''}`}>
-          {!isDev && <p>FEATURED COLLECTION</p>}
-          <p className="artist-title">
-            {!isDev
-              ? collection.title.toUpperCase()
-              : 'Welcome to the world of HOSH'}
-          </p>
-          {!isDev ? (
-            <NavLink to={`/collections/${collection.handle}`}>SHOP</NavLink>
-          ) : (
-            <NavLink to={`/collections/all-products`}>
-              Shop All Products
-            </NavLink>
-          )}
+        <div className="shop-the-collection">
+          <p className="artist-title">Welcome to the world of HOSH</p>
+          <NavLink to="/collections/all-products">Shop All Products</NavLink>
         </div>
       </div>
     </div>
@@ -278,36 +231,31 @@ function Subhero({subhero}) {
   );
 }
 
-function LatestReleases({collection, isDev}) {
+function LatestReleases({collection}) {
   return (
-    <div
-      className={`featured-artist-container ${isDev ? 'latest-releases-container' : ''}`}
-    >
+    <div className="featured-artist-container latest-releases-container">
       <div className="collection-title">
-        {isDev && <p style={{letterSpacing: '2px'}}>FEATURED COLLECTION</p>}
-        <p style={{letterSpacing: '2px', fontSize: isDev ? '32px' : 'inherit'}}>
-          {isDev ? 'THE ' : ''}
-          {collection.title.toUpperCase()}
+        <p style={{letterSpacing: '2px'}}>FEATURED COLLECTION</p>
+        <p style={{letterSpacing: '2px', fontSize: '32px'}}>
+          THE {collection.title.toUpperCase()}
         </p>
-        {isDev && (
-          <div
+        <div
+          style={{
+            marginTop: '2rem',
+          }}
+        >
+          <NavLink
+            to={`/collections/${collection.handle}`}
             style={{
-              marginTop: '2rem',
+              padding: '1rem 4rem',
+              border: '1px solid black',
+              boxSizing: 'border-box',
             }}
+            className="s-t-c"
           >
-            <NavLink
-              to={`/collections/${collection.handle}`}
-              style={{
-                padding: '1rem 4rem',
-                border: '1px solid black',
-                boxSizing: 'border-box',
-              }}
-              className="s-t-c"
-            >
-              SHOP
-            </NavLink>
-          </div>
-        )}
+            SHOP
+          </NavLink>
+        </div>
       </div>
       <div className="recommended-products-grid">
         {collection.products.nodes.map((product) => (
@@ -318,26 +266,6 @@ function LatestReleases({collection, isDev}) {
           />
         ))}
       </div>
-      {!isDev && (
-        <div
-          style={{
-            marginTop: '5rem',
-            marginBottom: '9rem',
-          }}
-        >
-          <NavLink
-            to={`/collections/${collection.handle}`}
-            style={{
-              padding: '1rem',
-              border: '1px solid black',
-              boxSizing: 'border-box',
-            }}
-            className="s-t-c"
-          >
-            SHOP THE COLLECTION
-          </NavLink>
-        </div>
-      )}
     </div>
   );
 }
