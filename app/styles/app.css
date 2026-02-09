@@ -18,6 +18,26 @@ button {
   font-family: 'Roboto Mono';
   src: url('../assets/RobotoMono-VariableFont_wght.ttf') format('woff2');
 }
+@font-face {
+  font-family: 'Gotham';
+  src: url('../assets/Gotham/Gotham-Book.otf') format('opentype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('../assets/Gotham/Gotham-Medium.otf') format('opentype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('../assets/Gotham/Gotham-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('../assets/Gotham/Gotham-Light.otf') format('opentype');
+  font-weight: 300;
+}
 body {
   font-family: 'Roboto Mono', sans-serif;
   overscroll-behavior: none;
@@ -1362,9 +1382,9 @@ aside header.cart-header {
 .product {
   display: flex;
   gap: 10px;
-  min-height: calc(100vh - var(--header-height));
+  min-height: calc(100vh - var(--header-height) - var(--headliner-height));
   padding-inline: 5vw;
-  margin-bottom: 5rem;
+  margin-bottom: 2.5rem;
 }
 .product > div {
   flex: 1;
@@ -1376,6 +1396,30 @@ aside header.cart-header {
 
 .product h1 {
   margin-top: 0;
+}
+
+.product-images {
+  position: relative;
+  display: flex;
+  height: auto;
+  margin-right: 0;
+  width: 100%;
+  /* height: 69vh; */
+  position: relative;
+  flex-direction: row;
+  overflow: scroll;
+  scroll-snap-type: x mandatory;
+  align-items: flex-end;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.product-image {
+  position: static;
+  height: auto;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: calc(45vw - 2rem - 10px);
 }
 
 .product-image:first-of-type {
@@ -1511,6 +1555,58 @@ aside header.cart-header {
 
 .product .product-form {
   padding-left: 2rem;
+}
+
+.lifestyle-images-wrapper {
+  position: relative;
+  margin-bottom: 5rem;
+  padding-inline: 5vw;
+}
+
+.lifestyle-images-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.lifestyle-image {
+  flex: 1;
+  height: auto;
+}
+
+.lifestyle-mapped-indicators {
+  display: none;
+}
+
+.meet-the-artist-section {
+  margin-bottom: 5rem;
+  padding: 5rem 5vw;
+  background: var(--color-light-yellow);
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  width: 100vw;
+  margin-left: -1rem;
+  box-sizing: border-box;
+}
+
+.meet-the-artist-video-container {
+  display: flex;
+  justify-content: center;
+  width: 60%;
+  flex-shrink: 0;
+}
+
+.meet-the-artist-video {
+  width: 100%;
+  height: auto;
+}
+
+.meet-the-artist-title > p:last-of-type {
+  font-size: 30px;
+  font-family: 'gotham';
+  font-weight: bold;
+  margin-bottom: 2rem;
 }
 
 /*
@@ -1923,6 +2019,33 @@ media queries
 .mapped-indicators {
   display: none;
 }
+.image-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
+  opacity: 0.7;
+  transition: opacity 150ms ease-in-out;
+  z-index: 1;
+}
+.image-nav-button:hover {
+  opacity: 1;
+}
+.image-nav-button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.image-nav-button.prev {
+  left: 0;
+}
+.image-nav-button.next {
+  right: 0;
+}
 @media (max-width: 910px) {
   .filter-container:has(> div + div + p) {
     flex-wrap: wrap;
@@ -2186,6 +2309,9 @@ media queries
     height: auto;
     scroll-snap-align: start;
   }
+  .product-image {
+    width: auto;
+  }
   .product-item-imgs-container img {
     opacity: 1 !important;
   }
@@ -2211,6 +2337,9 @@ media queries
     background: transparent;
     overflow: hidden;
     gap: 4px;
+  }
+  .image-nav-button {
+    display: none;
   }
   .quick-shop {
     position: static;
@@ -2342,5 +2471,52 @@ media queries
   }
   .carousel-wrapper.mobile-hidden {
     display: none;
+  }
+
+  /* Lifestyle images mobile snap scroll */
+  .lifestyle-images-wrapper {
+    margin-bottom: 3rem;
+  }
+
+  .lifestyle-images-container {
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 0;
+    justify-content: flex-start;
+  }
+
+  .lifestyle-images-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lifestyle-image {
+    flex: none;
+    width: calc(100vw - 2rem);
+    max-width: none;
+    scroll-snap-align: start;
+    max-height: calc(90vh - var(--header-height) - var(--headliner-height));
+    object-fit: cover;
+  }
+
+  .lifestyle-mapped-indicators {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    margin: auto;
+    margin-top: 1rem;
+    gap: 4px;
+  }
+  main:has(> .product) > div:last-of-type {
+    margin-bottom: 0 !important;
+  }
+  .meet-the-artist-section {
+    display: block;
+    padding: 2rem 1rem;
+  }
+  .meet-the-artist-video-container {
+    width: 100%;
+    margin-bottom: 2rem;
   }
 }
