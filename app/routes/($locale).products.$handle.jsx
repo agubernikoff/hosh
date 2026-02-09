@@ -565,8 +565,6 @@ function Product({product}) {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  console.log(product);
-
   return (
     <div className="product">
       <div className="product-left">

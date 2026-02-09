@@ -63,7 +63,6 @@ function loadDeferredData({context}) {
 export default function PressPage() {
   /** @type {LoaderReturnData} */
   const {metaobjects} = useLoaderData();
-  console.log(metaobjects);
 
   return (
     <div className="press-page">

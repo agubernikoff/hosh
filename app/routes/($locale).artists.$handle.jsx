@@ -117,8 +117,6 @@ export default function Page() {
     {},
   );
 
-  console.log(artist);
-
   const [openSection, setOpenSection] = useState('Artist Bio');
 
   const toggleSection = (section) => {
