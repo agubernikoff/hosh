@@ -39,7 +39,8 @@ export function Footer({
   const excludedPaths = ['/', '/pages/about', '/press'];
   const shouldShowCarousel =
     !excludedPaths.includes(location.pathname) &&
-    !location.pathname.startsWith('/products/');
+    !location.pathname.startsWith('/products/') &&
+    !location.pathname.startsWith('/artists/');
 
   return (
     <Suspense>
