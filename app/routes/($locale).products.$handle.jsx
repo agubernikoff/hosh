@@ -768,7 +768,7 @@ function MeetTheArtist({product}) {
     <div className="meet-the-artist-section">
       <div className="meet-the-artist-title hide-on-desktop">
         <p style={{letterSpacing: '2px'}}>MEET THE ARTIST</p>
-        <p style={{letterSpacing: '2px'}}>>{name.toUpperCase()}</p>
+        <p style={{letterSpacing: '2px'}}>{name.toUpperCase()}</p>
       </div>
       <div className="meet-the-artist-video-container">
         <video

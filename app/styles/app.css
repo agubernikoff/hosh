@@ -862,7 +862,9 @@ aside header.cart-header {
   letter-spacing: 2px;
 }
 .artist-title {
-  font-size: 36px;
+  font-family: 'gotham';
+  font-weight: bold;
+  font-size: 24px;
   margin-bottom: 0.5rem;
   letter-spacing: 5px;
 }
@@ -901,9 +903,10 @@ aside header.cart-header {
   margin: 0;
 }
 .subhero-blurb .rich-text-div h4 {
-  line-height: 33px;
+  line-height: 36px;
   margin-bottom: 1rem;
-  font-size: 29px;
+  font-size: 33px;
+  font-family: 'gotham';
 }
 .subhero-blurb .rich-text-div p {
   line-height: 1rem;
@@ -1440,6 +1443,11 @@ aside header.cart-header {
   font-weight: 500;
   font-size: 14px;
 }
+.product-left > div:first-of-type p:first-of-type {
+  font-family: 'gotham';
+  font-weight: bold;
+  font-size: 28px;
+}
 .product-price > * {
   font-size: 14px !important;
 }
@@ -1843,7 +1851,9 @@ pages
   margin-bottom: clamp(-5rem, calc(-10vw + 1.25rem), 0rem);
 }
 .about-subhero-header h4 {
-  font-size: clamp(24px, 3vw, 36px);
+  font-size: clamp(24px, 3vw, 55px);
+  font-family: 'gotham';
+  font-weight: bold;
 }
 @media (max-width: 767px) {
   .page header p {
@@ -2432,6 +2442,9 @@ media queries
   }
   .product-options p:first-of-type {
     margin-bottom: 0;
+    font-family: 'gotham';
+    font-weight: bold;
+    font-size: 30px;
   }
   .product-options-grid {
     margin-top: 1rem;

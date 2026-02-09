@@ -241,7 +241,15 @@ function LatestReleases({collection}) {
     <div className="featured-artist-container latest-releases-container">
       <div className="collection-title">
         <p style={{letterSpacing: '2px'}}>FEATURED COLLECTION</p>
-        <p style={{letterSpacing: '2px', fontSize: '32px'}}>
+        <p
+          style={{
+            letterSpacing: '2px',
+            fontSize: '30px',
+            fontFamily: 'gotham',
+            fontWeight: 'bold',
+            lineHeight: '50px',
+          }}
+        >
           THE {collection.title.toUpperCase()}
         </p>
         <div
