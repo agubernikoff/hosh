@@ -1729,21 +1729,29 @@ routes/artist
 .artist-hero-section {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-end;
+  row-gap: 144px;
 }
-.artist-hero-section > h1 {
+
+.artist-hero-section > .artist-hero-name {
+  flex: 1;
+  align-self: flex-end;
+  margin-left: 71px;
+}
+
+.artist-hero-section > .artist-hero-name h1 {
   writing-mode: sideways-lr;
   font-size: 125px;
   font-family: 'gotham';
   font-weight: bold;
   text-align: left;
   margin: 0;
-  flex: 1;
-  max-height: calc(
-    100vh - var(--header-height) - var(--headliner-height) - 2rem
-  );
+  line-height: 89%;
+  height: min-content;
 }
 .artist-hero-section > div:has(.artist-hero-title-container) {
   flex: 1;
+  align-self: flex-end;
 }
 .artist-hero-section > div:has(.artist-hero-title-container) > * {
   max-width: 33vw;
@@ -1755,6 +1763,14 @@ routes/artist
 }
 .artist-hero-title-container > p:last-of-type {
   margin-bottom: 2rem;
+}
+.artist-rich-text {
+  max-width: 323px !important;
+}
+
+.artist-page .rich-text-div p {
+  font-size: 10px;
+  line-height: 16px;
 }
 .artist-hero-section > div:last-of-type {
   width: 100%;
@@ -1913,8 +1929,12 @@ routes/artist
   .artist-hero-section {
     flex-direction: column;
   }
-  .artist-hero-section > h1 {
+  .artist-hero-section > h1,
+  .artist-hero-name {
     display: none;
+  }
+  .artist-hero-section {
+    row-gap: 68px;
   }
   .artist-hero-section > div:has(.artist-hero-title-container) > * {
     max-width: none;
@@ -2012,6 +2032,12 @@ pages
   position: relative;
   width: 100vw;
   margin-left: -1rem;
+  margin-bottom: 130px;
+}
+.page .about-hero-header {
+  font-size: 22px !important;
+  line-height: 26px !important;
+  margin-bottom: 57px;
 }
 .about-hero-content {
   position: absolute;
@@ -2073,9 +2099,15 @@ pages
   }
   .about-hero {
     height: calc(100vh - var(--header-height));
+    margin-bottom: 0;
   }
   .about-hero > img {
     object-fit: cover;
+  }
+  .page .about-hero-header {
+    font-size: 12px !important;
+    line-height: 26px !important;
+    margin-bottom: 57px;
   }
   .about-subhero-header.hide-on-mobile {
     display: none;

@@ -140,27 +140,32 @@ export default function Page() {
   return (
     <div className="artist-page">
       <div className="artist-hero-section">
-        <h1>{artist?.name?.toUpperCase()}</h1>
+        <div className="artist-hero-name">
+          <h1>{artist?.name?.toUpperCase()}</h1>
+        </div>
         <div>
-          <div
-            style={{letterSpacing: '2px'}}
-            className="artist-hero-title-container"
-          >
-            <p>{artist?.name?.toUpperCase()}</p>
-            <p>
-              <span>{artist?.tribe}</span>
-              {artist?.tribe && artist?.discipline && ' • '}
-              <span>{artist?.discipline}</span>
-            </p>
-            {/* {artist?.images?.nodes && (
+          <div className="artist-rich-text">
+            <div
+              style={{letterSpacing: '2px'}}
+              className="artist-hero-title-container"
+            >
+              <p>{artist?.name?.toUpperCase()}</p>
+              <p>
+                <span>{artist?.tribe}</span>
+                {artist?.tribe && artist?.discipline && ' • '}
+                <span>{artist?.discipline}</span>
+              </p>
+              {/* {artist?.images?.nodes && (
           <InfiniteCarousel
           images={artist?.images?.nodes?.map((n) => n?.image?.url)}
           />
           )} */}
+            </div>
+
+            {artist?.biography
+              ? mapRichText(JSON.parse(artist?.biography))
+              : null}
           </div>
-          {artist?.biography
-            ? mapRichText(JSON.parse(artist?.biography))
-            : null}
         </div>
         <div>
           <Image data={artist?.portrait?.image} size="30vw" />
