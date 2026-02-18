@@ -1578,7 +1578,7 @@ aside header.cart-header {
 }
 
 .lifestyle-image {
-  flex: 1;
+  width: 100%;
   height: auto;
 }
 
@@ -1598,10 +1598,19 @@ aside header.cart-header {
   box-sizing: border-box;
 }
 
+.meet-the-artist-section .rich-text-div p,
+.link-to-meet-the-artist {
+  font-size: 10px;
+  line-height: 16px;
+}
+.link-to-meet-the-artist {
+  font-weight: bold;
+}
+
 .meet-the-artist-video-container {
   display: flex;
   justify-content: center;
-  width: 60%;
+  width: 67%;
   flex-shrink: 0;
 }
 
@@ -2065,11 +2074,21 @@ pages
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  padding-inline: 5vw;
+  margin-bottom: 94px;
+  box-sizing: border-box;
 }
 .about-subhero-image {
   max-width: 306px;
   height: 100%;
+  aspect-ratio: 3 / 7;
 }
+.about-subhero-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .about-subhero-text {
   flex-shrink: 0;
   width: 50%;
@@ -2092,6 +2111,9 @@ pages
   font-size: clamp(24px, 3vw, 55px);
   font-family: 'gotham';
   font-weight: bold;
+}
+.about-subhero-blurb .rich-text-div p {
+  line-height: 19px !important;
 }
 @media (max-width: 767px) {
   .page header p {
@@ -2124,6 +2146,7 @@ pages
     display: block;
     padding-top: 250px;
     padding-bottom: 40px;
+    margin-bottom: 0;
   }
   .about-subhero-image {
     width: 306px;
@@ -2775,5 +2798,25 @@ media queries
   .meet-the-artist-video-container {
     width: 100%;
     margin-bottom: 2rem;
+  }
+  .meet-the-artist-section .rich-text-div p,
+  .link-to-meet-the-artist {
+    font-size: 12px;
+    line-height: 19px;
+  }
+  .latest-releases-container > .collection-title {
+    width: 90%;
+    margin: auto;
+  }
+  .latest-releases-container > .collection-title > p:first-of-type {
+    margin-bottom: 1rem;
+  }
+  .latest-releases-container > .collection-title > div:has(> a) {
+    margin-top: 0 !important;
+  }
+  .latest-releases-container > .collection-title > div > a {
+    display: inline-block;
+    margin-top: 23px;
+    margin-bottom: 61px;
   }
 }

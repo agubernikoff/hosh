@@ -1,5 +1,5 @@
 import {useState, useRef, useEffect, useMemo} from 'react';
-import {useLoaderData, useFetcher} from '@remix-run/react';
+import {useLoaderData, useFetcher, Link} from '@remix-run/react';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -733,12 +733,13 @@ function LifeStyleImages({product}) {
           }
         >
           {nodes.map((node) => (
-            <img
-              key={node.id}
-              src={node.image.url}
-              alt={node.image.altText || 'Lifestyle image'}
-              className="lifestyle-image"
-            />
+            <div key={node.id}>
+              <img
+                src={node.image.url}
+                alt={node.image.altText || 'Lifestyle image'}
+                className="lifestyle-image"
+              />
+            </div>
           ))}
         </div>
         <div className="lifestyle-mapped-indicators">{mappedIndicators}</div>
@@ -787,6 +788,12 @@ function MeetTheArtist({product}) {
           <p style={{letterSpacing: '2px'}}>{name.toUpperCase()}</p>
         </div>
         {mapRichText(JSON.parse(artistDescriptionField))}
+        <Link
+          to={`/collections/${name.toLowerCase().split(' ').join('-')}`}
+          className="link-to-meet-the-artist"
+        >
+          Learn more
+        </Link>
       </div>
     </div>
   );

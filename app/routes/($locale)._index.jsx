@@ -247,7 +247,7 @@ function LatestReleases({collection}) {
             fontSize: '30px',
             fontFamily: 'gotham',
             fontWeight: 'bold',
-            lineHeight: '50px',
+            lineHeight: '130%',
           }}
         >
           THE {collection.title.toUpperCase()}
