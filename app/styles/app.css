@@ -1879,6 +1879,7 @@ routes/artist
   line-height: 90%;
   letter-spacing: 2px;
   margin: auto;
+  width: 60%;
 }
 .artist-page > div > p:first-of-type {
   margin-bottom: 0.5rem;
@@ -2019,6 +2020,7 @@ routes/artist
     line-height: 39px;
     letter-spacing: 2px;
     margin: auto;
+    width: 100%;
   }
 }
 
