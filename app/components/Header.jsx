@@ -443,7 +443,13 @@ function SearchToggle() {
     if (type !== 'search') setIsOpen(false);
   }, [type]);
   return (
-    <>
+    <motion.div
+      initial={{width: '32px'}}
+      animate={{width: isOpen ? 'auto' : '32px'}}
+      className="header-search-container"
+      transition={{duration: 0.15}}
+      style={{marginLeft: isOpen ? 10 : 0}}
+    >
       <SearchFormPredictive>
         {({fetchResults, goToSearch, inputRef}) => (
           <>
@@ -495,7 +501,7 @@ function SearchToggle() {
       >
         <img src={search} className="header-icon" />
       </button>
-    </>
+    </motion.div>
   );
 }
 
