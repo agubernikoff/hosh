@@ -917,6 +917,13 @@ aside header.cart-header {
   align-items: stretch;
   width: 60vw;
 }
+.subhero-images > div:has(img) {
+  flex: 0.8;
+}
+.subhero-images > div:has(img):nth-of-type(2) {
+  flex: 1;
+}
+
 .subhero-images img {
   height: 100%;
   width: 100%;
@@ -2422,7 +2429,7 @@ media queries
   .subhero-images > div:last-of-type {
     display: none;
   }
-  .subhero-images > div {
+  .subhero-images > div:has(img) {
     flex: 1;
   }
   .homepage-press-container {
