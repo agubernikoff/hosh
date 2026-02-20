@@ -13,7 +13,7 @@ import bingoart4 from 'app/assets/BINGO-ART 33.png';
 import bingoart5 from 'app/assets/BINGO-ART 34.png';
 import bingoart6 from 'app/assets/BINGO-ART 35.png';
 import bingoart7 from 'app/assets/BINGO-ART 36.png';
-import footerlogo from 'app/assets/footerlogo.png';
+import footerlogo from 'app/assets/Hosh_Logo-Black.png';
 import NavLink from './NavLink';
 
 /**
