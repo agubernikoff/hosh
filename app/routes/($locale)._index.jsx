@@ -270,14 +270,16 @@ function LatestReleases({collection}) {
           </NavLink>
         </div>
       </div>
-      <div className="recommended-products-grid">
-        {collection.products.nodes.map((product) => (
-          <ProductItem
-            key={`latest-${product.id}`}
-            product={product}
-            layoutId={`latest-${product.id}`}
-          />
-        ))}
+      <div style={{width: '100%', overflow: 'scroll'}}>
+        <div className="recommended-products-grid">
+          {collection.products.nodes.map((product) => (
+            <ProductItem
+              key={`latest-${product.id}`}
+              product={product}
+              layoutId={`latest-${product.id}`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
