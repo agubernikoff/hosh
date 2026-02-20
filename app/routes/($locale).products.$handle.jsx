@@ -757,11 +757,34 @@ function MeetTheArtist({product}) {
   const videoField = artistFields.find(
     (field) => field.key === 'meet_the_artist_video',
   );
-  const video = videoField?.reference;
+  const media = videoField?.reference;
 
-  if (!video?.sources?.length) {
+  if (!media) return null;
+  if (media.mediaContentType === 'VIDEO' && !media?.sources?.length) {
     return null;
   }
+
+  const mediaElement =
+    media.mediaContentType === 'IMAGE' ? (
+      <img
+        src={media.image.url}
+        alt={media.image.altText || name}
+        className="meet-the-artist-video"
+        style={{objectFit: 'cover', width: '100%', height: '100%'}}
+      />
+    ) : (
+      <video
+        controls
+        playsInline
+        poster={media.previewImage?.url}
+        className="meet-the-artist-video"
+      >
+        {media.sources.map((source) => (
+          <source key={source.url} src={source.url} type={source.mimeType} />
+        ))}
+        <track kind="captions" />
+      </video>
+    );
 
   return (
     <div className="meet-the-artist-section">
@@ -769,19 +792,7 @@ function MeetTheArtist({product}) {
         <p style={{letterSpacing: '2px'}}>MEET THE ARTIST</p>
         <p style={{letterSpacing: '2px'}}>{name.toUpperCase()}</p>
       </div>
-      <div className="meet-the-artist-video-container">
-        <video
-          controls
-          playsInline
-          poster={video.previewImage?.url}
-          className="meet-the-artist-video"
-        >
-          {video.sources.map((source) => (
-            <source key={source.url} src={source.url} type={source.mimeType} />
-          ))}
-          <track kind="captions" />
-        </video>
-      </div>
+      <div className="meet-the-artist-video-container">{mediaElement}</div>
       <div>
         <div className="meet-the-artist-title hide-on-mobile">
           <p style={{letterSpacing: '2px'}}>MEET THE ARTIST</p>
@@ -1006,6 +1017,7 @@ const PRODUCT_FRAGMENT = `#graphql
             value
             reference {
               ... on Video {
+                mediaContentType
                 id
                 previewImage {
                   url
@@ -1013,6 +1025,16 @@ const PRODUCT_FRAGMENT = `#graphql
                 sources {
                   mimeType
                   url
+                }
+              }
+              ... on MediaImage {
+                mediaContentType
+                id
+                image {
+                  url
+                  altText
+                  width
+                  height
                 }
               }
             }
