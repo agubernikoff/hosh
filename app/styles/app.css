@@ -1451,7 +1451,7 @@ aside header.cart-header {
   gap: 0.5rem;
 }
 .product-left > * {
-  max-width: 183px;
+  max-width: 290px;
 }
 .product-left > div:first-of-type p {
   font-weight: 500;
@@ -2136,7 +2136,7 @@ pages
   margin-bottom: clamp(-5rem, calc(-10vw + 1.25rem), 0rem);
 }
 .about-subhero-header h4 {
-  font-size: clamp(24px, 3vw, 55px);
+  font-size: clamp(24px, 3vw, 50px);
   font-family: 'gotham';
   font-weight: bold;
 }
