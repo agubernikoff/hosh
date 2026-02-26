@@ -1052,6 +1052,7 @@ aside header.cart-header {
 }
 .press-text-container p {
   color: white;
+  text-align: center;
 }
 .press-text-container a {
   color: var(--color-yellow);
