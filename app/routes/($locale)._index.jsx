@@ -289,14 +289,14 @@ function PressSection({data}) {
   const [selectedPress, setSelectedPress] = useState(0);
   const [direction, setDirection] = useState(1);
 
-  useEffect(() => {
-    if (!data || data.length === 0) return;
-    const interval = setInterval(() => {
-      setDirection(1);
-      setSelectedPress((prev) => (prev + 1) % data.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [data]);
+  // useEffect(() => {
+  //   if (!data || data.length === 0) return;
+  //   const interval = setInterval(() => {
+  //     setDirection(1);
+  //     setSelectedPress((prev) => (prev + 1) % data.length);
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, [data]);
 
   if (!data || data.length === 0) return null;
 
