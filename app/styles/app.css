@@ -1040,7 +1040,7 @@ aside header.cart-header {
 .press-text-container img {
   width: 100%;
   object-fit: contain;
-  filter: invert(1);
+  /* filter: invert(1); */
   max-height: 125px;
 }
 .press-text-container p:has(+ a) {
