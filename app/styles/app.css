@@ -1413,6 +1413,14 @@ aside header.cart-header {
   margin-top: 0;
 }
 
+.product-images-wrapper {
+  overflow: hidden;
+  padding-inline: 33px;
+  height: fit-content;
+  position: sticky;
+  top: calc(var(--header-height) + var(--headliner-height));
+}
+
 .product-images {
   display: flex;
   height: auto;
@@ -1425,9 +1433,9 @@ aside header.cart-header {
   align-items: flex-end;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  position: absolute;
+  /* position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); */
 }
 
 .product-image {
@@ -1435,7 +1443,7 @@ aside header.cart-header {
   height: auto;
   scroll-snap-align: start;
   flex-shrink: 0;
-  width: calc(45vw - 2rem - 53px);
+  width: calc(44.4vw - 2rem - 33px);
 }
 
 .product-image:first-of-type {
@@ -1474,20 +1482,8 @@ aside header.cart-header {
 .product-main,
 .product-left,
 .image-nav-button {
-  align-self: start;
-  position: sticky;
-  top: calc(50vh);
-  transform: translateY(-50%);
   font-size: 13px;
-}
-.product-left,
-.image-nav-button {
-  align-self: stretch;
-  top: 0;
-  transform: none;
-  display: flex;
-  justify-content: center;
-  min-height: calc(100vh - var(--header-height) - var(--headliner-height));
+  padding-top: 5rem;
 }
 .product-main *,
 .product-left * {
@@ -1588,7 +1584,7 @@ aside header.cart-header {
 }
 
 .product .product-form {
-  padding-left: 2rem;
+  margin-bottom: 2rem;
 }
 
 .lifestyle-images-wrapper {
@@ -2327,7 +2323,7 @@ media queries
   display: none;
 }
 .image-nav-button {
-  /* position: absolute; */
+  position: absolute;
   align-items: center;
   background: transparent;
   border: none;
@@ -2338,6 +2334,8 @@ media queries
   opacity: 0.7;
   transition: opacity 150ms ease-in-out;
   z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .image-nav-button:hover {
   opacity: 1;
@@ -2872,5 +2870,19 @@ media queries
   }
   .product-left > * {
     max-width: none;
+  }
+  .product-images-wrapper {
+    padding-inline: 0;
+    position: relative;
+    top: 0;
+  }
+  .product-main {
+    padding-top: 0;
+  }
+  .product-main > .dropdown {
+    display: none;
+  }
+  .product .product-form {
+    margin-bottom: 0;
   }
 }
