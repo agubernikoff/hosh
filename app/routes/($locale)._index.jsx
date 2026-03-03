@@ -100,11 +100,15 @@ export default function Homepage() {
   const data = useLoaderData();
   const [showPopup, setShowPopup] = useState(false);
   const [visiblePopup, setVisiblePopup] = useState(false);
+  const [popupTransition, setPopupTransition] = useState('none');
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPopup(true);
-      // Delay setting visiblePopup to allow transition
-      setTimeout(() => setVisiblePopup(true), 50);
+      // Delay setting visiblePopup to allow fade-in transition
+      setTimeout(() => {
+        setPopupTransition('opacity 1s ease-in-out');
+        setVisiblePopup(true);
+      }, 50);
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
@@ -124,7 +128,7 @@ export default function Homepage() {
             alignItems: 'center',
             zIndex: 1000,
             opacity: visiblePopup ? 1 : 0,
-            transition: 'opacity 1s ease-in-out',
+            transition: popupTransition,
           }}
           className="popup-bg"
         >
@@ -169,8 +173,7 @@ export default function Homepage() {
             </div>
             <button
               onClick={() => {
-                setVisiblePopup(false);
-                setTimeout(() => setShowPopup(false), 1000); // match transition duration
+                setShowPopup(false);
               }}
               style={{
                 position: 'absolute',
@@ -240,7 +243,7 @@ function LatestReleases({collection}) {
   return (
     <div className="featured-artist-container latest-releases-container">
       <div className="collection-title">
-        <p style={{letterSpacing: '2px'}}>FEATURED COLLECTION</p>
+        {/* <p style={{letterSpacing: '2px'}}>FEATURED COLLECTION</p> */}
         <p
           style={{
             letterSpacing: '2px',
@@ -429,7 +432,7 @@ function RecommendedProducts({products}) {
           letterSpacing: '2px',
         }}
       >
-        BEST SELLERS
+        LATEST RELEASES
       </p>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
@@ -612,7 +615,7 @@ const NEW_ARRIVALS_QUERY = `#graphql
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    products(first: 9, sortKey: BEST_SELLING, reverse: true) {
+    products(first: 9, sortKey: CREATED_AT, reverse: true) {
       nodes {
         ...Product
       }
