@@ -650,14 +650,14 @@ function Product({product}) {
           product={product}
         />
         {[
-          {
-            title: 'Artwork',
-            details: product.artwork?.value,
-          },
-          {
-            title: 'Artist',
-            details: product.artist_note?.value,
-          },
+          // {
+          //   title: 'Artwork',
+          //   details: product.artwork?.value,
+          // },
+          // {
+          //   title: 'Artist',
+          //   details: product.artist_note?.value,
+          // },
           {
             title: 'Craftsmanship & Details',
             details: product.craftsmanship_details?.value,
