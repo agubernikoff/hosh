@@ -1764,6 +1764,7 @@ routes/artist
   flex-wrap: wrap;
   align-items: flex-end;
   row-gap: 144px;
+  width: 100%;
 }
 
 .artist-hero-section > .artist-hero-name {

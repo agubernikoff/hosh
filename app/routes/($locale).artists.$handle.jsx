@@ -167,25 +167,29 @@ export default function Page() {
               : null}
           </div>
         </div>
-        <div>
-          <Image data={artist?.portrait?.image} size="30vw" />
-          <div className="portrait-quote">
-            <h3>{artist?.portrait_quote}</h3>
-            <p>{artist?.name?.toUpperCase()}</p>
+        {artist?.portrait?.image && (
+          <div>
+            <Image data={artist?.portrait?.image} size="30vw" />
+            <div className="portrait-quote">
+              <h3>{artist?.portrait_quote}</h3>
+              <p>{artist?.name?.toUpperCase()}</p>
+            </div>
+          </div>
+        )}
+      </div>
+      {artist?.banner_main_quote && (
+        <div className="banner-quotes-section">
+          <div>
+            <Image data={artist?.images?.nodes?.[0]?.image} size="100vw" />
+          </div>
+          <p className="quote">{'“'}</p>
+          <p className="quote">{'”'}</p>
+          <div className="banner-quotes-container">
+            <p>{artist?.banner_sub_quote}</p>
+            <h2>{artist?.banner_main_quote}</h2>
           </div>
         </div>
-      </div>
-      <div className="banner-quotes-section">
-        <div>
-          <Image data={artist?.images?.nodes?.[0]?.image} size="100vw" />
-        </div>
-        <p className="quote">{'“'}</p>
-        <p className="quote">{'”'}</p>
-        <div className="banner-quotes-container">
-          <p>{artist?.banner_sub_quote}</p>
-          <h2>{artist?.banner_main_quote}</h2>
-        </div>
-      </div>
+      )}
       {artist?.collection?.products?.nodes?.length > 0 && (
         <>
           <div style={{letterSpacing: '2px'}}>

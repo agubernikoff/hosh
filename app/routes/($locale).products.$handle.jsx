@@ -857,7 +857,7 @@ function MeetTheArtist({product}) {
         </div>
         {mapRichText(JSON.parse(artistDescriptionField))}
         <Link
-          to={`/collections/${name.toLowerCase().split(' ').join('-')}`}
+          to={`/artists/${name.toLowerCase().split(' ').join('-')}`}
           className="link-to-meet-the-artist"
         >
           Learn more
