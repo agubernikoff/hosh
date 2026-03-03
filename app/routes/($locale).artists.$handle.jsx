@@ -228,12 +228,9 @@ export default function Page() {
           </div>
         </>
       )}
-      <a
-        href="https://hoshart.com/artists"
-        style={{textDecoration: 'underline'}}
-      >
+      <NavLink to="/artists" style={{textDecoration: 'underline'}}>
         Back to Artists
-      </a>
+      </NavLink>
     </div>
   );
 }

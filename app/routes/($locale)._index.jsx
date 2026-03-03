@@ -5,10 +5,10 @@ import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 import {motion, AnimatePresence} from 'framer-motion';
 import model11 from '~/assets/model11.png';
-import poster from 'app/assets/Group 780.png';
+import poster from 'app/assets/tony.png';
 import mposter from 'app/assets/mobile-poster.png';
-import jersey from 'app/assets/jersey1.png';
-import jersey2 from 'app/assets/jersey2.png';
+import jersey from 'app/assets/b1.png';
+import jersey2 from 'app/assets/b11.png';
 import hero3 from 'app/assets/hero3.jpg';
 import Press from '~/components/Press';
 import mapRichText from '~/helpers/MapRichText';
@@ -145,27 +145,28 @@ export default function Homepage() {
             />
             <img
               className="mobile-poster"
-              src={mposter}
+              src={poster}
               style={{
                 width: '100%',
                 // maxWidth: '90vw',
-                maxHeight: '90vh',
+                maxHeight: '60vh',
                 height: 'auto',
                 objectFit: 'cover',
+                objectPosition: 'top',
               }}
             />
             <div>
               <div>
-                <img src={jersey} style={{flex: 1}} />
-                <img src={jersey2} style={{flex: 1}} />
+                <img src={jersey} style={{flex: 1, width: '50%'}} />
+                <img src={jersey2} style={{flex: 1, width: '50%'}} />
               </div>
               <p>
-                “This imagined team is my way of giving Native actors the
-                spotlight they rarely had.”
+                “I paint the land as though I am part of it. Every place carries
+                emotion, rhythm, and transformation.”
               </p>
-              <p>Craig George</p>
+              <p>Tony Abeyta</p>
               <NavLink
-                to="/collections/hollywood-extras-collection"
+                to="/products/birds-of-a-feather?Size=XS"
                 style={{textDecoration: 'underline'}}
               >
                 Now Available
