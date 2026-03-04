@@ -139,6 +139,30 @@ function QuickShop({product, closePopUp, pathname, layoutId}) {
       : null;
 
   const imagesDiv = useRef(null);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const scrollStartLeft = useRef(0);
+
+  function handleMouseDown(e) {
+    isDragging.current = true;
+    dragStartX.current = e.clientX;
+    scrollStartLeft.current = imagesDiv.current.scrollLeft;
+    imagesDiv.current.style.cursor = 'grabbing';
+    imagesDiv.current.style.userSelect = 'none';
+  }
+
+  function handleMouseMove(e) {
+    if (!isDragging.current) return;
+    const dx = e.clientX - dragStartX.current;
+    imagesDiv.current.scrollLeft = scrollStartLeft.current - dx * 2;
+  }
+
+  function handleMouseUp() {
+    isDragging.current = false;
+    imagesDiv.current.style.cursor = 'grab';
+    imagesDiv.current.style.userSelect = '';
+  }
+
   function handleClose() {
     if (imageIndex !== 0) {
       imagesDiv.current?.scrollTo({
@@ -216,12 +240,18 @@ function QuickShop({product, closePopUp, pathname, layoutId}) {
           <div
             ref={imagesDiv}
             className="popup-images"
+            style={{cursor: 'grab'}}
             onScroll={(e) =>
               handleScroll(e.target.scrollWidth, e.target.scrollLeft)
             }
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onDragStart={(e) => e.preventDefault()}
           >
             {images?.map(({node}) => (
-              <div className="popup-image">
+              <div className="popup-image" draggable={false}>
                 <Image
                   alt={node.altText || product.title}
                   // aspectRatio="1/1"
