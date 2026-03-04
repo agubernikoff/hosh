@@ -2252,6 +2252,7 @@ poster
   justify-content: center;
   padding: 1rem;
   text-align: center;
+  gap: 1rem;
 }
 .poster > div > div {
   width: 100%;
