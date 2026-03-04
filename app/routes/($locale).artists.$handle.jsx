@@ -167,16 +167,16 @@ export default function Page() {
               : null}
           </div>
         </div>
-        {artist?.portrait?.image && (
-          <div>
-            <Image data={artist?.portrait?.image} size="30vw" />
-            <div className="portrait-quote">
-              <h3>{artist?.portrait_quote}</h3>
-              <p>{artist?.name?.toUpperCase()}</p>
-            </div>
-          </div>
-        )}
       </div>
+      {artist?.portrait?.image && (
+        <div className="portrait-quote-container">
+          <Image data={artist?.portrait?.image} size="30vw" />
+          <div className="portrait-quote">
+            <h3>{artist?.portrait_quote}</h3>
+            <p>{artist?.name?.toUpperCase()}</p>
+          </div>
+        </div>
+      )}
       {artist?.banner_main_quote && (
         <div className="banner-quotes-section">
           <div>

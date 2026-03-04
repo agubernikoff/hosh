@@ -1765,11 +1765,12 @@ routes/artist
   align-items: flex-end;
   row-gap: 144px;
   width: 100%;
+  min-height: calc(100vh - var(--header-height) - var(--headliner-height));
 }
 
 .artist-hero-section > .artist-hero-name {
   flex: 1;
-  align-self: flex-end;
+  align-self: center;
   margin-left: 71px;
 }
 
@@ -1785,7 +1786,7 @@ routes/artist
 }
 .artist-hero-section > div:has(.artist-hero-title-container) {
   flex: 1;
-  align-self: flex-end;
+  align-self: center;
 }
 .artist-hero-section > div:has(.artist-hero-title-container) > * {
   max-width: 33vw;
@@ -1806,7 +1807,7 @@ routes/artist
   font-size: 10px;
   line-height: 16px;
 }
-.artist-hero-section > div:last-of-type {
+.portrait-quote-container {
   width: 100%;
   flex-shrink: 0;
   height: calc(100vh - var(--header-height) - var(--headliner-height) - 2rem);
@@ -1814,7 +1815,7 @@ routes/artist
   justify-content: center;
   padding-top: 3%;
 }
-.artist-hero-section > div:last-of-type > img {
+.portrait-quote-container > img {
   width: 60vw !important;
   max-width: 518px;
   object-fit: cover;
@@ -1939,7 +1940,6 @@ routes/artist
 }
 
 .artist-page {
-  padding-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 5rem;
@@ -1981,13 +1981,13 @@ routes/artist
     line-height: 90%;
     margin-bottom: 1.5rem;
   }
-  .artist-hero-section > div:last-of-type {
+  .portrait-quote-container {
     display: flex;
     justify-content: center;
     position: relative;
     padding: 0;
   }
-  .artist-hero-section > div:last-of-type > img {
+  .portrait-quote-container > img {
     position: absolute;
     top: 0;
     left: 0;
@@ -2715,8 +2715,9 @@ media queries
     scale: 0.65;
   }
   .artist-page {
-    padding-inline: 6px;
+    /* padding-inline: 6px; */
     margin-bottom: 2rem;
+    padding-top: 2rem;
   }
   .artist-page .artist-expandables-div {
     width: 100%;
