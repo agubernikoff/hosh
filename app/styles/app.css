@@ -1946,11 +1946,9 @@ routes/artist
   align-items: center;
   margin-bottom: 5rem;
 }
-.artist-page .carousel-wrapper {
-  margin-left: -1rem;
-}
+.artist-page .carousel-wrapper,
 .artist-page .single-image-wrapper {
-  margin: 2rem auto auto !important;
+  margin: 2rem auto auto -1rem !important;
 }
 .artist-page img {
   height: auto;
@@ -2251,7 +2249,7 @@ poster
 .poster > div {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 1rem;
   text-align: center;
 }
@@ -2270,6 +2268,7 @@ poster
 .poster > div > a {
   font-size: 12px;
   cursor: pointer;
+  margin-top: 2rem;
 }
 @media (max-width: 723px) {
   .poster {
@@ -2315,6 +2314,9 @@ poster
   .poster > button {
     top: 0 !important;
     right: 0 !important;
+  }
+  .poster > div > a {
+    margin-top: 1rem;
   }
 }
 /* 

@@ -177,7 +177,7 @@ export default function Page() {
           images={artist?.images?.nodes?.map((n) => n?.image?.url)}
         />
       )}
-      {artist?.banner_main_quote && (
+      {/* {artist?.banner_main_quote && (
         <div className="banner-quotes-section">
           <div>
             <Image data={artist?.images?.nodes?.[0]?.image} size="100vw" />
@@ -189,16 +189,11 @@ export default function Page() {
             <h2>{artist?.banner_main_quote}</h2>
           </div>
         </div>
-      )}
+      )} */}
       {artist?.collection?.products?.nodes?.length > 0 && (
         <>
-          <div style={{letterSpacing: '2px'}}>
-            <p>{artist?.name.toUpperCase()}</p>
-            <p>
-              <span>{artist?.tribe}</span>
-              {artist?.tribe && artist?.discipline && ' • '}
-              <span>{artist?.discipline}</span>
-            </p>
+          <div>
+            <p>{`Other Work by ${artist?.name}`}</p>
           </div>
           <div
             style={{
@@ -209,22 +204,25 @@ export default function Page() {
             }}
             className="artists-collection-div"
           >
-            <Filter
-              filters={artist?.collection?.products?.filters}
-              total={total}
-            />
-            <PaginatedResourceSection
-              connection={artist?.collection?.products}
-              resourcesClassName="products-grid"
-            >
-              {({node: product, index}) => (
+            <div className="products-grid">
+              {artist?.collection?.products?.nodes.map((p, index) => (
                 <ProductItem
-                  key={product.id}
-                  product={product}
+                  key={p.id}
+                  product={p}
                   loading={index < 8 ? 'eager' : undefined}
                 />
-              )}
-            </PaginatedResourceSection>
+              ))}
+            </div>
+            <NavLink
+              style={{
+                marginLeft: '50%',
+                transform: 'translateX(-50%)',
+                display: 'inline-block',
+              }}
+              to={`/collections/${metaobject.handle}`}
+            >
+              See More
+            </NavLink>
           </div>
         </>
       )}
@@ -374,7 +372,7 @@ const ARTIST_QUERY = `#graphql
           reference{
             ...on Collection{
               products(
-                first: 24
+                first: 3
                 filters: $filters,
                 reverse: $reverse,
                 sortKey: $sortKey){
