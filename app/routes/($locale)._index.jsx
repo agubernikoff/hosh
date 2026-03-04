@@ -8,7 +8,7 @@ import model11 from '~/assets/model11.png';
 import poster from 'app/assets/tony.png';
 import mposter from 'app/assets/mobile-poster.png';
 import jersey from 'app/assets/b1.png';
-import jersey2 from 'app/assets/b11.png';
+import jersey2 from 'app/assets/back.png';
 import hero3 from 'app/assets/hero3.jpg';
 import Press from '~/components/Press';
 import mapRichText from '~/helpers/MapRichText';
