@@ -1,5 +1,5 @@
 import {useState, useRef, useEffect, useMemo} from 'react';
-import {useLoaderData, useFetcher} from '@remix-run/react';
+import {useLoaderData, useFetcher, Link} from '@remix-run/react';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -101,16 +101,18 @@ function loadDeferredData({context, params}) {
 }
 
 export default function PDP() {
+  const {product} = useLoaderData();
   return (
     <>
-      <Product />
+      <Product product={product} />
+      <LifeStyleImages product={product} />
+      <MeetTheArtist product={product} />
       <Recs />
     </>
   );
 }
-function Product() {
+function Product({product}) {
   /** @type {LoaderReturnData} */
-  const {product} = useLoaderData();
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -143,6 +145,21 @@ function Product() {
   ));
 
   const [imageIndex, setImageIndex] = useState(0);
+  const imagesRef = useRef(null);
+
+  function scrollToImage(direction) {
+    if (!imagesRef.current) return;
+    const container = imagesRef.current;
+    const imageWidth = container.scrollWidth / product.images.edges.length;
+    const newIndex =
+      direction === 'next'
+        ? Math.min(imageIndex + 1, product.images.edges.length - 1)
+        : Math.max(imageIndex - 1, 0);
+    container.scrollTo({
+      left: newIndex * imageWidth,
+      behavior: 'smooth',
+    });
+  }
 
   function handleScroll(scrollWidth, scrollLeft) {
     const widthOfAnImage = scrollWidth / product.images.edges.length;
@@ -570,15 +587,77 @@ function Product() {
             )}
           </div>
         )}
+        <p>{product.artwork?.value}</p>
+      </div>
+      <div className="product-images-wrapper">
+        {product.images.edges.length > 1 && (
+          <button
+            className="image-nav-button prev"
+            onClick={() => scrollToImage('prev')}
+            disabled={imageIndex === 0}
+            aria-label="Previous image"
+          >
+            <svg
+              width="17"
+              height="30"
+              viewBox="0 0 17 30"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.584838 16.1421C-0.196211 15.3611 -0.196211 14.0947 0.584838 13.3137L13.3128 0.58577C14.0938 -0.195279 15.3601 -0.195279 16.1412 0.58577C16.9222 1.36682 16.9222 2.63315 16.1412 3.4142L4.82748 14.7279L16.1412 26.0416C16.9222 26.8227 16.9222 28.089 16.1412 28.87C15.3601 29.6511 14.0938 29.6511 13.3128 28.87L0.584838 16.1421ZM3.99609 14.7279L3.99609 16.7279H1.99905L1.99905 14.7279L1.99905 12.7279H3.99609L3.99609 14.7279Z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        )}
+        <div
+          className="product-images"
+          ref={imagesRef}
+          onScroll={(e) =>
+            handleScroll(e.target.scrollWidth, e.target.scrollLeft)
+          }
+        >
+          {productImage}
+        </div>
+        <div className="mapped-indicators">{mappedIndicators}</div>
+        {product.images.edges.length > 1 && (
+          <button
+            className="image-nav-button next"
+            onClick={() => scrollToImage('next')}
+            disabled={imageIndex === product.images.edges.length - 1}
+            aria-label="Next image"
+          >
+            <svg
+              width="17"
+              height="30"
+              viewBox="0 0 17 30"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16.1417 16.1421C16.9228 15.3611 16.9228 14.0947 16.1417 13.3137L3.4138 0.58577C2.63275 -0.195279 1.36642 -0.195279 0.585376 0.58577C-0.195673 1.36682 -0.195673 2.63315 0.585376 3.4142L11.8991 14.7279L0.585376 26.0416C-0.195673 26.8227 -0.195673 28.089 0.585376 28.87C1.36642 29.6511 2.63275 29.6511 3.4138 28.87L16.1417 16.1421ZM12.7305 14.7279V16.7279H14.7275V14.7279V12.7279H12.7305V14.7279Z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        )}
+      </div>
+      <div className="product-main">
+        <ProductForm
+          productOptions={productOptions}
+          selectedVariant={selectedVariant}
+          product={product}
+        />
         {[
-          {
-            title: 'Artwork',
-            details: product.artwork?.value,
-          },
-          {
-            title: 'Artist',
-            details: product.artist_note?.value,
-          },
+          // {
+          //   title: 'Artwork',
+          //   details: product.artwork?.value,
+          // },
+          // {
+          //   title: 'Artist',
+          //   details: product.artist_note?.value,
+          // },
           {
             title: 'Craftsmanship & Details',
             details: product.craftsmanship_details?.value,
@@ -633,28 +712,6 @@ function Product() {
             />
           ))}
       </div>
-      <div
-        style={{
-          position: 'relative',
-        }}
-      >
-        <div
-          className="product-images"
-          onScroll={(e) =>
-            handleScroll(e.target.scrollWidth, e.target.scrollLeft)
-          }
-        >
-          {productImage}
-        </div>
-        <div className="mapped-indicators">{mappedIndicators}</div>
-      </div>
-      <div className="product-main">
-        <ProductForm
-          productOptions={productOptions}
-          selectedVariant={selectedVariant}
-          product={product}
-        />
-      </div>
       <Analytics.ProductView
         data={{
           products: [
@@ -675,13 +732,148 @@ function Product() {
   );
 }
 
+function LifeStyleImages({product}) {
+  const [imageIndex, setImageIndex] = useState(0);
+  const imagesRef = useRef(null);
+
+  function handleScroll(scrollWidth, scrollLeft) {
+    const nodes = product.lifestyle_images?.references?.nodes || [];
+    if (nodes.length === 0) return;
+    const widthOfAnImage = scrollWidth / nodes.length;
+    const dividend = scrollLeft / widthOfAnImage;
+    const rounded = parseFloat((scrollLeft / widthOfAnImage).toFixed(0));
+    if (Math.abs(dividend - rounded) < 0.2) setImageIndex(rounded);
+  }
+
+  const nodes = product.lifestyle_images?.references?.nodes || [];
+
+  const mappedIndicators =
+    nodes.length > 1
+      ? nodes.map((node, i) => (
+          <div
+            key={node.id}
+            className="circle"
+            style={{
+              height: '5px',
+              width: '5px',
+              borderRadius: '10px',
+              position: 'relative',
+              background: 'grey',
+            }}
+          >
+            {i === imageIndex ? (
+              <motion.div
+                layoutId="lifestyle-mapped-indicator"
+                key="lifestyle-mapped-indicator"
+                style={{
+                  background: 'black',
+                  height: '5px',
+                  width: '5px',
+                  borderRadius: '10px',
+                  position: 'absolute',
+                }}
+                transition={{ease: 'easeInOut', duration: 0.15}}
+              />
+            ) : null}
+          </div>
+        ))
+      : null;
+
+  return (
+    nodes.length > 0 && (
+      <div className="lifestyle-images-wrapper">
+        <div
+          className="lifestyle-images-container"
+          ref={imagesRef}
+          onScroll={(e) =>
+            handleScroll(e.target.scrollWidth, e.target.scrollLeft)
+          }
+        >
+          {nodes.map((node) => (
+            <div key={node.id}>
+              <img
+                src={node.image.url}
+                alt={node.image.altText || 'Lifestyle image'}
+                className="lifestyle-image"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="lifestyle-mapped-indicators">{mappedIndicators}</div>
+      </div>
+    )
+  );
+}
+
+function MeetTheArtist({product}) {
+  const artistFields = product.artist_object?.reference?.fields || [];
+  const artistDescriptionField = artistFields.find(
+    (field) => field.key === 'biography',
+  )?.value;
+  const name = artistFields.find((field) => field.key === 'name')?.value;
+  const videoField = artistFields.find(
+    (field) => field.key === 'meet_the_artist_video',
+  );
+  const media = videoField?.reference;
+
+  if (!media) return null;
+  if (media.mediaContentType === 'VIDEO' && !media?.sources?.length) {
+    return null;
+  }
+
+  const mediaElement =
+    media.mediaContentType === 'IMAGE' ? (
+      <img
+        src={media.image.url}
+        alt={media.image.altText || name}
+        className="meet-the-artist-video"
+        style={{objectFit: 'cover', width: '100%', height: '100%'}}
+      />
+    ) : (
+      <video
+        controls
+        playsInline
+        poster={media.previewImage?.url}
+        className="meet-the-artist-video"
+      >
+        {media.sources.map((source) => (
+          <source key={source.url} src={source.url} type={source.mimeType} />
+        ))}
+        <track kind="captions" />
+      </video>
+    );
+
+  return (
+    <div className="meet-the-artist-section">
+      <div className="meet-the-artist-title hide-on-desktop">
+        <p style={{letterSpacing: '2px'}}>MEET THE ARTIST</p>
+        <p style={{letterSpacing: '2px'}}>{name.toUpperCase()}</p>
+      </div>
+      <div className="meet-the-artist-video-container">{mediaElement}</div>
+      <div>
+        <div className="meet-the-artist-title hide-on-mobile">
+          <p style={{letterSpacing: '2px'}}>MEET THE ARTIST</p>
+          <p style={{letterSpacing: '2px'}}>{name.toUpperCase()}</p>
+        </div>
+        {mapRichText(JSON.parse(artistDescriptionField))}
+        <Link
+          to={`/artists/${name.toLowerCase().split(' ').join('-')}`}
+          className="link-to-meet-the-artist"
+        >
+          Learn more
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function Recs() {
   const {product} = useLoaderData();
   const collectionFetcher = useFetcher();
 
   useEffect(() => {
     const collectionHandle = product.artist?.value
-      .toLowerCase()
+      ?.toLowerCase()
       .split(' ')
       .join('-');
     if (collectionHandle) {
@@ -700,7 +892,7 @@ function Recs() {
       .filter((node) => {
         return node.id !== product.id;
       }) // exclude current product
-      .slice(0, 6); // limit to 4 products
+      .slice(0, 3); // limit to 3 products
 
     return filtered;
   }, [collectionFetcher.data, product.id]);
@@ -855,6 +1047,57 @@ const PRODUCT_FRAGMENT = `#graphql
     }
     hide_size_guide:metafield(namespace:"custom",key:"hide_size_guide"){
       value
+    }
+    lifestyle_images:metafield(namespace:"custom",key:"lifestyle_images"){
+      value
+      references(first: 10) {
+        nodes {
+          ... on MediaImage {
+            id
+            image {
+              url
+              altText
+              width
+              height
+            }
+          }
+        }
+      }
+    }
+    artist_object:metafield(namespace:"custom",key:"artist"){
+      value
+      reference{
+        ...on Metaobject{
+          id
+          fields{
+            key
+            value
+            reference {
+              ... on Video {
+                mediaContentType
+                id
+                previewImage {
+                  url
+                }
+                sources {
+                  mimeType
+                  url
+                }
+              }
+              ... on MediaImage {
+                mediaContentType
+                id
+                image {
+                  url
+                  altText
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}

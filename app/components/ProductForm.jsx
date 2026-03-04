@@ -34,11 +34,7 @@ export function ProductForm({productOptions, selectedVariant, product}) {
         return (
           <div className="product-options" key={option.name}>
             <div style={{marginBottom: '1rem'}}>
-              {isMobile ? (
-                <p style={{fontSize: '14px', fontWeight: '500'}}>
-                  {product.title}
-                </p>
-              ) : null}
+              {isMobile ? <p>{product.title}</p> : null}
               {isMobile ? (
                 <p style={{fontSize: '14px', fontWeight: '500'}}>
                   {product.artist?.value}

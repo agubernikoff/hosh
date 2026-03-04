@@ -3,23 +3,16 @@ import NavLink from '~/components/NavLink';
 import {Suspense, useState, useEffect} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
+import {motion, AnimatePresence} from 'framer-motion';
 import model11 from '~/assets/model11.png';
-import InfiniteCarousel from '~/components/Carousel';
-import poster from 'app/assets/Group 780.png';
+import poster from 'app/assets/tony.png';
 import mposter from 'app/assets/mobile-poster.png';
-import jersey from 'app/assets/jersey1.png';
-import jersey2 from 'app/assets/jersey2.png';
-import hero2 from 'app/assets/hero2.jpg';
+import jersey from 'app/assets/b1.png';
+import jersey2 from 'app/assets/back.png';
+import hero3 from 'app/assets/hero3.jpg';
 import Press from '~/components/Press';
-import carousel1 from 'app/assets/Slider A.png';
-import carousel2 from 'app/assets/Slider B.png';
-import carousel3 from 'app/assets/Slider C.png';
-import carousel4 from 'app/assets/Slider D.png';
-import carousel5 from 'app/assets/Slider E.png';
-import carousel6 from 'app/assets/Slider F.png';
-import desktop1 from 'app/assets/Slider 1.png';
-import desktop2 from 'app/assets/Slider 2.png';
-import desktop3 from 'app/assets/Slider 3.png';
+import mapRichText from '~/helpers/MapRichText';
+import {PRESS_QUERY} from './($locale).press';
 /**
  * @type {MetaFunction}
  */
@@ -46,24 +39,29 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const isDev = process.env.NODE_ENV === 'development';
   const handle = 'the-begay-sisters';
-  const [{collection}, {metaobject}, press, latest] = await Promise.all([
-    context.storefront.query(NEW_ARRIVALS_QUERY, {
-      variables: {handle, first: 3},
-    }),
-    // Add other queries here, so that they are loaded in parallel
-    context.storefront.query(ARTIST_QUERY, {
-      variables: {handle},
-    }),
-    context.storefront.query(PRESS_QUERY),
-    context.storefront.query(NEW_ARRIVALS_QUERY, {
-      variables: {
-        handle: 'latest-releases',
-        first: 6,
-      },
-    }),
-  ]);
+  const [{collection}, {metaobject}, press, latest, subhero] =
+    await Promise.all([
+      context.storefront.query(NEW_ARRIVALS_QUERY, {
+        variables: {handle, first: 3},
+      }),
+      // Add other queries here, so that they are loaded in parallel
+      context.storefront.query(ARTIST_QUERY, {
+        variables: {handle},
+      }),
+      context.storefront.query(PRESS_QUERY, {
+        variables: {
+          first: 5,
+        },
+      }),
+      context.storefront.query(NEW_ARRIVALS_QUERY, {
+        variables: {
+          handle: 'hollywood-extras-collection',
+          first: 3,
+        },
+      }),
+      context.storefront.query(SUBHERO_QUERY),
+    ]);
 
   let artist = null;
   if (metaobject) artist = metaobject;
@@ -71,9 +69,9 @@ async function loadCriticalData({context}) {
   return {
     featuredCollection: collection,
     artist,
-    isDev,
-    press: press.metaobject,
+    press: press?.metaobjects?.nodes || [],
     latest: latest.collection,
+    subhero: subhero.metaobject,
   };
 }
 
@@ -102,11 +100,15 @@ export default function Homepage() {
   const data = useLoaderData();
   const [showPopup, setShowPopup] = useState(false);
   const [visiblePopup, setVisiblePopup] = useState(false);
+  const [popupTransition, setPopupTransition] = useState('none');
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPopup(true);
-      // Delay setting visiblePopup to allow transition
-      setTimeout(() => setVisiblePopup(true), 50);
+      // Delay setting visiblePopup to allow fade-in transition
+      setTimeout(() => {
+        setPopupTransition('opacity 1s ease-in-out');
+        setVisiblePopup(true);
+      }, 50);
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
@@ -126,7 +128,7 @@ export default function Homepage() {
             alignItems: 'center',
             zIndex: 1000,
             opacity: visiblePopup ? 1 : 0,
-            transition: 'opacity 1s ease-in-out',
+            transition: popupTransition,
           }}
           className="popup-bg"
         >
@@ -143,27 +145,28 @@ export default function Homepage() {
             />
             <img
               className="mobile-poster"
-              src={mposter}
+              src={poster}
               style={{
                 width: '100%',
                 // maxWidth: '90vw',
-                maxHeight: '90vh',
+                maxHeight: '60vh',
                 height: 'auto',
                 objectFit: 'cover',
+                objectPosition: 'top',
               }}
             />
             <div>
               <div>
-                <img src={jersey} style={{flex: 1}} />
-                <img src={jersey2} style={{flex: 1}} />
+                <img src={jersey} style={{flex: 1, width: '50%'}} />
+                <img src={jersey2} style={{flex: 1, width: '50%'}} />
               </div>
               <p>
-                “This imagined team is my way of giving Native actors the
-                spotlight they rarely had.”
+                “I paint the land as though I am part of it. Every place carries
+                emotion, rhythm, and transformation.”
               </p>
-              <p>Craig George</p>
+              <p>Tony Abeyta</p>
               <NavLink
-                to="/collections/hollywood-extras-collection"
+                to="/products/birds-of-a-feather?Size=XS"
                 style={{textDecoration: 'underline'}}
               >
                 Now Available
@@ -171,8 +174,7 @@ export default function Homepage() {
             </div>
             <button
               onClick={() => {
-                setVisiblePopup(false);
-                setTimeout(() => setShowPopup(false), 1000); // match transition duration
+                setShowPopup(false);
               }}
               style={{
                 position: 'absolute',
@@ -191,79 +193,153 @@ export default function Homepage() {
         </div>
       )}
       <div className="home">
-        <Hero collection={data.featuredCollection} />{' '}
-        <Press data={data.press} rotateImages={true} />
-        <LatestReleases collection={data.latest} />{' '}
-        <InfiniteCarousel
-          images={[desktop1, desktop2, desktop3]}
-          hideOn={'mobile'}
-        />
-        <InfiniteCarousel
-          images={[
-            carousel1,
-            carousel2,
-            carousel3,
-            carousel4,
-            carousel5,
-            carousel6,
-          ]}
-          hideOn={'desktop'}
-        />
+        <Hero />
+        <Subhero subhero={data.subhero} />
+        <LatestReleases collection={data.latest} />
+        <PressSection data={data.press} />
         <RecommendedProducts products={data.recommendedProducts} />
       </div>
     </>
   );
 }
 
-function Hero({collection}) {
+function Hero() {
   return (
-    <div className={`featured-artist-container fac-dev`}>
+    <div className="featured-artist-container fac-dev">
       <div className="featured-artist-homepage-section">
         <div className="models-container">
-          <img src={hero2} style={{width: '100%'}} />
+          <img src={hero3} style={{width: '100%'}} alt="" />
         </div>
         <div className="shop-the-collection">
-          <p>FEATURED COLLECTION</p>
-          <p className="artist-title">{collection.title.toUpperCase()}</p>
-          <NavLink to={`/collections/${collection.handle}`}>SHOP</NavLink>
+          <p className="artist-title">Welcome to the world of HOSH</p>
+          <NavLink to="/collections/all-products">Shop All Products</NavLink>
         </div>
       </div>
     </div>
   );
 }
-function LatestReleases({collection}) {
+
+function Subhero({subhero}) {
+  if (!subhero) return null;
+  const imagesField = subhero.fields.find((f) => f.key === 'images');
+  const blurb = subhero.fields.find((f) => f.key === 'blurb');
+
   return (
-    <div className="featured-artist-container">
-      <div className="collection-title">
-        <p style={{letterSpacing: '2px'}}>LATEST RELEASES</p>
-      </div>
-      <div className="recommended-products-grid">
-        {collection.products.nodes.map((product) => (
-          <ProductItem
-            key={`latest-${product.id}`}
-            product={product}
-            layoutId={`latest-${product.id}`}
-          />
+    <div className="subhero-section">
+      {blurb && (
+        <p className="subhero-blurb">{mapRichText(JSON.parse(blurb.value))}</p>
+      )}
+      <div className="subhero-images">
+        {imagesField?.references?.nodes.map((image) => (
+          <div key={image.id}>
+            <Image data={image.image} sizes="34vw" />
+          </div>
         ))}
       </div>
-      <div
-        style={{
-          marginTop: '5rem',
-          marginBottom: '9rem',
-        }}
-      >
-        <NavLink
-          to={`/collections/${collection.handle}`}
+    </div>
+  );
+}
+
+function LatestReleases({collection}) {
+  return (
+    <div className="featured-artist-container latest-releases-container">
+      <div className="collection-title">
+        {/* <p style={{letterSpacing: '2px'}}>FEATURED COLLECTION</p> */}
+        <p
           style={{
-            padding: '1rem',
-            border: '1px solid black',
-            boxSizing: 'border-box',
+            letterSpacing: '2px',
+            fontSize: '30px',
+            fontFamily: 'gotham',
+            fontWeight: 'bold',
+            lineHeight: '130%',
           }}
-          className="s-t-c"
         >
-          SHOP THE COLLECTION
-        </NavLink>
+          THE {collection.title.toUpperCase()}
+        </p>
+        <div
+          style={{
+            marginTop: '2rem',
+          }}
+        >
+          <NavLink
+            to={`/collections/${collection.handle}`}
+            style={{
+              padding: '1rem 4rem',
+              border: '1px solid black',
+              boxSizing: 'border-box',
+            }}
+            className="s-t-c"
+          >
+            SHOP
+          </NavLink>
+        </div>
       </div>
+      <div style={{width: '100%', overflow: 'scroll'}}>
+        <div className="recommended-products-grid">
+          {collection.products.nodes.map((product) => (
+            <ProductItem
+              key={`latest-${product.id}`}
+              product={product}
+              layoutId={`latest-${product.id}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PressSection({data}) {
+  const [selectedPress, setSelectedPress] = useState(0);
+  const [direction, setDirection] = useState(1);
+
+  useEffect(() => {
+    if (!data || data.length === 0) return;
+    const interval = setInterval(() => {
+      setDirection(1);
+      setSelectedPress((prev) => (prev + 1) % data.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [data]);
+
+  if (!data || data.length === 0) return null;
+
+  const slideVariants = {
+    enter: (dir) => ({
+      x: dir > 0 ? '100%' : '-100%',
+    }),
+    center: {
+      x: 0,
+    },
+    exit: (dir) => ({
+      x: dir > 0 ? '-100%' : '100%',
+    }),
+  };
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        width: '100vw',
+        marginLeft: '-1rem',
+      }}
+      className="homepage-press-container"
+    >
+      <AnimatePresence mode="popLayout" custom={direction}>
+        <motion.div
+          key={data[selectedPress].id}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{duration: 0.5, ease: 'easeInOut'}}
+          style={{height: '100%'}}
+        >
+          <Press data={data[selectedPress]} />
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -357,7 +433,7 @@ function RecommendedProducts({products}) {
           letterSpacing: '2px',
         }}
       >
-        BEST SELLERS
+        LATEST RELEASES
       </p>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
@@ -540,7 +616,7 @@ const NEW_ARRIVALS_QUERY = `#graphql
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    products(first: 9, sortKey: BEST_SELLING, reverse: true) {
+    products(first: 9, sortKey: CREATED_AT, reverse: true) {
       nodes {
         ...Product
       }
@@ -571,14 +647,14 @@ const ARTIST_QUERY = `#graphql
     }
 `;
 
-const PRESS_QUERY = `#graphql
+const SUBHERO_QUERY = `#graphql
   query Press(
     $language: LanguageCode,
     $country: CountryCode
   )
   @inContext(language: $language, country: $country) {
     metaobject(handle:{
-        handle:"hosh-launch",type:"press"
+        handle:"homepage-sub-hero-section-pgedekuh",type:"homepage_sub_hero_section"
       }){
           handle
           fields{

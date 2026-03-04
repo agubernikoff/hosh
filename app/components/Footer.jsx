@@ -13,6 +13,7 @@ import bingoart4 from 'app/assets/BINGO-ART 33.png';
 import bingoart5 from 'app/assets/BINGO-ART 34.png';
 import bingoart6 from 'app/assets/BINGO-ART 35.png';
 import bingoart7 from 'app/assets/BINGO-ART 36.png';
+import footerlogo from 'app/assets/Hosh_Logo-Black.png';
 import NavLink from './NavLink';
 
 /**
@@ -35,9 +36,11 @@ export function Footer({
   }, []);
   const location = useLocation();
 
-  const excludedPaths = ['/pages/about', '/press'];
-
-  const shouldShowCarousel = !excludedPaths.includes(location.pathname);
+  const excludedPaths = ['/', '/pages/about', '/press'];
+  const shouldShowCarousel =
+    !excludedPaths.includes(location.pathname) &&
+    !location.pathname.startsWith('/products/') &&
+    !location.pathname.startsWith('/artists/');
 
   return (
     <Suspense>
@@ -138,6 +141,16 @@ export function Footer({
                 </div>
               </>
             )}
+            <img
+              src={footerlogo}
+              style={{
+                width: '100vw',
+                marginLeft: '-2rem',
+                transform: 'translateY(4px)',
+              }}
+              alt="HOSH"
+              className="footer-logo"
+            />
           </footer>
         )}
       </Await>

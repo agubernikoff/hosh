@@ -110,7 +110,7 @@ export default function Collection() {
         .then((res) => res.json())
         .then((data) => setTotal(data.total));
   }, [collection.handle, filter]);
-  console.log(collection);
+
   return (
     <div className="collection">
       <div className="collection-title">

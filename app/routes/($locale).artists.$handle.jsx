@@ -117,8 +117,6 @@ export default function Page() {
     {},
   );
 
-  console.log(artist);
-
   const [openSection, setOpenSection] = useState('Artist Bio');
 
   const toggleSection = (section) => {
@@ -141,93 +139,57 @@ export default function Page() {
 
   return (
     <div className="artist-page">
-      <div style={{letterSpacing: '2px'}}>
-        <p>{artist?.name.toUpperCase()}</p>
-        <p>
-          <span>{artist?.tribe}</span>
-          {artist?.tribe && artist?.discipline && ' • '}
-          <span>{artist?.discipline}</span>
-        </p>
-        {artist?.images?.nodes && (
-          <InfiniteCarousel
-            images={artist?.images?.nodes?.map((n) => n?.image?.url)}
-          />
-        )}
-      </div>
-      {artist?.featured_image && (
-        <div>
-          <Image
-            data={artist?.featured_image.image}
-            sizes="(min-width: 45em) 50vw, 100vw"
-            alt={artist?.featured_image.alt}
-            width={'30vw'}
-          />
-          <p style={{marginTop: '2rem'}}>
-            {artist?.caption?.split('\n').map((line, index) => (
-              <React.Fragment key={index}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
-          </p>
+      <div className="artist-hero-section">
+        <div className="artist-hero-name">
+          <h1>{artist?.name?.toUpperCase()}</h1>
         </div>
-      )}
-      {artist?.featured_product && (
-        <NavLink to={`/products/${artist?.featured_product?.handle}`}>
-          <Image
-            data={artist?.featured_product?.featuredImage}
-            sizes="(min-width: 45em) 50vw, 100vw"
-            alt={artist?.featured_product?.featuredImage?.alt}
-            width={'30vw'}
-            className="artist-fetatured-product-image"
-          />
-          <p style={{marginTop: '2rem'}}>
-            {`${artist?.featured_product?.title} by ${artist?.name}  |  `}
-            <strong>SHOP</strong>
-          </p>
-        </NavLink>
-      )}
-      {!artist?.featured_product && artist.coming_soon_product && (
         <div>
-          <Image
-            data={artist?.coming_soon_product?.image}
-            sizes="(min-width: 45em) 50vw, 100vw"
-            alt={artist?.coming_soon_product?.image?.alt}
-            width={'30vw'}
-            className="artist-fetatured-product-image"
-          />
-          <p style={{marginTop: '2rem'}}>COMING SOON</p>
-        </div>
-      )}
-      <div className="artist-expandables-div">
-        {[
-          {
-            title: 'Artist Bio',
-            details: artist?.biography
+          <div className="artist-rich-text">
+            <div
+              style={{letterSpacing: '2px'}}
+              className="artist-hero-title-container"
+            >
+              <p>{artist?.name?.toUpperCase()}</p>
+              <p>
+                <span>{artist?.tribe}</span>
+                {artist?.tribe && artist?.discipline && ' • '}
+                <span>{artist?.discipline}</span>
+              </p>
+            </div>
+
+            {artist?.biography
               ? mapRichText(JSON.parse(artist?.biography))
-              : null,
-          },
-          {
-            title: 'Awards & Exhibitions',
-            details: artist.awards
-              ? JSON.parse(artist?.awards).map((award) => (
-                  <p key={award}>{award}</p>
-                ))
-              : null,
-          },
-        ]
-          .filter((section) => section.details)
-          .map((section) => (
-            <Expandable
-              key={section.title}
-              openSection={openSection}
-              toggleSection={toggleSection}
-              title={section.title}
-              details={section.details}
-              isFirstRender={isFirstRender}
-            />
-          ))}
+              : null}
+          </div>
+        </div>
       </div>
+      {artist?.portrait?.image && (
+        <div className="portrait-quote-container">
+          <Image data={artist?.portrait?.image} size="30vw" />
+          <div className="portrait-quote">
+            <h3>{artist?.portrait_quote}</h3>
+            <p>{artist?.name?.toUpperCase()}</p>
+          </div>
+        </div>
+      )}
+      {artist?.images?.nodes && (
+        <InfiniteCarousel
+          images={artist?.images?.nodes?.map((n) => n?.image?.url)}
+        />
+      )}
+      {artist?.banner_main_quote && (
+        <div className="banner-quotes-section">
+          <div>
+            <Image data={artist?.images?.nodes?.[0]?.image} size="100vw" />
+          </div>
+          <p className="quote">{'“'}</p>
+          <p className="quote">{'”'}</p>
+          <div className="banner-quotes-container">
+            <p>{artist?.banner_sub_quote}</p>
+            <h2>{artist?.banner_main_quote}</h2>
+          </div>
+        </div>
+      )}
       {artist?.collection?.products?.nodes?.length > 0 && (
         <>
           <div style={{letterSpacing: '2px'}}>
@@ -266,12 +228,9 @@ export default function Page() {
           </div>
         </>
       )}
-      <a
-        href="https://hoshart.com/artists"
-        style={{textDecoration: 'underline'}}
-      >
+      <NavLink to="/artists" style={{textDecoration: 'underline'}}>
         Back to Artists
-      </a>
+      </NavLink>
     </div>
   );
 }
