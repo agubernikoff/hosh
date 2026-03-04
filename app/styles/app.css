@@ -1946,7 +1946,9 @@ routes/artist
   align-items: center;
   margin-bottom: 5rem;
 }
-.artist-page .carousel-wrapper,
+.artist-page .carousel-wrapper {
+  margin-left: -1rem;
+}
 .artist-page .single-image-wrapper {
   margin: 2rem auto auto !important;
 }
@@ -2060,7 +2062,7 @@ pages
 }
 .page main > * {
   margin: auto;
-  max-width: 944px;
+  max-width: 60%;
   width: 100%;
 }
 .about-hero {

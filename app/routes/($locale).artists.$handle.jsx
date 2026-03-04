@@ -155,11 +155,6 @@ export default function Page() {
                 {artist?.tribe && artist?.discipline && ' • '}
                 <span>{artist?.discipline}</span>
               </p>
-              {/* {artist?.images?.nodes && (
-          <InfiniteCarousel
-          images={artist?.images?.nodes?.map((n) => n?.image?.url)}
-          />
-          )} */}
             </div>
 
             {artist?.biography
@@ -176,6 +171,11 @@ export default function Page() {
             <p>{artist?.name?.toUpperCase()}</p>
           </div>
         </div>
+      )}
+      {artist?.images?.nodes && (
+        <InfiniteCarousel
+          images={artist?.images?.nodes?.map((n) => n?.image?.url)}
+        />
       )}
       {artist?.banner_main_quote && (
         <div className="banner-quotes-section">
