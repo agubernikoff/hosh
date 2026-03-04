@@ -2889,4 +2889,7 @@ media queries
   .product .product-form {
     margin-bottom: 0;
   }
+  .page main > * {
+    max-width: none;
+  }
 }
