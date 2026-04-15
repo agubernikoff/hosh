@@ -2414,6 +2414,11 @@ media queries
     font-size: 24px;
   }
 }
+@media (min-width: 500px) {
+  .artists-collection-div .product-item:last-of-type {
+    display: none;
+  }
+}
 @media (max-width: 499px) {
   :root {
     --header-height: 57px;

@@ -372,7 +372,7 @@ const ARTIST_QUERY = `#graphql
           reference{
             ...on Collection{
               products(
-                first: 3
+                first: 4
                 filters: $filters,
                 reverse: $reverse,
                 sortKey: $sortKey){
