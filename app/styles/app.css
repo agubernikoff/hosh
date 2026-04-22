@@ -1549,6 +1549,7 @@ aside header.cart-header {
   width: 95%;
   cursor: pointer;
   gap: 0.5rem;
+  touch-action: manipulation;
 }
 
 .dropdown-title {
@@ -2415,7 +2416,7 @@ media queries
   }
 }
 @media (min-width: 500px) {
-  .artists-collection-div .product-item:last-of-type {
+  .artists-collection-div .product-item:nth-of-type(n+4) {
     display: none;
   }
 }
