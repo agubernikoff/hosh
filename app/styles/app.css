@@ -2891,12 +2891,12 @@ media queries
   .product-main {
     padding-top: 0;
   }
-  .product-main > .dropdown {
+  /* .product-main > .dropdown {
     display: none;
   }
   .product .product-form {
     margin-bottom: 0;
-  }
+  } */
   .page main > * {
     max-width: none;
   }
