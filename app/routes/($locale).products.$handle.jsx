@@ -564,7 +564,7 @@ function Product({product}) {
 
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
-
+  console.log(product);
   return (
     <div className="product">
       <div className="product-left">
@@ -587,7 +587,7 @@ function Product({product}) {
             )}
           </div>
         )}
-        <p>{product.artwork?.value}</p>
+        <p style={{whiteSpace: 'pre-line'}}>{product.artwork?.value}</p>
       </div>
       <div className="product-images-wrapper">
         {product.images.edges.length > 1 && (
