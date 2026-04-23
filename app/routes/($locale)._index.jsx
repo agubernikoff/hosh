@@ -166,7 +166,7 @@ export default function Homepage() {
               </p>
               <p>Marcel Dzama</p>
               <NavLink
-                to="/products/sin-fronteras-1?Size=XS"
+                to="/collections/marcel-dzama"
                 style={{textDecoration: 'underline'}}
               >
                 Now Available
