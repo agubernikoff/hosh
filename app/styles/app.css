@@ -2314,8 +2314,8 @@ poster
     font-size: 15px;
   }
   .poster > button {
-    top: 0 !important;
-    right: 0 !important;
+    top: -9px !important;
+    right: -4px !important;
   }
   .poster > div > a {
     margin-top: 1rem;
