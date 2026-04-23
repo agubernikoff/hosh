@@ -649,6 +649,12 @@ function Product({product}) {
           selectedVariant={selectedVariant}
           product={product}
         />
+        <p
+          className="hide-on-desktop"
+          style={{whiteSpace: 'pre-line', marginBottom: '2rem'}}
+        >
+          {product.artwork?.value}
+        </p>
         {[
           // {
           //   title: 'Artwork',
