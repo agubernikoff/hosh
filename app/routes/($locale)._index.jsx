@@ -5,10 +5,10 @@ import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 import {motion, AnimatePresence} from 'framer-motion';
 import model11 from '~/assets/model11.png';
-import poster from 'app/assets/tony.png';
+import poster from 'app/assets/Marcel 1.jpeg';
 import mposter from 'app/assets/mobile-poster.png';
-import jersey from 'app/assets/b1.png';
-import jersey2 from 'app/assets/back.png';
+import jersey from 'app/assets/sin men front.png';
+import jersey2 from 'app/assets/sinwomenfront.png';
 import hero3 from 'app/assets/hero3.jpg';
 import Press from '~/components/Press';
 import mapRichText from '~/helpers/MapRichText';
@@ -161,12 +161,12 @@ export default function Homepage() {
                 <img src={jersey2} style={{flex: 1, width: '50%'}} />
               </div>
               <p>
-                “I paint the land as though I am part of it. Every place carries
-                emotion, rhythm, and transformation.”
+                “The new work explores the theme of an apocalypse caused by
+                climate change.”
               </p>
-              <p>Tony Abeyta</p>
+              <p>Marcel Dzama</p>
               <NavLink
-                to="/products/birds-of-a-feather?Size=XS"
+                to="/products/sin-fronteras-1?Size=XS"
                 style={{textDecoration: 'underline'}}
               >
                 Now Available
