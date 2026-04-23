@@ -2416,7 +2416,7 @@ media queries
   }
 }
 @media (min-width: 500px) {
-  .artists-collection-div .product-item:nth-of-type(n+4) {
+  .artists-collection-div .product-item:nth-of-type(n + 4) {
     display: none;
   }
 }
@@ -2488,7 +2488,7 @@ media queries
     width: 200vw !important;
     transform: translate(-45%, 0);
   }
-  .recommended-products-grid a:last-of-type {
+  .recommended-products-grid a:nth-of-type(n + 3) {
     display: none;
   }
   .footer-center {
