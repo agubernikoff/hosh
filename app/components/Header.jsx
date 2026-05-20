@@ -19,14 +19,13 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
   const {pathname} = useLocation();
   const {close} = useAside();
-  const [showBanner, setShowBanner] = useState(true);
+  const [showBanner, setShowBanner] = useState(false);
 
   function hideBanner() {
     setShowBanner(false);
     document.documentElement.style.setProperty('--headliner-height', '0px');
   }
-  hideBanner(); // Hide banner on initial load. Remove this line to show the banner by default.
-
+  document.documentElement.style.setProperty('--headliner-height', '0px');
   return (
     <header className="header">
       <div
