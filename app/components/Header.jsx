@@ -25,7 +25,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
     setShowBanner(false);
     document.documentElement.style.setProperty('--headliner-height', '0px');
   }
-  document.documentElement.style.setProperty('--headliner-height', '0px');
+
   return (
     <header className="header">
       <div
