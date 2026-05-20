@@ -25,6 +25,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
     setShowBanner(false);
     document.documentElement.style.setProperty('--headliner-height', '0px');
   }
+  hideBanner(); // Hide banner on initial load. Remove this line to show the banner by default.
 
   return (
     <header className="header">
