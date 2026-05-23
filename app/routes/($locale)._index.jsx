@@ -1,18 +1,15 @@
-import {Await, useLoaderData} from '@remix-run/react';
+import {Await, useAsyncValue, useLoaderData} from '@remix-run/react';
 import NavLink from '~/components/NavLink';
 import {Suspense, useState, useEffect} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 import {motion, AnimatePresence} from 'framer-motion';
 import model11 from '~/assets/model11.png';
-import poster from 'app/assets/Marcel 1.jpeg';
-import mposter from 'app/assets/mobile-poster.png';
-import jersey from 'app/assets/sin men front.png';
-import jersey2 from 'app/assets/sinwomenfront.png';
 import hero3 from 'app/assets/hero3.jpg';
 import Press from '~/components/Press';
 import mapRichText from '~/helpers/MapRichText';
 import {PRESS_QUERY} from './($locale).press';
+import {POPUP_QUERY} from '~/lib/fragments';
 /**
  * @type {MetaFunction}
  */
@@ -85,113 +82,35 @@ function loadDeferredData({context}) {
   const recommendedProducts = context.storefront
     .query(RECOMMENDED_PRODUCTS_QUERY)
     .catch((error) => {
-      // Log query errors, but don't throw them so the page can still render
+      console.error(error);
+      return null;
+    });
+
+  const popup = context.storefront
+    .query(POPUP_QUERY, {
+      cache: context.storefront.CacheShort(),
+    })
+    .catch((error) => {
       console.error(error);
       return null;
     });
 
   return {
     recommendedProducts,
+    popup,
   };
 }
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
-  const [showPopup, setShowPopup] = useState(false);
-  const [visiblePopup, setVisiblePopup] = useState(false);
-  const [popupTransition, setPopupTransition] = useState('none');
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowPopup(true);
-      // Delay setting visiblePopup to allow fade-in transition
-      setTimeout(() => {
-        setPopupTransition('opacity 1s ease-in-out');
-        setVisiblePopup(true);
-      }, 50);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
   return (
     <>
-      {showPopup && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000,
-            opacity: visiblePopup ? 1 : 0,
-            transition: popupTransition,
-          }}
-          className="popup-bg"
-        >
-          <div
-            className="poster"
-            style={{
-              position: 'relative',
-            }}
-          >
-            <img
-              className="poster-img"
-              src={poster}
-              style={{width: '50%', maxWidth: '90vw', maxHeight: '90vh'}}
-            />
-            <img
-              className="mobile-poster"
-              src={poster}
-              style={{
-                width: '100%',
-                // maxWidth: '90vw',
-                maxHeight: '60vh',
-                height: 'auto',
-                objectFit: 'cover',
-                objectPosition: 'top',
-              }}
-            />
-            <div>
-              <div>
-                <img src={jersey} style={{flex: 1, width: '50%'}} />
-                <img src={jersey2} style={{flex: 1, width: '50%'}} />
-              </div>
-              <p>
-                “The new work explores the theme of an apocalypse caused by
-                climate change.”
-              </p>
-              <p>Marcel Dzama</p>
-              <NavLink
-                to="/collections/marcel-dzama"
-                style={{textDecoration: 'underline'}}
-              >
-                Now Available
-              </NavLink>
-            </div>
-            <button
-              onClick={() => {
-                setShowPopup(false);
-              }}
-              style={{
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
-                background: 'transparent',
-                color: 'black',
-                border: 'none',
-                fontSize: '1.5rem',
-                cursor: 'pointer',
-              }}
-            >
-              ×
-            </button>
-          </div>
-        </div>
-      )}
+      <Suspense fallback={null}>
+        <Await resolve={data.popup} errorElement={null}>
+          <Popup />
+        </Await>
+      </Suspense>
       <div className="home">
         <Hero />
         <Subhero subhero={data.subhero} />
@@ -200,6 +119,131 @@ export default function Homepage() {
         <RecommendedProducts products={data.recommendedProducts} />
       </div>
     </>
+  );
+}
+
+function Popup() {
+  const data = useAsyncValue();
+  const fields = data?.popup?.fields ?? [];
+  const field = (key) => fields.find((f) => f.key === key);
+  const enabled = field('enabled')?.value === 'true';
+  const image = field('image')?.reference?.image;
+  const image2 = field('image_2')?.reference?.image;
+  const image3 = field('image_3')?.reference?.image;
+  const quote = field('quote')?.value;
+  const author = field('author')?.value;
+  const linkText = field('link_text')?.value;
+  const linkedCollection = field('linked_collection')?.reference;
+  const linkedProduct = field('linked_product')?.reference;
+  const linkUrl = linkedCollection
+    ? `/collections/${linkedCollection.handle}`
+    : linkedProduct
+      ? `/products/${linkedProduct.handle}`
+      : field('link_url')?.value;
+
+  const [show, setShow] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!enabled) return;
+    if (sessionStorage.getItem('popup-shown')) return;
+    const timer = setTimeout(() => {
+      sessionStorage.setItem('popup-shown', '1');
+      setShow(true);
+      setTimeout(() => setVisible(true), 50);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [enabled]);
+
+  if (!show) return null;
+
+  return (
+    <div
+      className="popup-bg"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 1s ease-in-out',
+      }}
+    >
+      <div className="poster" style={{position: 'relative'}}>
+        {image && (
+          <>
+            <img
+              className="poster-img"
+              src={image.url}
+              alt={image.altText ?? ''}
+              style={{width: '50%', maxWidth: '90vw', maxHeight: '90vh'}}
+            />
+            <img
+              className="mobile-poster"
+              src={image.url}
+              alt={image.altText ?? ''}
+              style={{
+                width: '100%',
+                maxHeight: '60vh',
+                height: 'auto',
+                objectFit: 'cover',
+                objectPosition: 'top',
+              }}
+            />
+          </>
+        )}
+        <div>
+          {(image2 || image3) && (
+            <div style={{display: 'flex'}}>
+              {image2 && (
+                <img
+                  className="poster-img"
+                  src={image2.url}
+                  alt={image2.altText ?? ''}
+                  style={{flex: 1, width: '50%'}}
+                />
+              )}
+              {image3 && (
+                <img
+                  className="poster-img"
+                  src={image3.url}
+                  alt={image3.altText ?? ''}
+                  style={{flex: 1, width: '50%'}}
+                />
+              )}
+            </div>
+          )}
+          {quote && <p>{quote}</p>}
+          {author && <p>{author}</p>}
+          {linkUrl && (
+            <NavLink to={linkUrl} style={{textDecoration: 'underline'}}>
+              {linkText ?? linkUrl}
+            </NavLink>
+          )}
+        </div>
+        <button
+          onClick={() => setShow(false)}
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            background: 'transparent',
+            color: 'black',
+            border: 'none',
+            fontSize: '1.5rem',
+            cursor: 'pointer',
+          }}
+        >
+          &times;
+        </button>
+      </div>
+    </div>
   );
 }
 

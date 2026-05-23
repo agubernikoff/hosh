@@ -225,6 +225,34 @@ export const HEADER_QUERY = `#graphql
   ${MENU_FRAGMENT}
 `;
 
+export const POPUP_QUERY = `#graphql
+  query Popup($country: CountryCode, $language: LanguageCode)
+  @inContext(language: $language, country: $country) {
+    popup: metaobject(handle: {handle: "site-popup", type: "popup"}) {
+      fields {
+        key
+        value
+        reference {
+          ... on MediaImage {
+            image {
+              url
+              altText
+            }
+          }
+          ... on Collection {
+            handle
+            title
+          }
+          ... on Product {
+            handle
+            title
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const BANNER_QUERY = `#graphql
   query Banner($country: CountryCode, $language: LanguageCode)
   @inContext(language: $language, country: $country) {
