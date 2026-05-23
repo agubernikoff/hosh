@@ -23,6 +23,7 @@ export function PageLayout({
   publicStoreDomain,
   selectedLocale,
   availableCountries,
+  banner,
 }) {
   return (
     <Aside.Provider>
@@ -35,6 +36,7 @@ export function PageLayout({
           cart={cart}
           isLoggedIn={isLoggedIn}
           publicStoreDomain={publicStoreDomain}
+          banner={banner}
         />
       )}
       <main>{children}</main>

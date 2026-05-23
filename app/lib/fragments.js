@@ -225,6 +225,18 @@ export const HEADER_QUERY = `#graphql
   ${MENU_FRAGMENT}
 `;
 
+export const BANNER_QUERY = `#graphql
+  query Banner($country: CountryCode, $language: LanguageCode)
+  @inContext(language: $language, country: $country) {
+    banner: metaobject(handle: {handle: "site-banner", type: "banner"}) {
+      fields {
+        key
+        value
+      }
+    }
+  }
+`;
+
 export const FOOTER_QUERY = `#graphql
   query Footer(
     $country: CountryCode

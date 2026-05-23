@@ -12,7 +12,7 @@ import {
   useLocation,
 } from '@remix-run/react';
 import favicon from '~/assets/Gila-Black.png';
-import {COUNTRIES_QUERY, FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import {BANNER_QUERY, COUNTRIES_QUERY, FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
@@ -166,7 +166,6 @@ function loadDeferredData({context}) {
       },
     })
     .catch((error) => {
-      // Log query errors, but don't throw them so the page can still render
       console.error(error);
       return null;
     });
@@ -175,7 +174,14 @@ function loadDeferredData({context}) {
       cache: storefront.CacheLong(),
     })
     .catch((error) => {
-      // Log query errors, but don't throw them so the page can still render
+      console.error(error);
+      return null;
+    });
+  const banner = storefront
+    .query(BANNER_QUERY, {
+      cache: storefront.CacheShort(),
+    })
+    .catch((error) => {
       console.error(error);
       return null;
     });
@@ -184,6 +190,7 @@ function loadDeferredData({context}) {
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
     availableCountries,
+    banner,
   };
 }
 
