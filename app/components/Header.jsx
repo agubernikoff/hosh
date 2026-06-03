@@ -64,6 +64,12 @@ function HeaderBanner() {
     document.documentElement.style.setProperty('--headliner-height', '0px');
   }
 
+  useEffect(() => {
+    if (!enabled) {
+      document.documentElement.style.setProperty('--headliner-height', '0px');
+    }
+  }, [enabled]);
+
   return (
     <div
       className="headliner"

@@ -2423,6 +2423,7 @@ media queries
 @media (max-width: 499px) {
   :root {
     --header-height: 57px;
+    --aside-width: 100vw;
   }
   .header-inner {
     width: 100%;
