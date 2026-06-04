@@ -67,6 +67,7 @@ function HeaderBanner() {
   useEffect(() => {
     if (!enabled) {
       document.documentElement.style.setProperty('--headliner-height', '0px');
+      setShow(false);
     }
   }, [enabled]);
 
@@ -79,8 +80,12 @@ function HeaderBanner() {
           : {padding: 0, height: 0}
       }
     >
-      <>{text}</>
-      {show && <button onClick={hide}>x</button>}
+      {show && (
+        <>
+          {text}
+          <button onClick={hide}>x</button>
+        </>
+      )}
     </div>
   );
 }
