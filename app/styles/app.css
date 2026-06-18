@@ -1847,6 +1847,10 @@ routes/artist
   line-height: 45px;
   letter-spacing: 2px;
 }
+.portrait-quote h3.long-text {
+  font-size: 20px;
+  line-height: 33px;
+}
 .portrait-quote p {
   font-weight: bold;
 }
@@ -1964,6 +1968,7 @@ routes/artist
 @media (max-width: 767px) {
   .artist-hero-section {
     flex-direction: column;
+    min-height: auto;
   }
   .artist-hero-section > h1,
   .artist-hero-name {
@@ -1981,6 +1986,12 @@ routes/artist
     font-size: 66px;
     line-height: 90%;
     margin-bottom: 1.5rem;
+  }
+  .artist-hero-title-container > p:first-of-type.long-text {
+    font-size: 50px;
+  }
+  .artist-hero-title-container > p:first-of-type.super-long-text {
+    font-size: 36px;
   }
   .portrait-quote-container {
     display: flex;
@@ -2003,6 +2014,10 @@ routes/artist
   .portrait-quote h3 {
     font-size: 22px;
     line-height: 26px;
+  }
+  .portrait-quote h3.long-text {
+    font-size: 16px;
+    line-height: 16px;
   }
   .banner-quotes-section {
     display: flex;

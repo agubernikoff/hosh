@@ -135,7 +135,7 @@ export default function Page() {
       fetch(`/api/collection-product-count/${metaobject.handle}`)
         .then((res) => res.json())
         .then((data) => setTotal(data.total));
-  }, [metaobject.handle, filter]);
+  }, [metaobject.handle, filter, artist?.collection?.products.nodes.length]);
 
   return (
     <div className="artist-page">
@@ -149,7 +149,17 @@ export default function Page() {
               style={{letterSpacing: '2px'}}
               className="artist-hero-title-container"
             >
-              <p>{artist?.name?.toUpperCase()}</p>
+              <p
+                className={
+                  artist?.name?.split(' ').find((name) => name.length < 10)
+                    ? artist?.name?.split(' ').find((name) => name.length >= 6)
+                      ? 'long-text'
+                      : ''
+                    : 'super-long-text'
+                }
+              >
+                {artist?.name?.toUpperCase()}
+              </p>
               <p>
                 <span>{artist?.tribe}</span>
                 {artist?.tribe && artist?.discipline && ' • '}
@@ -167,7 +177,13 @@ export default function Page() {
         <div className="portrait-quote-container">
           <Image data={artist?.portrait?.image} size="30vw" />
           <div className="portrait-quote">
-            <h3>{artist?.portrait_quote}</h3>
+            <h3
+              className={
+                artist?.portrait_quote.split(' ').length > 50 ? 'long-text' : ''
+              }
+            >
+              {artist?.portrait_quote}
+            </h3>
             <p>{artist?.name?.toUpperCase()}</p>
           </div>
         </div>
