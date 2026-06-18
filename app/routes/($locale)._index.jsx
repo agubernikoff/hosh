@@ -145,8 +145,8 @@ function Popup() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!enabled) return;
-    if (sessionStorage.getItem('popup-shown')) return;
+    // if (!enabled) return;
+    // if (sessionStorage.getItem('popup-shown')) return;
     const timer = setTimeout(() => {
       sessionStorage.setItem('popup-shown', '1');
       setShow(true);

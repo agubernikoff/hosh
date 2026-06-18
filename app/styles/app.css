@@ -2253,6 +2253,7 @@ poster
   background: rgba(255, 255, 255, 1);
   padding: 1rem;
   gap: clamp(1rem, 1vw 3rem);
+  box-sizing: border-box;
 }
 .poster-img {
   width: 100%;
@@ -2316,7 +2317,7 @@ poster
     align-items: normal !important;
   }
   .poster {
-    width: calc(100% - 3rem);
+    width: calc(100% - 2rem);
     max-width: 310px;
     padding: 1rem;
     margin-top: 1rem;
