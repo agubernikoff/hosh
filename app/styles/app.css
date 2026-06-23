@@ -1943,6 +1943,11 @@ routes/artist
   font-size: 13px;
   margin-top: 10px;
 }
+.artist-thumbnail img {
+  width: 100%;
+  aspect-ratio: 154/194;
+  object-fit: cover;
+}
 
 .artist-page {
   display: flex;
