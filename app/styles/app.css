@@ -1918,6 +1918,7 @@ routes/artist
 .artists-grid {
   max-width: 694px;
   display: grid;
+  justify-content: center;
   grid-template-columns: repeat(auto-fill, 154px);
   gap: 116px;
   row-gap: 60px;
@@ -1932,6 +1933,7 @@ routes/artist
   width: fit-content;
   position: relative;
   max-width: 154px;
+  width: 100%;
 }
 .artist-thumbnail p {
   width: fit-content;
@@ -1947,6 +1949,7 @@ routes/artist
   width: 100%;
   aspect-ratio: 154/194;
   object-fit: cover;
+  height: auto;
 }
 
 .artist-page {
@@ -2587,11 +2590,13 @@ media queries
     color: black;
   }
   .artists-grid {
-    display: flex;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 2rem;
     row-gap: 1.75rem;
     flex-wrap: wrap;
-    justify-content: space-between;
+  }
+  .artist-thumbnail p {
+    text-wrap: wrap;
   }
   .add-to-cart-btn:hover,
   button:hover {

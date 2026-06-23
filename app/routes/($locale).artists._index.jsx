@@ -2,6 +2,7 @@ import {useLoaderData} from '@remix-run/react';
 import {useState} from 'react';
 import {AnimatePresence, motion} from 'motion/react';
 import NavLink from '~/components/NavLink';
+import {Image} from '@shopify/hydrogen';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -108,6 +109,7 @@ export default function Page() {
               hovered={hovered?.name === artist.name}
               setHovered={setHovered}
               clearHovered={clearHovered}
+              key={artist._id}
             />
           ))}
       </div>
@@ -123,14 +125,23 @@ function Thumbnails({artist, hovered, setHovered, clearHovered}) {
       onMouseEnter={() => setHovered(artist)}
       onMouseLeave={clearHovered}
     >
-      <img
+      <Image
+        data={artist?.thumbnails?.references?.nodes[0]?.image}
+        aspectRatio="154/194"
+        style={{
+          opacity: hovered ? 0 : 1,
+          transition: 'opacity 300ms ease-in-out',
+        }}
+        sizes="154px"
+      />
+      {/* <img
         src={artist?.thumbnails?.references?.nodes[0]?.image?.url}
         alt={artist?.thumbnails?.references?.nodes[0]?.alt}
         style={{
           opacity: hovered ? 0 : 1,
           transition: 'opacity 300ms ease-in-out',
         }}
-      />
+      /> */}
       <img
         src={artist?.thumbnails?.references?.nodes[1]?.image?.url}
         alt={artist?.thumbnails?.references?.nodes[1]?.alt}
