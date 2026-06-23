@@ -134,17 +134,9 @@ function Thumbnails({artist, hovered, setHovered, clearHovered}) {
         }}
         sizes="154px"
       />
-      {/* <img
-        src={artist?.thumbnails?.references?.nodes[0]?.image?.url}
-        alt={artist?.thumbnails?.references?.nodes[0]?.alt}
-        style={{
-          opacity: hovered ? 0 : 1,
-          transition: 'opacity 300ms ease-in-out',
-        }}
-      /> */}
-      <img
-        src={artist?.thumbnails?.references?.nodes[1]?.image?.url}
-        alt={artist?.thumbnails?.references?.nodes[1]?.alt}
+      <Image
+        data={artist?.thumbnails?.references?.nodes[1]?.image}
+        aspectRatio="154/194"
         style={{
           position: 'absolute',
           top: 0,
@@ -152,6 +144,7 @@ function Thumbnails({artist, hovered, setHovered, clearHovered}) {
           opacity: hovered ? 1 : 0,
           transition: 'opacity 300ms ease-in-out',
         }}
+        sizes="154px"
       />
       <p>{artist.name.value}</p>
       <p className="mob-underline">Learn More</p>
