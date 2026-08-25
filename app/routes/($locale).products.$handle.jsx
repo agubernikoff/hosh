@@ -670,36 +670,37 @@ function Product({product}) {
           },
           {
             title: 'Size & Fit',
-            details: (
-              <>
-                {product.hide_size_guide ? null : (
-                  <p>
-                    See{' '}
-                    <span
-                      onClick={() => {
-                        setGuideType(
-                          getSizingGuideType(
-                            `${product.handle} ${product.title} ${product.size_and_fit?.value ?? ''}`,
-                          ),
-                        );
-                        setShowSizingGuide(true);
-                      }}
-                      style={{
-                        textDecoration: 'underline',
-                        color: 'black',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Sizing Guide
-                    </span>{' '}
-                    for exact measurements.
-                  </p>
-                )}
-                {product.size_and_fit
-                  ? mapRichText(JSON.parse(product.size_and_fit?.value))
-                  : ''}
-              </>
-            ),
+            details: product.size_and_fit?.value &&
+              product.hide_size_guide?.value !== 'true' && (
+                <>
+                  {product.hide_size_guide?.value === 'true' ? null : (
+                    <p>
+                      See{' '}
+                      <span
+                        onClick={() => {
+                          setGuideType(
+                            getSizingGuideType(
+                              `${product.handle} ${product.title} ${product.size_and_fit?.value ?? ''}`,
+                            ),
+                          );
+                          setShowSizingGuide(true);
+                        }}
+                        style={{
+                          textDecoration: 'underline',
+                          color: 'black',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Sizing Guide
+                      </span>{' '}
+                      for exact measurements.
+                    </p>
+                  )}
+                  {product.size_and_fit
+                    ? mapRichText(JSON.parse(product.size_and_fit?.value))
+                    : ''}
+                </>
+              ),
           },
           {
             title: 'Care',
