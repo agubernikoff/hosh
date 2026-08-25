@@ -175,57 +175,59 @@ function Popup() {
         transition: 'opacity 1s ease-in-out',
       }}
     >
-      <div className="poster" style={{position: 'relative'}}>
-        {image && (
-          <>
-            <img
-              className="poster-img"
-              src={image.url}
-              alt={image.altText ?? ''}
-              style={{width: '50%', maxWidth: '90vw', maxHeight: '90vh'}}
-            />
-            <img
-              className="mobile-poster"
-              src={image.url}
-              alt={image.altText ?? ''}
-              style={{
-                width: '100%',
-                maxHeight: '60vh',
-                height: 'auto',
-                objectFit: 'cover',
-                objectPosition: 'top',
-              }}
-            />
-          </>
-        )}
-        <div>
-          {(image2 || image3) && (
-            <div style={{display: 'flex'}}>
-              {image2 && (
-                <img
-                  className="poster-img"
-                  src={image2.url}
-                  alt={image2.altText ?? ''}
-                  style={{flex: 1, width: '50%'}}
-                />
-              )}
-              {image3 && (
-                <img
-                  className="poster-img"
-                  src={image3.url}
-                  alt={image3.altText ?? ''}
-                  style={{flex: 1, width: '50%'}}
-                />
-              )}
-            </div>
+      <div className="poster">
+        <div className="poster-content-container">
+          {image && (
+            <>
+              <img
+                className="poster-img"
+                src={image.url}
+                alt={image.altText ?? ''}
+                style={{width: '50%', maxWidth: '90vw', maxHeight: '90vh'}}
+              />
+              <img
+                className="mobile-poster"
+                src={image.url}
+                alt={image.altText ?? ''}
+                style={{
+                  width: '100%',
+                  maxHeight: '60vh',
+                  height: 'auto',
+                  objectFit: 'cover',
+                  objectPosition: 'top',
+                }}
+              />
+            </>
           )}
-          {quote && <p>{quote}</p>}
-          {author && <p>{author}</p>}
-          {linkUrl && (
-            <NavLink to={linkUrl} style={{textDecoration: 'underline'}}>
-              {linkText ?? linkUrl}
-            </NavLink>
-          )}
+          <div>
+            {(image2 || image3) && (
+              <div style={{display: 'flex'}}>
+                {image2 && (
+                  <img
+                    className="poster-img"
+                    src={image2.url}
+                    alt={image2.altText ?? ''}
+                    style={{flex: 1, width: '50%'}}
+                  />
+                )}
+                {image3 && (
+                  <img
+                    className="poster-img"
+                    src={image3.url}
+                    alt={image3.altText ?? ''}
+                    style={{flex: 1, width: '50%'}}
+                  />
+                )}
+              </div>
+            )}
+            {quote && <p>{quote}</p>}
+            {author && <p>{author}</p>}
+            {linkUrl && (
+              <NavLink to={linkUrl} style={{textDecoration: 'underline'}}>
+                {linkText ?? linkUrl}
+              </NavLink>
+            )}
+          </div>
         </div>
         <button
           onClick={() => setShow(false)}

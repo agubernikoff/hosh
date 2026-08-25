@@ -2255,13 +2255,17 @@ pages
 poster
 */
 .poster {
-  width: 100%;
+  width: calc(100% - 2rem);
   max-width: 800px;
-  display: flex;
   background: rgba(255, 255, 255, 1);
   padding: 1rem;
-  gap: clamp(1rem, 1vw 3rem);
+  position: relative;
   box-sizing: border-box;
+}
+.poster-content-container {
+  box-sizing: border-box;
+  display: flex;
+  gap: clamp(1rem, 1vw 3rem);
 }
 .poster-img {
   width: 100%;
@@ -2271,7 +2275,7 @@ poster
 .mobile-poster {
   display: none;
 }
-.poster > div {
+.poster-content-container > div {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2279,31 +2283,38 @@ poster
   text-align: center;
   gap: 1rem;
 }
-.poster > div > div {
+.poster-content-container > div > div {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.poster > div > p:first-of-type {
+.poster-content-container > div > p:first-of-type {
   font-size: 17px;
   line-height: 26px;
 }
-.poster > div > p {
+.poster-content-container > div > p {
   font-size: 14px;
 }
-.poster > div > a {
+.poster-content-container > div > a {
   font-size: 12px;
   cursor: pointer;
   margin-top: 2rem;
 }
 @media (max-width: 723px) {
   .poster {
-    flex-direction: column;
     width: calc(100% - 6rem);
-    max-height: 90vh;
     max-width: 400px;
     margin: auto;
     padding: 2rem;
+  }
+  .poster > button {
+    top: 0.25rem !important;
+    right: 0.25rem !important;
+  }
+  .poster-content-container {
+    max-height: calc(100svh - 4rem);
+    flex-direction: column;
+    overflow-y: scroll;
   }
   .poster-img {
     display: none;
@@ -2311,12 +2322,11 @@ poster
   .mobile-poster {
     display: block;
   }
-  .poster > div {
+  .poster-content-container > div {
     gap: 1rem;
     padding: 0;
-    padding-top: 1rem;
   }
-  .poster > div > div {
+  .poster-content-container > div > div {
     display: none;
   }
 }
@@ -2326,22 +2336,21 @@ poster
   }
   .poster {
     width: calc(100% - 2rem);
-    max-width: 310px;
     padding: 1rem;
     margin-top: 1rem;
   }
-  .poster > div {
-    gap: 10px;
-    padding-top: 10px;
+  .poster > button {
+    top: -0.45rem !important;
+    right: -0.325rem !important;
   }
-  .poster > div > p:first-of-type {
+  .poster-content-container > div > p:first-of-type {
     font-size: 15px;
   }
-  .poster > button {
+  .poster-content-container > button {
     top: -9px !important;
     right: -4px !important;
   }
-  .poster > div > a {
+  .poster-content-container > div > a {
     margin-top: 1rem;
   }
 }
