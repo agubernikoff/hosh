@@ -131,6 +131,7 @@ function Popup() {
   const image2 = field('image_2')?.reference?.image;
   const image3 = field('image_3')?.reference?.image;
   const backgroundColor = field('background_color')?.value;
+  const textColor = field('text_color')?.value;
   const quote = field('quote')?.value;
   const author = field('author')?.value;
   const linkText = field('link_text')?.value;
@@ -203,7 +204,7 @@ function Popup() {
               />
             </>
           )}
-          <div>
+          <div style={textColor ? {color: textColor} : undefined}>
             {(image2 || image3) && (
               <div style={{display: 'flex'}}>
                 {image2 && (
@@ -227,7 +228,13 @@ function Popup() {
             {quote && <p>{quote}</p>}
             {author && <p>{author}</p>}
             {linkUrl && (
-              <NavLink to={linkUrl} style={{textDecoration: 'underline'}}>
+              <NavLink
+                to={linkUrl}
+                style={{
+                  textDecoration: 'underline',
+                  color: textColor || undefined,
+                }}
+              >
                 {linkText ?? linkUrl}
               </NavLink>
             )}
@@ -240,7 +247,7 @@ function Popup() {
             top: '10px',
             right: '10px',
             background: 'transparent',
-            color: 'black',
+            color: textColor || 'black',
             border: 'none',
             fontSize: '1.5rem',
             cursor: 'pointer',
