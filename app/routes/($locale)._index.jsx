@@ -130,6 +130,7 @@ function Popup() {
   const image = field('image')?.reference?.image;
   const image2 = field('image_2')?.reference?.image;
   const image3 = field('image_3')?.reference?.image;
+  const backgroundColor = field('background_color')?.value;
   const quote = field('quote')?.value;
   const author = field('author')?.value;
   const linkText = field('link_text')?.value;
@@ -175,7 +176,10 @@ function Popup() {
         transition: 'opacity 1s ease-in-out',
       }}
     >
-      <div className="poster">
+      <div
+        className="poster"
+        style={backgroundColor ? {backgroundColor} : undefined}
+      >
         <div className="poster-content-container">
           {image && (
             <>
