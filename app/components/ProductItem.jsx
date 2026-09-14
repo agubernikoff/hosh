@@ -400,7 +400,7 @@ function QuickShop({product, closePopUp, pathname, layoutId}) {
           >
             {selectedVariant?.availableForSale ? 'ADD TO CART' : 'Sold out'}
           </AddToCartButton>
-          <p>Free standard shipping and easy returns.</p>
+          <p>Free standard shipping on orders over $100 and easy returns.</p>
         </div>
       </div>
     </motion.div>
