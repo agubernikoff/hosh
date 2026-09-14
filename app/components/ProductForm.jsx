@@ -192,7 +192,7 @@ export function ProductForm({productOptions, selectedVariant, product}) {
         </AddToCartButton>
       )}
       <br />
-      <p>Free standard shipping and easy returns.</p>
+      <p>Free standard shipping on orders over $100 and easy returns.</p>
     </div>
   );
 }
