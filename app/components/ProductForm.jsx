@@ -141,6 +141,13 @@ export function ProductForm({productOptions, selectedVariant, product}) {
           </div>
         );
       })}
+      {!selectedVariant?.availableForSale &&
+      product.additional_out_of_stock_message?.value ? (
+        <>
+          <p>{product.additional_out_of_stock_message.value}</p>
+          <br />
+        </>
+      ) : null}
       {isMobile ? (
         <div
           style={{

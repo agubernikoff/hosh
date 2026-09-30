@@ -1031,6 +1031,9 @@ const PRODUCT_FRAGMENT = `#graphql
       description
       title
     }
+    additional_out_of_stock_message:metafield(namespace:"custom",key:"additional_out_of_stock_message"){
+      value
+    }
     artist:metafield(namespace:"custom",key:"artist_name"){
       value
     }
