@@ -70,7 +70,9 @@ export function Aside({children, heading, type}) {
               >
                 &times;
               </button>
-              <p className="cart-subtext">Free shipping & easy returns</p>
+              <p className="cart-subtext">
+                Free shipping on orders $100+ & easy returns
+              </p>
               <hr className="cart-separator" />
             </>
           ) : (
