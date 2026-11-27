@@ -228,7 +228,7 @@ export const HEADER_QUERY = `#graphql
 export const POPUP_QUERY = `#graphql
   query Popup($country: CountryCode, $language: LanguageCode)
   @inContext(language: $language, country: $country) {
-    popup: metaobject(handle: {handle: "site-popup", type: "popup"}) {
+    popup: metaobject(handle: {handle: "site-popup-bfcm", type: "popup"}) {
       fields {
         key
         value
