@@ -127,9 +127,10 @@ function Popup() {
   const fields = data?.popup?.fields ?? [];
   const field = (key) => fields.find((f) => f.key === key);
   const enabled = field('enabled')?.value === 'true';
+  const headline = field('headline')?.value;
+  // image = product image (desktop), image_2 = product image for phones (optional)
   const image = field('image')?.reference?.image;
-  const image2 = field('image_2')?.reference?.image;
-  const image3 = field('image_3')?.reference?.image;
+  const mobileImage = field('image_2')?.reference?.image ?? image;
   const backgroundColor = field('background_color')?.value;
   const textColor = field('text_color')?.value;
   const quote = field('quote')?.value;
@@ -159,9 +160,13 @@ function Popup() {
 
   if (!show) return null;
 
+  const close = () => setShow(false);
+  const accent = textColor || '#803943';
+
   return (
     <div
       className="popup-bg"
+      onClick={close}
       style={{
         position: 'fixed',
         top: 0,
@@ -178,80 +183,44 @@ function Popup() {
       }}
     >
       <div
-        className="poster"
-        style={backgroundColor ? {backgroundColor} : undefined}
+        className="promo-popup"
+        onClick={(e) => e.stopPropagation()}
+        style={{backgroundColor: backgroundColor || '#cfc9be', color: accent}}
       >
-        <div className="poster-content-container">
+        <div className="promo-popup-frame" style={{borderColor: accent}}>
+          {headline && <h2 className="promo-popup-headline">{headline}</h2>}
           {image && (
             <>
               <img
-                className="poster-img"
+                className="promo-popup-img promo-popup-img-desktop"
                 src={image.url}
                 alt={image.altText ?? ''}
-                style={{width: '50%', maxWidth: '90vw', maxHeight: '90vh'}}
               />
               <img
-                className="mobile-poster"
-                src={image.url}
-                alt={image.altText ?? ''}
-                style={{
-                  width: '100%',
-                  maxHeight: '60vh',
-                  height: 'auto',
-                  objectFit: 'cover',
-                  objectPosition: 'top',
-                }}
+                className="promo-popup-img promo-popup-img-mobile"
+                src={mobileImage.url}
+                alt={mobileImage.altText ?? ''}
               />
             </>
           )}
-          <div style={textColor ? {color: textColor} : undefined}>
-            {(image2 || image3) && (
-              <div style={{display: 'flex'}}>
-                {image2 && (
-                  <img
-                    className="poster-img"
-                    src={image2.url}
-                    alt={image2.altText ?? ''}
-                    style={{flex: 1, width: '50%'}}
-                  />
-                )}
-                {image3 && (
-                  <img
-                    className="poster-img"
-                    src={image3.url}
-                    alt={image3.altText ?? ''}
-                    style={{flex: 1, width: '50%'}}
-                  />
-                )}
-              </div>
-            )}
-            {quote && <p>{quote}</p>}
-            {author && <p>{author}</p>}
-            {linkUrl && (
-              <NavLink
-                to={linkUrl}
-                style={{
-                  textDecoration: 'underline',
-                  color: textColor || undefined,
-                }}
-              >
-                {linkText ?? linkUrl}
-              </NavLink>
-            )}
-          </div>
+          {quote && <p className="promo-popup-copy">{quote}</p>}
+          {author && <p className="promo-popup-copy">{author}</p>}
+          {linkUrl && (
+            <NavLink
+              to={linkUrl}
+              className="promo-popup-link"
+              onClick={close}
+              style={{color: accent}}
+            >
+              {linkText ?? 'Shop now'}
+            </NavLink>
+          )}
         </div>
         <button
-          onClick={() => setShow(false)}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            background: 'transparent',
-            color: textColor || 'black',
-            border: 'none',
-            fontSize: '1.5rem',
-            cursor: 'pointer',
-          }}
+          className="promo-popup-close"
+          aria-label="Close"
+          onClick={close}
+          style={{color: accent}}
         >
           &times;
         </button>
