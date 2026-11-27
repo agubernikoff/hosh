@@ -127,14 +127,11 @@ function Popup() {
   const fields = data?.popup?.fields ?? [];
   const field = (key) => fields.find((f) => f.key === key);
   const enabled = field('enabled')?.value === 'true';
-  const image = field('image')?.reference?.image;
-  const image2 = field('image_2')?.reference?.image;
-  const image3 = field('image_3')?.reference?.image;
-  const backgroundColor = field('background_color')?.value;
+  // image = full popup design for desktop, image_2 = full popup design for mobile
+  const desktopImage = field('image')?.reference?.image;
+  const mobileImage = field('image_2')?.reference?.image ?? desktopImage;
   const textColor = field('text_color')?.value;
-  const quote = field('quote')?.value;
-  const author = field('author')?.value;
-  const linkText = field('link_text')?.value;
+  const altText = field('quote')?.value ?? '';
   const linkedCollection = field('linked_collection')?.reference;
   const linkedProduct = field('linked_product')?.reference;
   const linkUrl = linkedCollection
@@ -157,11 +154,29 @@ function Popup() {
     return () => clearTimeout(timer);
   }, [enabled]);
 
-  if (!show) return null;
+  if (!show || !desktopImage) return null;
+
+  const close = () => setShow(false);
+
+  const images = (
+    <>
+      <img
+        className="popup-image popup-image-desktop"
+        src={desktopImage.url}
+        alt={desktopImage.altText || altText}
+      />
+      <img
+        className="popup-image popup-image-mobile"
+        src={mobileImage.url}
+        alt={mobileImage.altText || altText}
+      />
+    </>
+  );
 
   return (
     <div
       className="popup-bg"
+      onClick={close}
       style={{
         position: 'fixed',
         top: 0,
@@ -177,81 +192,19 @@ function Popup() {
         transition: 'opacity 1s ease-in-out',
       }}
     >
-      <div
-        className="poster"
-        style={backgroundColor ? {backgroundColor} : undefined}
-      >
-        <div className="poster-content-container">
-          {image && (
-            <>
-              <img
-                className="poster-img"
-                src={image.url}
-                alt={image.altText ?? ''}
-                style={{width: '50%', maxWidth: '90vw', maxHeight: '90vh'}}
-              />
-              <img
-                className="mobile-poster"
-                src={image.url}
-                alt={image.altText ?? ''}
-                style={{
-                  width: '100%',
-                  maxHeight: '60vh',
-                  height: 'auto',
-                  objectFit: 'cover',
-                  objectPosition: 'top',
-                }}
-              />
-            </>
-          )}
-          <div style={textColor ? {color: textColor} : undefined}>
-            {(image2 || image3) && (
-              <div style={{display: 'flex'}}>
-                {image2 && (
-                  <img
-                    className="poster-img"
-                    src={image2.url}
-                    alt={image2.altText ?? ''}
-                    style={{flex: 1, width: '50%'}}
-                  />
-                )}
-                {image3 && (
-                  <img
-                    className="poster-img"
-                    src={image3.url}
-                    alt={image3.altText ?? ''}
-                    style={{flex: 1, width: '50%'}}
-                  />
-                )}
-              </div>
-            )}
-            {quote && <p>{quote}</p>}
-            {author && <p>{author}</p>}
-            {linkUrl && (
-              <NavLink
-                to={linkUrl}
-                style={{
-                  textDecoration: 'underline',
-                  color: textColor || undefined,
-                }}
-              >
-                {linkText ?? linkUrl}
-              </NavLink>
-            )}
-          </div>
-        </div>
+      <div className="popup-image-wrap" onClick={(e) => e.stopPropagation()}>
+        {linkUrl ? (
+          <NavLink to={linkUrl} onClick={close} aria-label={altText || 'Shop now'}>
+            {images}
+          </NavLink>
+        ) : (
+          images
+        )}
         <button
-          onClick={() => setShow(false)}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            background: 'transparent',
-            color: textColor || 'black',
-            border: 'none',
-            fontSize: '1.5rem',
-            cursor: 'pointer',
-          }}
+          className="popup-image-close"
+          aria-label="Close"
+          onClick={close}
+          style={{color: textColor || '#803943'}}
         >
           &times;
         </button>
