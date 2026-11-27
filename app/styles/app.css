@@ -2941,50 +2941,92 @@ media queries
 }
 
 /* ----------------------------------------------------
-Image popup (full desktop / mobile designs)
+Promo popup (single column: headline, image, copy, link)
 ---------------------------------------------------- */
-.popup-image-wrap {
+.promo-popup {
   position: relative;
-  line-height: 0;
-  max-width: calc(100vw - 2rem);
+  box-sizing: border-box;
+  width: calc(100vw - 2rem);
+  max-width: 800px;
+  padding: 1rem;
 }
-.popup-image-wrap a {
-  display: block;
-  line-height: 0;
+.promo-popup-frame {
+  border: 2px solid;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  padding: 2.25rem 2.5rem 2rem;
+  max-height: calc(100svh - 4rem);
+  overflow-y: auto;
 }
-.popup-image-desktop,
-.popup-image-mobile {
+.promo-popup-headline {
+  font-family: 'Gotham', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0;
+}
+.promo-popup-img {
   display: block;
+  width: 100%;
+  max-width: 640px;
   height: auto;
   object-fit: contain;
 }
-.popup-image-desktop {
-  width: auto;
-  max-width: min(900px, calc(100vw - 4rem));
-  max-height: calc(100vh - 4rem);
-}
-.popup-image-mobile {
+.promo-popup-img-mobile {
   display: none;
 }
-.popup-image-close {
+.promo-popup-copy {
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+  white-space: pre-line;
+  max-width: 560px;
+  margin: 0;
+}
+.promo-popup-link {
+  font-size: 13px;
+  text-transform: uppercase;
+  text-decoration: underline;
+  letter-spacing: 0.5px;
+  margin-top: 0.5rem;
+}
+.promo-popup-close {
   position: absolute;
-  top: 0.4rem;
-  right: 0.6rem;
+  top: 0.15rem;
+  right: 0.4rem;
   background: transparent;
   border: none;
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   line-height: 1;
   padding: 0.25rem;
   cursor: pointer;
 }
 @media (max-width: 723px) {
-  .popup-image-desktop {
+  .promo-popup {
+    max-width: 440px;
+    padding: 0.75rem;
+  }
+  .promo-popup-frame {
+    padding: 2rem 1.25rem 1.5rem;
+    gap: 1rem;
+  }
+  .promo-popup-headline {
+    font-size: 22px;
+    max-width: 300px;
+  }
+  .promo-popup-img-desktop {
     display: none;
   }
-  .popup-image-mobile {
+  .promo-popup-img-mobile {
     display: block;
-    width: auto;
-    max-width: calc(100vw - 2rem);
-    max-height: calc(100svh - 2rem);
+  }
+  .promo-popup-copy {
+    font-size: 12.5px;
   }
 }
