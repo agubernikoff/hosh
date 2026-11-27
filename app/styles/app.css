@@ -2939,3 +2939,52 @@ media queries
     max-width: none;
   }
 }
+
+/* ----------------------------------------------------
+Image popup (full desktop / mobile designs)
+---------------------------------------------------- */
+.popup-image-wrap {
+  position: relative;
+  line-height: 0;
+  max-width: calc(100vw - 2rem);
+}
+.popup-image-wrap a {
+  display: block;
+  line-height: 0;
+}
+.popup-image-desktop,
+.popup-image-mobile {
+  display: block;
+  height: auto;
+  object-fit: contain;
+}
+.popup-image-desktop {
+  width: auto;
+  max-width: min(900px, calc(100vw - 4rem));
+  max-height: calc(100vh - 4rem);
+}
+.popup-image-mobile {
+  display: none;
+}
+.popup-image-close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.6rem;
+  background: transparent;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+@media (max-width: 723px) {
+  .popup-image-desktop {
+    display: none;
+  }
+  .popup-image-mobile {
+    display: block;
+    width: auto;
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100svh - 2rem);
+  }
+}
