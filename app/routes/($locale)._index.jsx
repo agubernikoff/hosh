@@ -127,11 +127,15 @@ function Popup() {
   const fields = data?.popup?.fields ?? [];
   const field = (key) => fields.find((f) => f.key === key);
   const enabled = field('enabled')?.value === 'true';
-  // image = full popup design for desktop, image_2 = full popup design for mobile
-  const desktopImage = field('image')?.reference?.image;
-  const mobileImage = field('image_2')?.reference?.image ?? desktopImage;
+  const headline = field('headline')?.value;
+  // image = product image (desktop), image_2 = product image for phones (optional)
+  const image = field('image')?.reference?.image;
+  const mobileImage = field('image_2')?.reference?.image ?? image;
+  const backgroundColor = field('background_color')?.value;
   const textColor = field('text_color')?.value;
-  const altText = field('quote')?.value ?? '';
+  const quote = field('quote')?.value;
+  const author = field('author')?.value;
+  const linkText = field('link_text')?.value;
   const linkedCollection = field('linked_collection')?.reference;
   const linkedProduct = field('linked_product')?.reference;
   const linkUrl = linkedCollection
@@ -154,24 +158,10 @@ function Popup() {
     return () => clearTimeout(timer);
   }, [enabled]);
 
-  if (!show || !desktopImage) return null;
+  if (!show) return null;
 
   const close = () => setShow(false);
-
-  const images = (
-    <>
-      <img
-        className="popup-image popup-image-desktop"
-        src={desktopImage.url}
-        alt={desktopImage.altText || altText}
-      />
-      <img
-        className="popup-image popup-image-mobile"
-        src={mobileImage.url}
-        alt={mobileImage.altText || altText}
-      />
-    </>
-  );
+  const accent = textColor || '#803943';
 
   return (
     <div
@@ -192,19 +182,45 @@ function Popup() {
         transition: 'opacity 1s ease-in-out',
       }}
     >
-      <div className="popup-image-wrap" onClick={(e) => e.stopPropagation()}>
-        {linkUrl ? (
-          <NavLink to={linkUrl} onClick={close} aria-label={altText || 'Shop now'}>
-            {images}
-          </NavLink>
-        ) : (
-          images
-        )}
+      <div
+        className="promo-popup"
+        onClick={(e) => e.stopPropagation()}
+        style={{backgroundColor: backgroundColor || '#cfc9be', color: accent}}
+      >
+        <div className="promo-popup-frame" style={{borderColor: accent}}>
+          {headline && <h2 className="promo-popup-headline">{headline}</h2>}
+          {image && (
+            <>
+              <img
+                className="promo-popup-img promo-popup-img-desktop"
+                src={image.url}
+                alt={image.altText ?? ''}
+              />
+              <img
+                className="promo-popup-img promo-popup-img-mobile"
+                src={mobileImage.url}
+                alt={mobileImage.altText ?? ''}
+              />
+            </>
+          )}
+          {quote && <p className="promo-popup-copy">{quote}</p>}
+          {author && <p className="promo-popup-copy">{author}</p>}
+          {linkUrl && (
+            <NavLink
+              to={linkUrl}
+              className="promo-popup-link"
+              onClick={close}
+              style={{color: accent}}
+            >
+              {linkText ?? 'Shop now'}
+            </NavLink>
+          )}
+        </div>
         <button
-          className="popup-image-close"
+          className="promo-popup-close"
           aria-label="Close"
           onClick={close}
-          style={{color: textColor || '#803943'}}
+          style={{color: accent}}
         >
           &times;
         </button>
